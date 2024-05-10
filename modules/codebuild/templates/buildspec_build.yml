@@ -1,0 +1,35 @@
+#This solution, non-production-ready template describes AWS Codepipeline based CICD Pipeline for packer code deployment.
+#© 2023 Amazon Web Services, Inc. or its affiliates. All Rights Reserved.
+#This AWS Content is provided subject to the terms of the AWS Customer Agreement available at
+#http://aws.amazon.com/agreement or other written agreement between Customer and either
+#Amazon Web Services, Inc. or Amazon Web Services EMEA SARL or both.
+
+version: 0.2
+
+env:
+  variables:
+    CODE_SRC_DIR: "."
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.9
+    commands:
+      - "curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py"
+      - "python3 get-pip.py --user"
+      - "python3 -m pip install --user ansible"
+      - "curl -s -qL -o mitogen.tar.gz https://files.pythonhosted.org/packages/source/m/mitogen/mitogen-${mitogen_version}.tar.gz"
+      - "mv mitogen.tar.gz /opt; cd /opt; tar vxzf mitogen.tar.gz"
+      - "curl -s -qL -o packer.zip https://releases.hashicorp.com/packer/${packer_version}/packer_${packer_version}_linux_amd64.zip"
+      - "unzip -o packer.zip"
+      - "mv packer /bin"
+      - "rm packer.zip"
+  build:
+    commands:
+      - "cd $${CODEBUILD_SRC_DIR}/$${CODE_SRC_DIR}"
+      - "echo ## packer APPLY : Starting with the packer Apply"
+      - "packer build build.pkr.hcl"
+
+artifacts:
+  files:
+    - '**/*'
