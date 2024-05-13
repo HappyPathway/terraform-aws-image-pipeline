@@ -113,6 +113,12 @@ variable mitogen_version {
   default = "0.3.7"
 }
 
+variable packer_config {
+  type = string
+  description = "Name of Packer Config in Repo"
+  default = "build.pkr.hcl"
+}
+
 variable build_permissions_iam_doc {
   type = any
 }

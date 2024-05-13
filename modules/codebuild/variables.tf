@@ -81,3 +81,9 @@ variable mitogen_version {
   description = "Packer CLI Version"
   default = "0.3.7"
 }
+
+variable packer_config {
+  type = string
+  description = "Name of Packer Config in Repo"
+  default = "build.pkr.hcl"
+}

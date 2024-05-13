@@ -41,7 +41,8 @@ resource "aws_codebuild_project" "terraform_codebuild_project" {
       "${path.module}/templates/buildspec_${var.build_projects[count.index]}.yml",
       {
         packer_version = var.packer_version,
-        mitogen_version = var.mitogen_version
+        mitogen_version = var.mitogen_version,
+        packer_config = var.packer_config
       }
     )
   }
