@@ -17,7 +17,8 @@ phases:
     commands:
       - "curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py"
       - "python3 get-pip.py --user"
-      - "python3 -m pip install ansible"
+      - "sudo amazon-linux-extras enable ansible2"
+      - "sudo yum install -y ansible"
       - "curl -s -qL -o mitogen.tar.gz https://files.pythonhosted.org/packages/source/m/mitogen/mitogen-${mitogen_version}.tar.gz"
       - "mv mitogen.tar.gz /opt; cd /opt; tar vxzf mitogen.tar.gz"
       - "curl -s -qL -o packer.zip https://releases.hashicorp.com/packer/${packer_version}/packer_${packer_version}_linux_amd64.zip"
