@@ -112,7 +112,7 @@ resource "aws_iam_policy" "codepipeline_policy" {
          "codecommit:UploadArchive"
       ],
       "Resource": "${var.ansible_repo.arn}"
-    }
+    },
     {
       "Effect": "Allow",
       "Action": [
