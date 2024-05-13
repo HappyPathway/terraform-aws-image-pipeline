@@ -46,7 +46,7 @@ data "aws_iam_policy_document" "codecommit_access" {
       "codecommit:ListBranches",
       "codecommit:UploadArchive"
     ]
-    resources = var.ansible_repo.arn
+    resources = [var.ansible_repo.arn]
   }
 }
 
