@@ -49,7 +49,7 @@ resource "aws_codebuild_project" "terraform_codebuild_project" {
   secondary_sources {
     type = "CODECOMMIT"
     location = var.ansible_repo
-    source_identifier = "ansible_repo"
+    source_identifier = "ansible"
   }
   lifecycle {
     ignore_changes = [
