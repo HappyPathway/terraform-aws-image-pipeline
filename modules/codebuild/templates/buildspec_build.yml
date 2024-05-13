@@ -28,7 +28,7 @@ phases:
     commands:
       - "cd $${CODEBUILD_SRC_DIR}/$${CODE_SRC_DIR}"
       - "echo ## packer APPLY : Starting with the packer Apply"
-      - "/bin/packer init"
+      - "/bin/packer init ${packer_config}"
       - "/bin/packer build ${packer_config}"
 
 artifacts:
