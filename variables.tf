@@ -58,7 +58,7 @@ variable "stage_input" {
 variable "build_projects" {
   description = "Tags to be attached to the CodePipeline"
   type        = list(string)
-  default = ["build"]
+  default     = ["build"]
 }
 
 variable "builder_compute_type" {
@@ -92,42 +92,42 @@ variable "build_project_source" {
 }
 
 
-variable build_environment_variables {
-    type = list(object({
-      name = string
-      value = string
-      type = string
-    }))
-    default = []
+variable "build_environment_variables" {
+  type = list(object({
+    name  = string
+    value = string
+    type  = string
+  }))
+  default = []
 }
 
-variable packer_version {
-  type = string
+variable "packer_version" {
+  type        = string
   description = "Terraform CLI Version"
-  default = "1.10.3"
+  default     = "1.10.3"
 }
 
-variable mitogen_version {
-  type = string
+variable "mitogen_version" {
+  type        = string
   description = "Mitogen Version"
-  default = "0.3.7"
+  default     = "0.3.7"
 }
 
-variable packer_config {
-  type = string
+variable "packer_config" {
+  type        = string
   description = "Name of Packer Config in Repo"
-  default = "build.pkr.hcl"
+  default     = "build.pkr.hcl"
 }
 
-variable build_permissions_iam_doc {
+variable "build_permissions_iam_doc" {
   type = any
 }
 
 
-variable ansible_repo {
+variable "ansible_repo" {
   type = object({
     clone_url_http = string,
-    arn = string
+    arn            = string
   })
   description = "Source of Ansible Repo"
 }

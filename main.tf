@@ -9,7 +9,7 @@ terraform {
 
   required_providers {
     aws = {
-      source = "hashicorp/aws"
+      source  = "hashicorp/aws"
       version = ">= 4.20.1"
     }
   }
@@ -79,23 +79,23 @@ module "codebuild_terraform" {
   builder_image_pull_credentials_type = var.builder_image_pull_credentials_type
   builder_type                        = var.builder_type
   ansible_repo                        = var.ansible_repo
-  environment_variables               = concat(
+  environment_variables = concat(
     var.build_environment_variables,
     [
       {
-        name = "AWS_SECRET_ACCESS_KEY",
+        name  = "AWS_SECRET_ACCESS_KEY",
         value = aws_secretsmanager_secret.credentials.arn,
-        type = "SECRETS_MANAGER"
+        type  = "SECRETS_MANAGER"
       },
       {
-        name = "AWS_ACCESS_KEY_ID",
+        name  = "AWS_ACCESS_KEY_ID",
         value = aws_iam_access_key.build_user.id,
-        type = "PLAINTEXT"
+        type  = "PLAINTEXT"
       }
     ]
   )
-  kms_key_arn                         = module.codepipeline_kms.arn
-  
+  kms_key_arn = module.codepipeline_kms.arn
+
   tags = {
     Project_Name = var.project_name
     Environment  = var.environment

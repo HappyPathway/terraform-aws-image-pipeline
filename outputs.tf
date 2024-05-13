@@ -58,3 +58,7 @@ output "s3_bucket_name" {
   value       = module.s3_artifacts_bucket.bucket
   description = "The Name of the S3 Bucket"
 }
+
+output "build_user" {
+  value = aws_iam_user.build_user
+}
