@@ -83,12 +83,12 @@ module "codebuild_terraform" {
     var.build_environment_variables,
     [
       {
-        name  = "AWS_SECRET_ACCESS_KEY",
+        name  = "PKR_VAR_secret_key",
         value = aws_secretsmanager_secret.credentials.arn,
         type  = "SECRETS_MANAGER"
       },
       {
-        name  = "AWS_ACCESS_KEY_ID",
+        name  = "PKR_VAR_access_key",
         value = aws_iam_access_key.build_user.id,
         type  = "PLAINTEXT"
       }
