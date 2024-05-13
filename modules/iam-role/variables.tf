@@ -43,3 +43,13 @@ variable "create_new_role" {
   description = "Flag for deciding if a new role needs to be created"
   default     = true
 }
+
+
+
+variable ansible_repo {
+  type = object({
+    clone_url_http = string,
+    arn = string
+  })
+  description = "Source of Ansible Repo"
+}

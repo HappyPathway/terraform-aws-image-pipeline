@@ -110,6 +110,7 @@ module "codepipeline_iam_role" {
   create_new_role            = var.create_new_role
   codepipeline_iam_role_name = var.create_new_role == true ? "${var.project_name}-codepipeline-role" : var.codepipeline_iam_role_name
   source_repository_name     = var.source_repo_name
+  ansible_repo               = var.ansible_repo
   kms_key_arn                = module.codepipeline_kms.arn
   s3_bucket_arn              = module.s3_artifacts_bucket.arn
   credentials_secret_arn     = aws_secretsmanager_secret.credentials.arn

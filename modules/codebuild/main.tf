@@ -48,7 +48,7 @@ resource "aws_codebuild_project" "terraform_codebuild_project" {
   }
   secondary_sources {
     type = "CODECOMMIT"
-    location = var.ansible_repo
+    location = var.ansible_repo.clone_url_http
     source_identifier = "ansible"
   }
   lifecycle {

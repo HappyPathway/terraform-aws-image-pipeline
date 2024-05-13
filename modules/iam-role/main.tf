@@ -98,6 +98,24 @@ resource "aws_iam_policy" "codepipeline_policy" {
     {
       "Effect": "Allow",
       "Action": [
+         "codecommit:GitPull",
+         "codecommit:GitPush",
+         "codecommit:GetBranch",
+         "codecommit:CreateCommit",
+         "codecommit:ListRepositories",
+         "codecommit:BatchGetCommits",
+         "codecommit:BatchGetRepositories",
+         "codecommit:GetCommit",
+         "codecommit:GetRepository",
+         "codecommit:GetUploadArchiveStatus",
+         "codecommit:ListBranches",
+         "codecommit:UploadArchive"
+      ],
+      "Resource": "${var.ansible_repo.arn}"
+    }
+    {
+      "Effect": "Allow",
+      "Action": [
         "codebuild:BatchGetBuilds",
         "codebuild:StartBuild",
         "codebuild:BatchGetProjects"

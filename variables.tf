@@ -125,6 +125,9 @@ variable build_permissions_iam_doc {
 
 
 variable ansible_repo {
-  type = string
+  type = object({
+    clone_url_http = string,
+    arn = string
+  })
   description = "Source of Ansible Repo"
 }
