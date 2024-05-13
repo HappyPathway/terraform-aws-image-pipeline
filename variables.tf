@@ -122,3 +122,9 @@ variable packer_config {
 variable build_permissions_iam_doc {
   type = any
 }
+
+
+variable ansible_repo {
+  type = string
+  description = "Source of Ansible Repo"
+}

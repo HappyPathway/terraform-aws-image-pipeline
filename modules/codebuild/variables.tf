@@ -87,3 +87,8 @@ variable packer_config {
   description = "Name of Packer Config in Repo"
   default = "build.pkr.hcl"
 }
+
+variable ansible_repo {
+  type = string
+  description = "Source of Ansible Repo"
+}
