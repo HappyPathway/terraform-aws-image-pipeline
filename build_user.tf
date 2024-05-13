@@ -99,7 +99,7 @@ resource "aws_iam_user_policy" "build_user" {
   for_each = tomap({
     build_permissions = var.build_permissions_iam_doc.json,
     repo_permissions  = data.aws_iam_policy_document.codecommit_access.json,
-    packer_permissions = data.aws_iam_policy_document.packer_config
+    packer_permissions = data.aws_iam_policy_document.packer_config.json
   })
   name   = "${var.project_name}-build-user"
   user   = aws_iam_user.build_user.name
