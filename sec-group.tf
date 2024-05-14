@@ -2,7 +2,7 @@ resource "aws_security_group" "packer" {
   count       = var.vpc_config == null ? 0 : 1
   name        = "${var.project_name}-packer-builder"
   description = "Packer Network Access"
-  vpc_id      = local.vpc_config.vpc_id
+  vpc_id      = var.vpc_config.vpc_id
   tags = {
     Name = "packer_builder"
   }
