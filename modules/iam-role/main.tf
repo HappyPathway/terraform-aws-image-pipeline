@@ -123,7 +123,9 @@ data "aws_iam_policy_document" "codepipeline_policy" {
       "codebuild:UpdateReport",
       "codebuild:BatchPutTestCases"
     ]
-    resources = "arn:${data.aws_partition.current.partition}:codebuild:${data.aws_region.current.id}:${data.aws_caller_identity.current.account_id}:report-group/${var.project_name}*"
+    resources = [
+      "arn:${data.aws_partition.current.partition}:codebuild:${data.aws_region.current.id}:${data.aws_caller_identity.current.account_id}:report-group/${var.project_name}*"
+    ]
   }
 
   statement {
