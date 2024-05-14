@@ -81,18 +81,19 @@ module "codebuild_terraform" {
   ansible_repo                        = var.ansible_repo
   environment_variables = concat(
     var.build_environment_variables,
-    [
-      {
-        name  = "AWS_SECRET_ACCESS_KEY",
-        value = aws_secretsmanager_secret.credentials.arn,
-        type  = "SECRETS_MANAGER"
-      },
-      {
-        name  = "AWS_ACCESS_KEY_ID",
-        value = aws_iam_access_key.build_user.id,
-        type  = "PLAINTEXT"
-      }
-    ]
+    # [
+    #   {
+    #     name  = "AWS_SECRET_ACCESS_KEY",
+    #     value = aws_secretsmanager_secret.credentials.arn,
+    #     type  = "SECRETS_MANAGER"
+    #   },
+    #   {
+    #     name  = "AWS_ACCESS_KEY_ID",
+    #     value = aws_iam_access_key.build_user.id,
+    #     type  = "PLAINTEXT"
+    #   }
+    # ]
+    []
   )
   kms_key_arn = module.codepipeline_kms.arn
 

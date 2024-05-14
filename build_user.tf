@@ -27,26 +27,9 @@ data "aws_iam_policy_document" "codecommit_access" {
       "codecommit:UploadArchive"
     ]
     resources = [
-      "arn:${data.aws_partition.current.partition}:codecommit:${data.aws_region.current.id}:${data.aws_caller_identity.current.account_id}:${var.source_repo_name}"
+      "arn:${data.aws_partition.current.partition}:codecommit:${data.aws_region.current.id}:${data.aws_caller_identity.current.account_id}:${var.source_repo_name}",
+      var.ansible_repo.arn
     ]
-  }
-  statement {
-    effect = "Allow"
-    actions = [
-      "codecommit:GitPull",
-      "codecommit:GitPush",
-      "codecommit:GetBranch",
-      "codecommit:CreateCommit",
-      "codecommit:ListRepositories",
-      "codecommit:BatchGetCommits",
-      "codecommit:BatchGetRepositories",
-      "codecommit:GetCommit",
-      "codecommit:GetRepository",
-      "codecommit:GetUploadArchiveStatus",
-      "codecommit:ListBranches",
-      "codecommit:UploadArchive"
-    ]
-    resources = [var.ansible_repo.arn]
   }
 }
 
