@@ -15,7 +15,7 @@ phases:
     runtime-versions:
       python: 3.9
     commands:
-      - "curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py"
+      - "curl https://bootstrap.pypa.io/pip/3.4/get-pip.py -o get-pip.py"
       - "python3 get-pip.py --user"
       - "sudo amazon-linux-extras enable ansible2"
       - "sudo yum install -y ansible"
