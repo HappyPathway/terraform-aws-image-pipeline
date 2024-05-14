@@ -37,7 +37,6 @@ phases:
       - export AWS_SECRET_ACCESS_KEY=$(jq -r '.SecretAccessKey' aws_credentials.json)
       - aws configure set aws_session_token `jq -r '.Token' aws_credentials.json`
       - export AWS_SESSION_TOKEN=$(jq -r '.Token' aws_credentials.json)
-      - cat $HOME/.aws/credentials
       - echo "Building HashiCorp Packer template, ${packer_config}"
       - "cd $${CODEBUILD_SRC_DIR}/$${CODE_SRC_DIR}"
       - "/bin/packer init ${packer_config}"
