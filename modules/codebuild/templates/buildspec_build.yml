@@ -27,7 +27,7 @@ phases:
       - "rm packer.zip"
   build:
     commands:
-      - yum install -y nptdate
+      - sudo yum install -y nptdate
       - sudo service ntp stop
       - sudo ntpdate time.nist.gov
       - sudo service ntp start
