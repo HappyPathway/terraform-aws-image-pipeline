@@ -26,7 +26,7 @@ phases:
       - "mv packer /bin"
       - "rm packer.zip"
       - sudo yum erase 'ntp*'
-      - sudo yum install chrony
+      - sudo yum install -y chrony
       - sudo echo "server 169.254.169.123 prefer iburst minpoll 4 maxpoll 4" >> /etc/chrony.conf
       - sudo service chronyd restart
       - sudo chronyc sources -v
