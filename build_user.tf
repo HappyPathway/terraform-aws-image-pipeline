@@ -87,6 +87,9 @@ resource "aws_iam_user_policy" "build_user" {
   name   = "${var.project_name}-build-user"
   user   = aws_iam_user.build_user.name
   policy = each.value
+  lifecycle {
+    ignore_changes = [ policy ]
+  }
 }
 
 resource "aws_secretsmanager_secret" "credentials" {
