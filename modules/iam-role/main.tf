@@ -4,146 +4,143 @@
 #http://aws.amazon.com/agreement or other written agreement between Customer and either
 #Amazon Web Services, Inc. or Amazon Web Services EMEA SARL or both.
 
+
+data "aws_iam_policy_document" "codepipeline_assume_role" {
+  statement {
+    effect = "Allow"
+    actions = [
+      "sts:AssumeRole"
+    ]
+    principals {
+      type = "Service"
+      identifiers = ["codepipeline.amazonaws.com"]
+    }
+  }
+  statement {
+    effect = "Allow"
+    actions = [
+      "sts:AssumeRole"
+    ]
+    principals {
+      type = "Service"
+      identifiers = ["codebuild.amazonaws.com"]
+    }
+  }
+}
+
 resource "aws_iam_role" "codepipeline_role" {
   count              = var.create_new_role ? 1 : 0
   name               = var.codepipeline_iam_role_name
   tags               = var.tags
-  assume_role_policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Action": "sts:AssumeRole",
-      "Principal": {
-        "Service": "codepipeline.amazonaws.com"
-      },
-      "Effect": "Allow"
-    },
-    {
-      "Effect": "Allow",
-      "Principal": {
-        "Service": "codebuild.amazonaws.com"
-      },
-      "Action": "sts:AssumeRole"
-    }
-  ]
-}
-EOF
+  assume_role_policy = data.aws_iam_policy_document.codepipeline_assume_role.json
   path               = "/"
 }
 
-# TO-DO : replace all * with resource names / arn
-resource "aws_iam_policy" "codepipeline_policy" {
-  count       = var.create_new_role ? 1 : 0
-  name        = "${var.project_name}-codepipeline-policy"
-  description = "Policy to allow codepipeline to execute"
-  tags        = var.tags
-  policy      = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect":"Allow",
-      "Action": [
-        "secretsmanager:GetSecretValue"
-      ],
-      "Resource": "${var.credentials_secret_arn}"
-    },
-    {
-      "Effect":"Allow",
-      "Action": [
-        "s3:GetObject",
-        "s3:GetObjectVersion",
-        "s3:PutObjectAcl",
-        "s3:PutObject"
-      ],
-      "Resource": "${var.s3_bucket_arn}/*"
-    },
-    {
-      "Effect":"Allow",
-      "Action": [
-        "s3:GetBucketVersioning"
-      ],
-      "Resource": "${var.s3_bucket_arn}"
-    },
-    {
-      "Effect": "Allow",
-      "Action": [
-         "kms:DescribeKey",
-         "kms:GenerateDataKey*",
-         "kms:Encrypt",
-         "kms:ReEncrypt*",
-         "kms:Decrypt"
-      ],
-      "Resource": "${var.kms_key_arn}"
-    },
-    {
-      "Effect": "Allow",
-      "Action": [
-         "codecommit:GitPull",
-         "codecommit:GitPush",
-         "codecommit:GetBranch",
-         "codecommit:CreateCommit",
-         "codecommit:ListRepositories",
-         "codecommit:BatchGetCommits",
-         "codecommit:BatchGetRepositories",
-         "codecommit:GetCommit",
-         "codecommit:GetRepository",
-         "codecommit:GetUploadArchiveStatus",
-         "codecommit:ListBranches",
-         "codecommit:UploadArchive"
-      ],
-      "Resource": "arn:${data.aws_partition.current.partition}:codecommit:${data.aws_region.current.id}:${data.aws_caller_identity.current.account_id}:${var.source_repository_name}"
-    },
-    {
-      "Effect": "Allow",
-      "Action": [
-         "codecommit:GitPull",
-         "codecommit:GitPush",
-         "codecommit:GetBranch",
-         "codecommit:CreateCommit",
-         "codecommit:ListRepositories",
-         "codecommit:BatchGetCommits",
-         "codecommit:BatchGetRepositories",
-         "codecommit:GetCommit",
-         "codecommit:GetRepository",
-         "codecommit:GetUploadArchiveStatus",
-         "codecommit:ListBranches",
-         "codecommit:UploadArchive"
-      ],
-      "Resource": "${var.ansible_repo.arn}"
-    },
-    {
-      "Effect": "Allow",
-      "Action": [
-        "codebuild:BatchGetBuilds",
-        "codebuild:StartBuild",
-        "codebuild:BatchGetProjects"
-      ],
-      "Resource": "arn:${data.aws_partition.current.partition}:codebuild:${data.aws_region.current.id}:${data.aws_caller_identity.current.account_id}:project/${var.project_name}*"
-    },
-    {
-      "Effect": "Allow",
-      "Action": [
-        "codebuild:CreateReportGroup",
-        "codebuild:CreateReport",
-        "codebuild:UpdateReport",
-        "codebuild:BatchPutTestCases"
-      ],
-      "Resource": "arn:${data.aws_partition.current.partition}:codebuild:${data.aws_region.current.id}:${data.aws_caller_identity.current.account_id}:report-group/${var.project_name}*"
-    },
-    {
-      "Effect": "Allow",
-      "Action": [
-        "logs:CreateLogGroup",
-        "logs:CreateLogStream",
-        "logs:PutLogEvents"
-      ],
-      "Resource": "arn:${data.aws_partition.current.partition}:logs:${data.aws_region.current.id}:${data.aws_caller_identity.current.account_id}:log-group:*"
-    },
-    {
-      "Effect": "Allow",
-      "Action": [
+
+
+data "aws_iam_policy_document" "codepipeline_policy" {
+  
+  statement {
+    effect = "Allow"
+    actions = [
+      "secretsmanager:GetSecretValue"
+    ]
+    resources = [var.credentials_secret_arn]
+  }
+
+  statement {
+    effect = "Allow"
+    actions = [
+      "s3:GetObject",
+      "s3:GetObjectVersion",
+      "s3:PutObjectAcl",
+      "s3:PutObject"
+    ]
+    resources = ["${var.s3_bucket_arn}/*"]
+  }
+
+  statement {
+    effect = "Allow"
+    actions = [
+      "s3:GetBucketVersioning"
+    ]
+    resources = [var.s3_bucket_arn]
+  }
+
+  statement {
+    effect = "Allow"
+    actions = [
+      "kms:DescribeKey",
+      "kms:GenerateDataKey*",
+      "kms:Encrypt",
+      "kms:ReEncrypt*",
+      "kms:Decrypt"
+    ]
+    resources = [
+      var.kms_key_arn
+    ]
+  }
+
+  statement {
+    effect = "Allow"
+    actions = [
+      "codecommit:GitPull",
+      "codecommit:GitPush",
+      "codecommit:GetBranch",
+      "codecommit:CreateCommit",
+      "codecommit:ListRepositories",
+      "codecommit:BatchGetCommits",
+      "codecommit:BatchGetRepositories",
+      "codecommit:GetCommit",
+      "codecommit:GetRepository",
+      "codecommit:GetUploadArchiveStatus",
+      "codecommit:ListBranches",
+      "codecommit:UploadArchive"
+    ]
+    resources = [
+      "arn:${data.aws_partition.current.partition}:codecommit:${data.aws_region.current.id}:${data.aws_caller_identity.current.account_id}:${var.source_repository_name}",
+      var.ansible_repo.arn
+    ]
+  }
+
+  statement {
+    effect = "Allow"
+    actions = [
+      "codebuild:BatchGetBuilds",
+      "codebuild:StartBuild",
+      "codebuild:BatchGetProjects"
+    ]
+    resources = [
+      "arn:${data.aws_partition.current.partition}:codebuild:${data.aws_region.current.id}:${data.aws_caller_identity.current.account_id}:project/${var.project_name}*"
+    ]
+  }
+
+  statement {
+    effect = "Allow"
+    actions = [
+      "codebuild:CreateReportGroup",
+      "codebuild:CreateReport",
+      "codebuild:UpdateReport",
+      "codebuild:BatchPutTestCases"
+    ]
+    resources = "arn:${data.aws_partition.current.partition}:codebuild:${data.aws_region.current.id}:${data.aws_caller_identity.current.account_id}:report-group/${var.project_name}*"
+  }
+
+  statement {
+    effect = "Allow"
+    actions = [
+      "logs:CreateLogGroup",
+      "logs:CreateLogStream",
+      "logs:PutLogEvents"
+    ]
+    resources = [
+      "arn:${data.aws_partition.current.partition}:logs:${data.aws_region.current.id}:${data.aws_caller_identity.current.account_id}:log-group:*"
+    ]
+  }
+
+  statement {
+    effect = "Allow"
+    actions = [
         "ec2:AttachVolume",
         "ec2:AuthorizeSecurityGroupIngress",
         "ec2:CopyImage",
@@ -177,11 +174,18 @@ resource "aws_iam_policy" "codepipeline_policy" {
         "ec2:RunInstances",
         "ec2:StopInstances",
         "ec2:TerminateInstances"
-      ],
-      "Resource": "*"
-    }
+      ]
+    resources = ["*"]
+  }
 }
-EOF
+
+# TO-DO : replace all * with resource names / arn
+resource "aws_iam_policy" "codepipeline_policy" {
+  count       = var.create_new_role ? 1 : 0
+  name        = "${var.project_name}-codepipeline-policy"
+  description = "Policy to allow codepipeline to execute"
+  tags        = var.tags
+  policy      = data.aws_iam_policy_document.codepipeline_policy.json
 }
 
 resource "aws_iam_role_policy_attachment" "codepipeline_role_attach" {
