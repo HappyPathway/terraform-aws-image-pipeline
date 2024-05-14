@@ -1,4 +1,4 @@
-resource "aws_iam_policy" "policy" {
+resource "aws_iam_policy" "vpc_config" {
   count       = var.vpc_config == null ? 0 : 1
   name        = "${var.project_name}-vpc-access"
   path        = "/"

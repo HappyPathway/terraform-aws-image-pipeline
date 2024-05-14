@@ -192,6 +192,13 @@ resource "aws_iam_policy" "codepipeline_policy" {
 
 resource "aws_iam_role_policy_attachment" "codepipeline_role_attach" {
   count      = var.create_new_role ? 1 : 0
-  role       = aws_iam_role.codepipeline_role[0].name
-  policy_arn = aws_iam_policy.codepipeline_policy[0].arn
+  role       = one(aws_iam_role.codepipeline_role).name
+  policy_arn = one(aws_iam_policy.codepipeline_policy).arn
+}
+
+# aws_iam_policy" "vpc_config"
+resource "aws_iam_role_policy_attachment" "codepipeline_vpc_role_attach" {
+  count      = var.vpc_config == null ? 0 : 1
+  role       = one(aws_iam_role.codepipeline_role).name
+  policy_arn = one(aws_iam_policy.vpc_config).arn
 }
