@@ -95,3 +95,12 @@ variable ansible_repo {
   })
   description = "Source of Ansible Repo"
 }
+
+variable "vpc_config" {
+  default = null
+  type = object({
+    security_group_ids = list(string)
+    subnets = list(string)
+    vpc_id = string
+  })
+}

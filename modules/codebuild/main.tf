@@ -51,6 +51,16 @@ resource "aws_codebuild_project" "terraform_codebuild_project" {
     location = var.ansible_repo.clone_url_http
     source_identifier = "ansible"
   }
+
+  dynamic "vpc_config" {
+    for_each = var.vpc_config == null ? [] : ["*"]
+    content {
+      security_group_ids = var.vpc_config.security_group_ids
+      subnets = var.vpc_config.subnets
+      vpc_id = var.vpc_config.vpc_id
+    }
+  }
+  
   lifecycle {
     ignore_changes = [
       project_visibility
