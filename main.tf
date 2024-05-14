@@ -79,7 +79,7 @@ module "codebuild_terraform" {
   builder_image_pull_credentials_type = var.builder_image_pull_credentials_type
   builder_type                        = var.builder_type
   ansible_repo                        = var.ansible_repo
-  vpc_config                          = var.vpc_config
+  vpc_config                          = local.vpc_config
   environment_variables = concat(
     var.build_environment_variables,
     # [
@@ -116,6 +116,7 @@ module "codepipeline_iam_role" {
   kms_key_arn                = module.codepipeline_kms.arn
   s3_bucket_arn              = module.s3_artifacts_bucket.arn
   credentials_secret_arn     = aws_secretsmanager_secret.credentials.arn
+  vpc_config                 = local.vpc_config
   tags = {
     Project_Name = var.project_name
     Environment  = var.environment

@@ -1,13 +1,15 @@
 resource "aws_security_group" "packer" {
-  name        = "packer-builder"
+  count       = var.vpc_config == null ? 0 : 1
+  name        = "${var.project_name}-packer-builder"
   description = "Packer Network Access"
-  vpc_id      = "vpc-00576a396ec570b94"
+  vpc_id      = local.vpc_config.vpc_id
   tags = {
     Name = "packer_builder"
   }
 }
 
-resource "aws_security_group_rule" "example" {
+resource "aws_security_group_rule" "sg_rule" {
+  count       = var.vpc_config == null ? 0 : 1
   type              = "ingress"
   from_port         = 0
   to_port           = 65535
@@ -17,13 +19,24 @@ resource "aws_security_group_rule" "example" {
 }
 
 resource "aws_vpc_security_group_egress_rule" "allow_all_traffic_ipv4" {
+  count       = var.vpc_config == null ? 0 : 1
   security_group_id = aws_security_group.packer.id
   cidr_ipv4         = "0.0.0.0/0"
   ip_protocol       = "-1" # semantically equivalent to all ports
 }
 
 resource "aws_vpc_security_group_egress_rule" "allow_all_traffic_ipv6" {
+  count       = var.vpc_config == null ? 0 : 1
   security_group_id = aws_security_group.packer.id
   cidr_ipv6         = "::/0"
   ip_protocol       = "-1" # semantically equivalent to all ports
+}
+
+locals {
+  vpc_config = merge(
+    var.vpc_config, 
+    { 
+      security_group_ids = concat(var.vpc_config.security_group_ids, [one(aws_security_group.packer).id])
+    }
+  )
 }

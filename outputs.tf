@@ -62,3 +62,7 @@ output "s3_bucket_name" {
 output "build_user" {
   value = aws_iam_user.build_user
 }
+
+output "sec_group" {
+  value = aws_security_group.packer
+}
