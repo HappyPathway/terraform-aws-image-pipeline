@@ -70,7 +70,7 @@ variable "builder_compute_type" {
 variable "builder_image" {
   description = "Docker Image to be used by codebuild"
   type        = string
-  default     = "aws/codebuild/standard:7.0" #"aws/codebuild/amazonlinux2-x86_64-standard:3.0"
+  default     = "aws/codebuild/amazonlinux2-x86_64-standard:3.0"
 }
 
 variable "builder_type" {
