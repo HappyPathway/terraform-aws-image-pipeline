@@ -1,6 +1,5 @@
-resource "aws_vpc_endpoint" "codecommit" {
-  count = var.vpc_config == null ? 0 : 1
-  for_each = toset([
+resource "aws_vpc_endpoint" "codecommit" { 
+  for_each = var.vpc_config == null ? toset([]) : toset([
     "codecommit",
     "git-codecommit"
   ])
