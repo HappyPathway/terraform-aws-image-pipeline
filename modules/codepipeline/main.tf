@@ -74,6 +74,7 @@ resource "aws_codepipeline" "terraform_pipeline" {
 
         configuration = {
           ProjectName = stage.value["provider"] == "CodeBuild" ? "${var.project_name}-${stage.value["name"]}" : null
+          PrimarySource = "SourceOutput"
         }
       }
     }
