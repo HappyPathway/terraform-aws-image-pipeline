@@ -46,13 +46,17 @@ variable "create_new_role" {
 
 
 
-variable ansible_repo {
+variable "ansible_repo" {
   type = object({
     clone_url_http = string,
-    arn = string
+    arn            = string,
+    name           = optional(string, "image-pipeline-ansible-roles")
+    branch         = optional(string, "main")
   })
   description = "Source of Ansible Repo"
 }
+
+
 
 
 variable "vpc_config" {

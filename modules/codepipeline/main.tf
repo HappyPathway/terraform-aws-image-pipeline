@@ -38,6 +38,23 @@ resource "aws_codepipeline" "terraform_pipeline" {
         PollForSourceChanges = "true"
       }
     }
+
+    action {
+      name             = "Download-Ansible-Roles"
+      category         = "Source"
+      owner            = "AWS"
+      version          = "1"
+      provider         = "CodeCommit"
+      namespace        = "SourceVariables"
+      output_artifacts = ["SourceAnsibleOutput"]
+      run_order        = 2
+
+      configuration = {
+        RepositoryName       = var.ansible_repo.name
+        BranchName           = var.ansible_repo.branch
+        PollForSourceChanges = "true"
+      }
+    }
   }
 
   dynamic "stage" {
@@ -50,8 +67,8 @@ resource "aws_codepipeline" "terraform_pipeline" {
         name             = "Action-${stage.value["name"]}"
         owner            = stage.value["owner"]
         provider         = stage.value["provider"]
-        input_artifacts  = lookup(stage.value, "input_artifacts", "") != ""?  [stage.value["input_artifacts"]] : null
-        output_artifacts = lookup(stage.value, "output_artifacts", "") != ""?  [stage.value["output_artifacts"]] : null
+        input_artifacts  = lookup(stage.value, "input_artifacts", "") != ""?  stage.value["input_artifacts"] : null
+        output_artifacts = lookup(stage.value, "output_artifacts", "") != ""?  stage.value["output_artifacts"] : null
         version          = "1"
         run_order        = index(var.stages, stage.value) + 2
 

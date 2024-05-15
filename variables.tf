@@ -51,7 +51,7 @@ variable "stage_input" {
   description = "Tags to be attached to the CodePipeline"
   type        = list(map(any))
   default = [
-    { name = "build", category = "Build", owner = "AWS", provider = "CodeBuild", input_artifacts = "SourceOutput", output_artifacts = "BuildOutput" },
+    { name = "build", category = "Build", owner = "AWS", provider = "CodeBuild", input_artifacts = ["SourceOutput", "SourceAnsibleOutput"], output_artifacts = "BuildOutput" },
   ]
 }
 
@@ -127,7 +127,9 @@ variable "build_permissions_iam_doc" {
 variable "ansible_repo" {
   type = object({
     clone_url_http = string,
-    arn            = string
+    arn            = string,
+    name           = optional(string, "image-pipeline-ansible-roles")
+    branch         = optional(string, "main")
   })
   description = "Source of Ansible Repo"
 }

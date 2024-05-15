@@ -19,6 +19,17 @@ variable "source_repo_branch" {
   type        = string
 }
 
+variable "ansible_repo" {
+  type = object({
+    clone_url_http = string,
+    arn            = string,
+    name           = optional(string, "image-pipeline-ansible-roles")
+    branch         = optional(string, "main")
+  })
+  description = "Source of Ansible Repo"
+}
+
+
 variable "s3_bucket_name" {
   description = "S3 bucket name to be used for storing the artifacts"
   type        = string
