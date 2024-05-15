@@ -45,7 +45,7 @@ resource "aws_codepipeline" "terraform_pipeline" {
       owner            = "AWS"
       version          = "1"
       provider         = "CodeCommit"
-      namespace        = "SourceVariables"
+      namespace        = "SourceAnsible"
       output_artifacts = ["SourceAnsibleOutput"]
       run_order        = 2
 
