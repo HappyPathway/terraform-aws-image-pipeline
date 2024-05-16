@@ -19,15 +19,13 @@ phases:
       - "python3 get-pip.py --user"
       - "sudo yum update -y"
       - "sudo yum install -y ansible tree"
-      - "tree /codebuild"
-      - env
-      # - "yum install -y jq"
-      # - "curl -s -qL -o mitogen.tar.gz https://files.pythonhosted.org/packages/source/m/mitogen/mitogen-${mitogen_version}.tar.gz"
-      # - "mv mitogen.tar.gz /opt; cd /opt; tar vxzf mitogen.tar.gz"
-      # - "curl -s -qL -o packer.zip https://releases.hashicorp.com/packer/${packer_version}/packer_${packer_version}_linux_amd64.zip"
-      # - "unzip -o packer.zip"
-      # - "mv packer /bin"
-      # - "rm packer.zip"
+      - "yum install -y jq"
+      - "curl -s -qL -o mitogen.tar.gz https://files.pythonhosted.org/packages/source/m/mitogen/mitogen-${mitogen_version}.tar.gz"
+      - "mv mitogen.tar.gz /opt; cd /opt; tar vxzf mitogen.tar.gz"
+      - "curl -s -qL -o packer.zip https://releases.hashicorp.com/packer/${packer_version}/packer_${packer_version}_linux_amd64.zip"
+      - "unzip -o packer.zip"
+      - "mv packer /bin"
+      - "rm packer.zip"
   build:
     commands:
       - echo "Configuring AWS credentials"
@@ -39,7 +37,7 @@ phases:
       - echo "Building HashiCorp Packer template, ${packer_config}"
       - cd $${CODEBUILD_SRC_DIR}/$${CODE_SRC_DIR}
       - /bin/packer init ${packer_config}
-      - /bin/packer build ${packer_config}
+      - /bin/packer build -var ansible_roles=$${CODEBUILD_SRC_DIR_SourceAnsibleOutput}/roles ${packer_config}
 
 artifacts:
   files:
