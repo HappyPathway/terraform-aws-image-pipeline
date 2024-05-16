@@ -94,7 +94,6 @@ module "codebuild_terraform" {
         type = "PLAINTEXT"
       }
     ]
-    []
   )
   kms_key_arn = module.codepipeline_kms.arn
 
