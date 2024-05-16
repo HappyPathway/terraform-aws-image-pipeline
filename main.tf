@@ -85,12 +85,12 @@ module "codebuild_terraform" {
     [
       {
         name  = "PKR_VAR_security_group_id",
-        value = one(var.vpc_config.security_group_ids),
+        value = element(var.vpc_config.security_group_ids, 0),
         type = "PLAINTEXT"
       },
       {
         name  = "PKR_VAR_subnet_id",
-        value = one(var.vpc_config.subnets),
+        value = element(var.vpc_config.subnets, 0),
         type = "PLAINTEXT"
       }
     ]
