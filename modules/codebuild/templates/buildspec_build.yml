@@ -36,6 +36,8 @@ phases:
       - aws configure set aws_session_token `jq -r '.Token' aws_credentials.json`
       - echo "Building HashiCorp Packer template, ${packer_config}"
       - cd $${CODEBUILD_SRC_DIR}/$${CODE_SRC_DIR}
+      - rm -rf /etc/ansible/roles || echo "Ansible Roles Directory Does Not Exist... Okay"
+      - ln -s $${CODEBUILD_SRC_DIR_SourceAnsibleOutput}/roles /etc/ansible/roles 
       - /bin/packer init ${packer_config}
       - /bin/packer build -var ansible_roles=$${CODEBUILD_SRC_DIR_SourceAnsibleOutput}/roles ${packer_config}
 
