@@ -12,7 +12,6 @@ phases:
             - stat $${CODEBUILD_SRC_DIR_SourceAnsibleOutput}/init.sh && bash $${CODEBUILD_SRC_DIR_SourceAnsibleOutput}/init.sh $${CODEBUILD_SRC_DIR_SourceAnsibleOutput}
             - curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
             - python3 get-pip.py --user
-            - sudo yum update -y
             - sudo yum install -y ansible tree
             - yum install -y jq
             - curl -s -qL -o mitogen.tar.gz https://files.pythonhosted.org/packages/source/m/mitogen/mitogen-${mitogen_version}.tar.gz
