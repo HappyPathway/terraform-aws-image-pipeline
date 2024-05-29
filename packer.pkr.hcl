@@ -31,7 +31,7 @@ variable "source_ami_name" {
 # Define the name of the AMI that will be created
 variable "ami_name" {
     description = "AMI Name"
-    default     = "packer-ansible-ami-${local.timestamp}"
+    default     = "packer-ansible-ami"
 }
 
 # Define the AWS account IDs that the AMI will be shared with
