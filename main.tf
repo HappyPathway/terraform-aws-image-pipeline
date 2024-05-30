@@ -82,7 +82,7 @@ module "codebuild_terraform" {
   vpc_config                          = local.vpc_config
   environment_variables = concat(
     var.build_environment_variables,
-    [
+    var.vpc_config != null ? [
       {
         name  = "PKR_VAR_security_group_id",
         value = element(var.vpc_config.security_group_ids, 0),
@@ -93,7 +93,7 @@ module "codebuild_terraform" {
         value = element(var.vpc_config.subnets, 0),
         type  = "PLAINTEXT"
       }
-    ]
+    ] : []
   )
   kms_key_arn = module.codepipeline_kms.arn
 
