@@ -70,7 +70,7 @@ data "aws_iam_policy_document" "packer_config" {
       "ec2:RunInstances",
       "ec2:StopInstances",
       "ec2:TerminateInstances"
-      ]
+    ]
     resources = ["*"]
   }
 }
@@ -80,15 +80,15 @@ resource "aws_iam_access_key" "build_user" {
 
 resource "aws_iam_user_policy" "build_user" {
   for_each = tomap({
-    build_permissions = var.build_permissions_iam_doc.json,
-    repo_permissions  = data.aws_iam_policy_document.codecommit_access.json,
+    build_permissions  = var.build_permissions_iam_doc.json,
+    repo_permissions   = data.aws_iam_policy_document.codecommit_access.json,
     packer_permissions = data.aws_iam_policy_document.packer_config.json
   })
   name   = "${var.project_name}-build-user"
   user   = aws_iam_user.build_user.name
   policy = each.value
   lifecycle {
-    ignore_changes = [ policy ]
+    ignore_changes = [policy]
   }
 }
 

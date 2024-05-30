@@ -23,12 +23,12 @@ resource "aws_codebuild_project" "terraform_codebuild_project" {
     image_pull_credentials_type = var.builder_image_pull_credentials_type
     dynamic "environment_variable" {
       for_each = toset(var.environment_variables)
-        content {
-          name  = environment_variable.value.name
-          value = environment_variable.value.value
-          type =  environment_variable.value.type
-        }
+      content {
+        name  = environment_variable.value.name
+        value = environment_variable.value.value
+        type  = environment_variable.value.type
       }
+    }
   }
   logs_config {
     cloudwatch_logs {
@@ -36,13 +36,13 @@ resource "aws_codebuild_project" "terraform_codebuild_project" {
     }
   }
   source {
-    type      = var.build_project_source
+    type = var.build_project_source
     buildspec = templatefile(
       "${path.module}/templates/buildspec_${var.build_projects[count.index]}.yml",
       {
-        packer_version = var.packer_version,
+        packer_version  = var.packer_version,
         mitogen_version = var.mitogen_version,
-        packer_config = var.packer_config
+        packer_config   = var.packer_config
       }
     )
   }
@@ -56,11 +56,11 @@ resource "aws_codebuild_project" "terraform_codebuild_project" {
     for_each = var.vpc_config == null ? [] : ["*"]
     content {
       security_group_ids = var.vpc_config.security_group_ids
-      subnets = var.vpc_config.subnets
-      vpc_id = var.vpc_config.vpc_id
+      subnets            = var.vpc_config.subnets
+      vpc_id             = var.vpc_config.vpc_id
     }
   }
-  
+
   lifecycle {
     ignore_changes = [
       project_visibility

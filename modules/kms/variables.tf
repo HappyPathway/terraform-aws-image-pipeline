@@ -14,6 +14,6 @@ variable "codepipeline_role_arn" {
   type        = string
 }
 
-variable partition {
+variable "partition" {
   default = "aws-us-gov"
 }

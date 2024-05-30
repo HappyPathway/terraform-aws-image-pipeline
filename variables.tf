@@ -49,22 +49,22 @@ variable "environment" {
 
 variable "stage_input" {
   description = "Tags to be attached to the CodePipeline"
-  type        = list(object({
-    name = string, 
-    category = string, 
-    owner = string, 
-    provider = string, 
-    input_artifacts = list(string), 
+  type = list(object({
+    name             = string,
+    category         = string,
+    owner            = string,
+    provider         = string,
+    input_artifacts  = list(string),
     output_artifacts = list(string)
   }))
   default = [
-    { 
-      name = "build", 
-      category = "Build", 
-      owner = "AWS", 
-      provider = "CodeBuild", 
-      input_artifacts = ["SourceOutput", "SourceAnsibleOutput"], 
-      output_artifacts = ["BuildOutput"] 
+    {
+      name             = "build",
+      category         = "Build",
+      owner            = "AWS",
+      provider         = "CodeBuild",
+      input_artifacts  = ["SourceOutput", "SourceAnsibleOutput"],
+      output_artifacts = ["BuildOutput"]
     },
   ]
 }
@@ -153,7 +153,7 @@ variable "vpc_config" {
   default = null
   type = object({
     security_group_ids = list(string)
-    subnets = list(string)
-    vpc_id = string
+    subnets            = list(string)
+    vpc_id             = string
   })
 }

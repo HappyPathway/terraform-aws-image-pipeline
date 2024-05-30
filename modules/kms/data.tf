@@ -8,6 +8,6 @@ data "aws_caller_identity" "current" {}
 data "aws_region" "current" {}
 
 locals {
-  arn_parts = split("/", data.aws_caller_identity.current.arn)
-  approver_role ="${local.arn_parts[0]}/${local.arn_parts[1]}"
+  arn_parts     = split("/", data.aws_caller_identity.current.arn)
+  approver_role = "${local.arn_parts[0]}/${local.arn_parts[1]}"
 }

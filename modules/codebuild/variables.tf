@@ -62,37 +62,37 @@ variable "kms_key_arn" {
 }
 
 
-variable environment_variables {
-    type = list(object({
-      name = string
-      value = string
-      type = string
-    }))
-    default = []
+variable "environment_variables" {
+  type = list(object({
+    name  = string
+    value = string
+    type  = string
+  }))
+  default = []
 }
 
-variable packer_version {
-  type = string
+variable "packer_version" {
+  type        = string
   description = "Packer CLI Version"
-  default = "1.10.3"
+  default     = "1.10.3"
 }
 
-variable mitogen_version {
-  type = string
+variable "mitogen_version" {
+  type        = string
   description = "Packer CLI Version"
-  default = "0.3.7"
+  default     = "0.3.7"
 }
 
-variable packer_config {
-  type = string
+variable "packer_config" {
+  type        = string
   description = "Name of Packer Config in Repo"
-  default = "build.pkr.hcl"
+  default     = "build.pkr.hcl"
 }
 
-variable ansible_repo {
+variable "ansible_repo" {
   type = object({
     clone_url_http = string,
-    arn = string
+    arn            = string
   })
   description = "Source of Ansible Repo"
 }
@@ -101,7 +101,7 @@ variable "vpc_config" {
   default = null
   type = object({
     security_group_ids = list(string)
-    subnets = list(string)
-    vpc_id = string
+    subnets            = list(string)
+    vpc_id             = string
   })
 }

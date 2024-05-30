@@ -9,6 +9,6 @@ output "arn" {
   description = "The ARN of the KMS key"
 }
 
-output key {
+output "key" {
   value = aws_kms_key.encryption_key
 }

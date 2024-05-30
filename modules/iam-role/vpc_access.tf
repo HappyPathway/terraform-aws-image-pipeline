@@ -4,7 +4,7 @@ resource "aws_iam_policy" "vpc_config" {
   path        = "/"
   description = "${var.project_name}-vpc-access"
   policy = jsonencode({
-    Version =  "2012-10-17",
+    Version = "2012-10-17",
     Statement = [
       {
         Effect = "Allow"
@@ -27,10 +27,10 @@ resource "aws_iam_policy" "vpc_config" {
         Resource = "arn:${data.aws_partition.current.partition}:ec2:${data.aws_region.current.id}:${data.aws_caller_identity.current.account_id}:network-interface/*",
         Condition = {
           StringEquals = {
-            "ec2:AuthorizedService": "codebuild.amazonaws.com"
+            "ec2:AuthorizedService" : "codebuild.amazonaws.com"
           }
           ArnEquals = {
-            "ec2:Subnet": [
+            "ec2:Subnet" : [
               for subnet in var.vpc_config.subnets : "arn:${data.aws_partition.current.partition}:ec2:${data.aws_region.current.id}:${data.aws_caller_identity.current.account_id}:subnet/${subnet}"
             ]
           }

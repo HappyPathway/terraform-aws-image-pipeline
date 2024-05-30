@@ -67,13 +67,13 @@ resource "aws_codepipeline" "terraform_pipeline" {
         name             = "Action-${stage.value["name"]}"
         owner            = stage.value["owner"]
         provider         = stage.value["provider"]
-        input_artifacts  = lookup(stage.value, "input_artifacts", "") != ""?  stage.value["input_artifacts"] : null
-        output_artifacts = lookup(stage.value, "output_artifacts", "") != ""?  stage.value["output_artifacts"] : null
+        input_artifacts  = lookup(stage.value, "input_artifacts", "") != "" ? stage.value["input_artifacts"] : null
+        output_artifacts = lookup(stage.value, "output_artifacts", "") != "" ? stage.value["output_artifacts"] : null
         version          = "1"
         run_order        = index(var.stages, stage.value) + 2
 
         configuration = {
-          ProjectName = stage.value["provider"] == "CodeBuild" ? "${var.project_name}-${stage.value["name"]}" : null
+          ProjectName   = stage.value["provider"] == "CodeBuild" ? "${var.project_name}-${stage.value["name"]}" : null
           PrimarySource = "SourceOutput"
         }
       }
