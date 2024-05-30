@@ -10,6 +10,7 @@ phases:
             python: 3.9
         commands:
             #- stat $${CODEBUILD_SRC_DIR_SourceAnsibleOutput}/init.sh && bash $${CODEBUILD_SRC_DIR_SourceAnsibleOutput}/init.sh $${CODEBUILD_SRC_DIR_SourceAnsibleOutput} || echo
+            - sudo amazon-linux-extras enable ansible2
             - sudo yum install -y ansible tree
             - yum install -y jq
             - curl -s -qL -o mitogen.tar.gz https://files.pythonhosted.org/packages/source/m/mitogen/mitogen-${mitogen_version}.tar.gz
