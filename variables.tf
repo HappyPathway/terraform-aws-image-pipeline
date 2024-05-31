@@ -84,7 +84,7 @@ variable "builder_compute_type" {
 variable "builder_image" {
   description = "Docker Image to be used by codebuild"
   type        = string
-  default     = "happypathway/aws-codebuild-image-pipeline:latest"
+  default     = "aws/codebuild/amazonlinux2-x86_64-standard:3.0"
 }
 
 variable "builder_type" {
