@@ -1,7 +1,8 @@
-resource "aws_vpc_endpoint" "codecommit" {
+resource "aws_vpc_endpoint" "endpoint" {
   for_each = var.vpc_config == null ? toset([]) : toset([
     "codecommit",
-    "git-codecommit"
+    "git-codecommit",
+    "s3"
   ])
   vpc_id            = local.vpc_config.vpc_id
   service_name      = "com.amazonaws.${data.aws_region.current.name}.${each.value}"
