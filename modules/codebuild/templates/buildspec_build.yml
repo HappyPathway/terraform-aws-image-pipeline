@@ -11,8 +11,6 @@ phases:
         commands:
             - stat $${CODEBUILD_SRC_DIR_SourceAnsibleOutput}/init.sh && bash $${CODEBUILD_SRC_DIR_SourceAnsibleOutput}/init.sh $${CODEBUILD_SRC_DIR_SourceAnsibleOutput} || echo
             #- sudo amazon-linux-extras enable ansible2
-            - curl 
-            - sudo yum install -y ansible tree
             - yum install -y jq
             - curl -s -qL -o mitogen.tar.gz https://files.pythonhosted.org/packages/source/m/mitogen/mitogen-${mitogen_version}.tar.gz
             - mv mitogen.tar.gz /opt; cd /opt; tar vxzf mitogen.tar.gz
