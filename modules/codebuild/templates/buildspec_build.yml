@@ -7,7 +7,7 @@ env:
 phases:
     install:
         runtime-versions:
-            python: 3.9
+            python: 3.11
         commands:
             - stat $${CODEBUILD_SRC_DIR_SourceAnsibleOutput}/init.sh && bash $${CODEBUILD_SRC_DIR_SourceAnsibleOutput}/init.sh $${CODEBUILD_SRC_DIR_SourceAnsibleOutput} || echo
             #- sudo amazon-linux-extras enable ansible2
