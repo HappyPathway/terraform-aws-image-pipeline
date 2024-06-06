@@ -35,6 +35,7 @@ phases:
             - echo "Building HashiCorp Packer template, ${packer_config}"
             - cd $${CODEBUILD_SRC_DIR}/$${CODE_SRC_DIR}
             - /bin/packer init ${packer_config}
+            - ln -s $${CODEBUILD_SRC_DIR_SourceAnsibleOutput}/roles
             - /bin/packer build -var ansible_roles=$${CODEBUILD_SRC_DIR_SourceAnsibleOutput}/roles ${packer_config}
 
 artifacts:
