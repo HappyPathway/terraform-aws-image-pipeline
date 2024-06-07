@@ -11,13 +11,13 @@ locals {
       packer_version  = var.packer_version,
       mitogen_version = var.mitogen_version,
       packer_config   = var.packer_config,
-    }, lookup(var.build_projects, project).vars),
-    environment_variables = merge(var.environment_variables, lookup(var.build_projects, project).environment_variables),
+    }, project.vars),
+    environment_variables = merge(var.environment_variables, project.environment_variables),
     buildspec             = local.buildspec
     } : {
-    vars                  = lookup(var.build_projects, project).vars
-    environment_variables = merge(var.environment_variables, lookup(var.build_projects, project).environment_variables),
-    buildspec             = lookup(var.build_projects, project).buildspec
+    vars                  = project.vars
+    environment_variables = merge(var.environment_variables, project.environment_variables),
+    buildspec             = project.buildspec
     }
   }
 }
