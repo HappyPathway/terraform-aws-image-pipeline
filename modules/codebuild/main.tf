@@ -12,11 +12,11 @@ locals {
       mitogen_version = var.mitogen_version,
       packer_config   = var.packer_config,
     }, project.vars),
-    environment_variables = merge(var.environment_variables, project.environment_variables),
+    environment_variables = concat(var.environment_variables, project.environment_variables),
     buildspec             = local.buildspec
     } : {
     vars                  = project.vars
-    environment_variables = merge(var.environment_variables, project.environment_variables),
+    environment_variables = concat(var.environment_variables, project.environment_variables),
     buildspec             = project.buildspec
     }
   }
