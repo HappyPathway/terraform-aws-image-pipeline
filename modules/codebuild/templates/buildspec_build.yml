@@ -9,8 +9,7 @@ phases:
         runtime-versions:
             python: 3.11
         commands:
-            - stat $${CODEBUILD_SRC_DIR_SourceAnsibleOutput}/init.sh && bash $${CODEBUILD_SRC_DIR_SourceAnsibleOutput}/init.sh $${CODEBUILD_SRC_DIR_SourceAnsibleOutput} || echo
-            #- sudo amazon-linux-extras enable ansible2
+            - stat $${CODEBUILD_SRC_DIR_SourceAnsibleOutput}/init.sh && bash $${CODEBUILD_SRC_DIR_SourceAnsibleOutput}/init.sh $${CODEBUILD_SRC_DIR_SourceAnsibleOutput} || echo "No init.sh script found"
             - apt-get install -y jq curl unzip
             - curl -s -qL -o mitogen.tar.gz https://files.pythonhosted.org/packages/source/m/mitogen/mitogen-${mitogen_version}.tar.gz
             - mv mitogen.tar.gz /opt; cd /opt; tar vxzf mitogen.tar.gz
@@ -25,12 +24,8 @@ phases:
             - echo "AWS_CONTAINER_CREDENTIALS_RELATIVE_URI=$${AWS_CONTAINER_CREDENTIALS_RELATIVE_URI}"
             - curl -qL -o aws_credentials.json http://169.254.170.2/$${AWS_CONTAINER_CREDENTIALS_RELATIVE_URI} > aws_credentials.json
             - aws configure set region $AWS_REGION
-            - cat aws_credentials.json
-            - echo `jq -r '.AccessKeyId' aws_credentials.json`
             - aws configure set aws_access_key_id `jq -r '.AccessKeyId' aws_credentials.json`
-            - echo `jq -r '.SecretAccessKey' aws_credentials.json`
             - aws configure set aws_secret_access_key `jq -r '.SecretAccessKey' aws_credentials.json`
-            - echo `jq -r '.Token' aws_credentials.json`
             - aws configure set aws_session_token `jq -r '.Token' aws_credentials.json`
             - echo "Building HashiCorp Packer template, ${packer_config}"
             - cd $${CODEBUILD_SRC_DIR}/$${CODE_SRC_DIR}
