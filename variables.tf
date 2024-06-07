@@ -69,10 +69,24 @@ variable "stage_input" {
   ]
 }
 
+
 variable "build_projects" {
-  description = "Tags to be attached to the CodePipeline"
-  type        = list(string)
-  default     = ["build"]
+  description = "List of Names of the CodeBuild projects to be created"
+  type = list(object({
+    name = string,
+    vars = optional(map(string), {})
+    environment_variables = optional(list(object({
+      name  = string
+      value = string
+      type  = string
+    })), [])
+    buildspec = optional(string)
+  }))
+  default = [
+    {
+      name = "build"
+    }
+  ]
 }
 
 variable "builder_compute_type" {

@@ -1,14 +1,31 @@
-#This solution, non-production-ready template describes AWS Codepipeline based CICD Pipeline for terraform code deployment.
-#© 2023 Amazon Web Services, Inc. or its affiliates. All Rights Reserved.
-#This AWS Content is provided subject to the terms of the AWS Customer Agreement available at
-#http://aws.amazon.com/agreement or other written agreement between Customer and either
-#Amazon Web Services, Inc. or Amazon Web Services EMEA SARL or both.
+# Purpose: Create CodeBuild projects
+# this code block creates a map of build projects, where each project 
+# has a set of variables and a build specification. If a project is named "build", 
+# it gets some default variables and a default build specification. 
+# Otherwise, it uses the variables and build specification defined 
+# for the project in the build_projects variable.
+locals {
+  buildspec = "${path.module}/templates/buildspec_build.yml"
+  build_projects = { for project in var.build_projects : (project.name) => (project.name) == "build" ? {
+    vars = merge({
+      packer_version  = var.packer_version,
+      mitogen_version = var.mitogen_version,
+      packer_config   = var.packer_config,
+    }, lookup(var.build_projects, project).vars),
+    environment_variables = merge(var.environment_variables, lookup(var.build_projects, project).environment_variables),
+    buildspec             = local.buildspec
+    } : {
+    vars                  = lookup(var.build_projects, project).vars
+    environment_variables = merge(var.environment_variables, lookup(var.build_projects, project).environment_variables),
+    buildspec             = lookup(var.build_projects, project).buildspec
+    }
+  }
+}
+
 
 resource "aws_codebuild_project" "terraform_codebuild_project" {
-
-  count = length(var.build_projects)
-
-  name           = "${var.project_name}-${var.build_projects[count.index]}"
+  for_each       = local.build_projects
+  name           = "${var.project_name}-${each.key}"
   service_role   = var.role_arn
   encryption_key = var.kms_key_arn
   tags           = var.tags
@@ -22,7 +39,7 @@ resource "aws_codebuild_project" "terraform_codebuild_project" {
     privileged_mode             = true
     image_pull_credentials_type = var.builder_image_pull_credentials_type
     dynamic "environment_variable" {
-      for_each = toset(var.environment_variables)
+      for_each = toset(lookup(each.value, "environment_variables", {}))
       content {
         name  = environment_variable.value.name
         value = environment_variable.value.value
@@ -38,12 +55,8 @@ resource "aws_codebuild_project" "terraform_codebuild_project" {
   source {
     type = var.build_project_source
     buildspec = templatefile(
-      "${path.module}/templates/buildspec_${var.build_projects[count.index]}.yml",
-      {
-        packer_version  = var.packer_version,
-        mitogen_version = var.mitogen_version,
-        packer_config   = var.packer_config
-      }
+      each.value.buildspec,
+      each.value.vars
     )
   }
   # secondary_sources {

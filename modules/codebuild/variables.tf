@@ -27,7 +27,16 @@ variable "tags" {
 
 variable "build_projects" {
   description = "List of Names of the CodeBuild projects to be created"
-  type        = list(string)
+  type = list(object({
+    name = string,
+    vars = optional(map(string), {})
+    environment_variables = optional(list(object({
+      name  = string
+      value = string
+      type  = string
+    })), [])
+    buildspec = optional(string)
+  }))
 }
 
 variable "builder_compute_type" {
