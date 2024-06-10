@@ -124,9 +124,7 @@ module "codepipeline_iam_role" {
   }
 }
 
-locals {
-  stage_input = 
-}
+
 # Module for Infrastructure Validate, Plan, Apply and Destroy - CodePipeline
 module "codepipeline_terraform" {
   depends_on = [
