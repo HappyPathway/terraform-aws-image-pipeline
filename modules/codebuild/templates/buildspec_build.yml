@@ -32,7 +32,10 @@ phases:
             - /bin/packer init ${packer_config}
             - ln -s $${CODEBUILD_SRC_DIR_SourceAnsibleOutput}/roles
             - /bin/packer build -var ansible_roles=$${CODEBUILD_SRC_DIR_SourceAnsibleOutput}/roles ${packer_config}
-
+    post_build:
+        commands:
+            - cd $${CODEBUILD_SRC_DIR}/$${CODE_SRC_DIR}
+            - test -s ami_id.txt || exit 1
 artifacts:
     files:
         - '**/*'

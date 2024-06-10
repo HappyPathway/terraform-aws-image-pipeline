@@ -124,6 +124,9 @@ module "codepipeline_iam_role" {
   }
 }
 
+locals {
+  stage_input = 
+}
 # Module for Infrastructure Validate, Plan, Apply and Destroy - CodePipeline
 module "codepipeline_terraform" {
   depends_on = [
@@ -138,7 +141,7 @@ module "codepipeline_terraform" {
   ansible_repo          = var.ansible_repo
   s3_bucket_name        = module.s3_artifacts_bucket.bucket
   codepipeline_role_arn = module.codepipeline_iam_role.role_arn
-  stages                = var.stage_input
+  stages                = local.stage_input
   kms_key_arn           = module.codepipeline_kms.arn
   tags = {
     Project_Name = var.project_name
