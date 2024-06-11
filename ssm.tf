@@ -4,6 +4,12 @@ resource "aws_ssm_parameter" "security_group_id" {
   value = join(",", var.vpc_config.security_group_ids)
 }
 
+resource "aws_ssm_parameter" "region" {
+  name  = "/image-pipeline/${var.environment}/${var.project_name}/region"
+  type  = "StringList"
+  value = join(",", var.vpc_config.region)
+}
+
 resource "aws_ssm_parameter" "subnets" {
   name  = "/image-pipeline/${var.environment}/${var.project_name}/subnets"
   type  = "StringList"

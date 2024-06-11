@@ -192,5 +192,6 @@ variable "vpc_config" {
     security_group_ids = list(string)
     subnets            = list(string)
     vpc_id             = string
+    region             = string
   })
 }

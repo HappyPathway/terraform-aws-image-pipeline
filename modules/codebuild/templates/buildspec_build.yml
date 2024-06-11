@@ -36,6 +36,7 @@ phases:
         commands:
             - cd $${CODEBUILD_SRC_DIR}/$${CODE_SRC_DIR}
             - test -s ami_id.txt || exit 1
+            - aws ssm put-parameter --name "/image-pipeline/${environment}/${project_name}/ami" --type "String" --value $$(cat ami_id.txt) --overwrite
 artifacts:
     files:
         - '**/*'
