@@ -73,7 +73,9 @@ data "aws_iam_policy_document" "codepipeline_policy" {
     actions = [
       "ssm:*"
     ]
-    resources = ["arn::${data.aws_partition.current.partition}:ssm:${data.aws_region.current.id}:${data.aws_caller_identity.current.account_id}:parameter/image-pipeline/${var.environment}/${var.project_name}/*"]
+    resources = [
+      "arn:${data.aws_partition.current.partition}:ssm:${data.aws_region.current.id}:${data.aws_caller_identity.current.account_id}:parameter/image-pipeline/${var.environment}/${var.project_name}/*"
+    ]
   }
 
   statement {
