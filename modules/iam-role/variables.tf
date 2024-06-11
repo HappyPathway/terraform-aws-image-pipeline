@@ -14,6 +14,11 @@ variable "project_name" {
   type        = string
 }
 
+variable environment {
+  description = "Environment for the project"
+  type        = string
+}
+
 variable "codepipeline_iam_role_name" {
   description = "Name of the IAM role to be used by the project"
   type        = string
