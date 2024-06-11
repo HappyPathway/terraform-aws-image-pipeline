@@ -57,6 +57,17 @@ variable "ansible_repo" {
 }
 
 
+variable "goss_repo" {
+  type = object({
+    clone_url_http = string,
+    arn            = string,
+    name           = optional(string, "image-pipeline-ansible-roles")
+    branch         = optional(string, "main")
+  })
+  description = "Source of Ansible Repo"
+}
+
+
 
 
 variable "vpc_config" {
