@@ -112,3 +112,8 @@ variable "vpc_config" {
     vpc_id             = string
   })
 }
+
+variable "environment" {
+  type        = string
+  description = "environment to deploy the codebuild project"
+}

@@ -37,14 +37,16 @@ locals {
         packer_version  = var.packer_version,
         mitogen_version = var.mitogen_version,
         packer_config   = var.packer_config,
-        project_name    = var.project_name
+        project_name    = var.project_name,
+        environment     = var.environment,
       }, project.vars),
       environment_variables = concat(var.environment_variables, project.environment_variables),
       buildspec             = lookup(local.buildspecs, project.name)
       build_project_source  = var.build_project_source
       } : (project.name) == "test" ? {
       vars = merge({
-        project_name = var.project_name
+        project_name = var.project_name,
+        environebt   = var.environment,
       }, project.vars)
       environment_variables = concat(var.environment_variables, project.environment_variables),
       buildspec             = lookup(local.buildspecs, project.name)

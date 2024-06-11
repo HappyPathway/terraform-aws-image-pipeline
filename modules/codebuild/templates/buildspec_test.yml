@@ -31,7 +31,7 @@ phases:
             - cd $${CODEBUILD_SRC_DIR}/$${CODE_SRC_DIR}
             - /bin/packer init ${packer_config}
             - /bin/terraform init -upgrade
-            - /bin/terraform apply -var goss_src_dir=$${CODEBUILD_SRC_DIR_SourceGossOutput -var project_name=${project_name} -auto-approve
+            - /bin/terraform apply -var goss_src_dir=$${CODEBUILD_SRC_DIR_SourceGossOutput -var project_name=${project_name} -var environment=${environment} -auto-approve
 artifacts:
     files:
         - '**/*'
