@@ -14,7 +14,7 @@ variable "project_name" {
   type        = string
 }
 
-variable environment {
+variable "environment" {
   description = "Environment for the project"
   type        = string
 }
