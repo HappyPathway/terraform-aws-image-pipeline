@@ -47,7 +47,7 @@ resource "aws_codepipeline" "terraform_pipeline" {
       provider         = "CodeCommit"
       namespace        = "SourceAnsible"
       output_artifacts = ["SourceAnsibleOutput"]
-      run_order        = 2
+      run_order        = 1
 
       configuration = {
         RepositoryName       = var.ansible_repo.name
@@ -64,7 +64,7 @@ resource "aws_codepipeline" "terraform_pipeline" {
       provider         = "CodeCommit"
       namespace        = "SourceGoss"
       output_artifacts = ["SourceGossOutput"]
-      run_order        = 2
+      run_order        = 1
 
       configuration = {
         RepositoryName       = var.goss_repo.name
