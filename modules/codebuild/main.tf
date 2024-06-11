@@ -95,11 +95,6 @@ resource "aws_codebuild_project" "terraform_codebuild_project" {
       each.value.vars
     )
   }
-  # secondary_sources {
-  #   type = "CODECOMMIT"
-  #   location = var.ansible_repo.clone_url_http
-  #   source_identifier = "ansible"
-  # }
 
   dynamic "vpc_config" {
     for_each = var.vpc_config == null ? [] : ["*"]

@@ -104,14 +104,6 @@ variable "packer_config" {
   default     = "build.pkr.hcl"
 }
 
-variable "ansible_repo" {
-  type = object({
-    clone_url_http = string,
-    arn            = string
-  })
-  description = "Source of Ansible Repo"
-}
-
 variable "vpc_config" {
   default = null
   type = object({

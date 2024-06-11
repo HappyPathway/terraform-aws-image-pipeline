@@ -79,7 +79,6 @@ module "codebuild_terraform" {
   builder_image                       = var.builder_image
   builder_image_pull_credentials_type = var.builder_image_pull_credentials_type
   builder_type                        = var.builder_type
-  ansible_repo                        = var.ansible_repo
   vpc_config                          = local.vpc_config
   environment_variables = concat(
     var.build_environment_variables,
