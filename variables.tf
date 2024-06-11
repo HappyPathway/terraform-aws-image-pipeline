@@ -171,3 +171,13 @@ variable "vpc_config" {
     vpc_id             = string
   })
 }
+
+variable "goss_repo" {
+  type = object({
+    clone_url_http = string,
+    arn            = string,
+    name           = optional(string, "image-pipeline-goss-testing")
+    branch         = optional(string, "main")
+  })
+  description = "Source of Goss Repo"
+}

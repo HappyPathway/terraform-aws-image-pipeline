@@ -55,6 +55,23 @@ resource "aws_codepipeline" "terraform_pipeline" {
         PollForSourceChanges = "true"
       }
     }
+
+    action {
+      name             = "Download-Goss-Testing-Suite"
+      category         = "Source"
+      owner            = "AWS"
+      version          = "1"
+      provider         = "CodeCommit"
+      namespace        = "SourceAnsible"
+      output_artifacts = ["SourceGossOutput"]
+      run_order        = 2
+
+      configuration = {
+        RepositoryName       = var.goss_repo.name
+        BranchName           = var.goss_repo.branch
+        PollForSourceChanges = "true"
+      }
+    }
   }
 
   dynamic "stage" {
