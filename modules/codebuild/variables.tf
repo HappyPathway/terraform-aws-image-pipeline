@@ -35,7 +35,8 @@ variable "build_projects" {
       value = string
       type  = string
     })), [])
-    buildspec = optional(string)
+    buildspec      = optional(string)
+    project_source = optional(string)
   }))
 }
 
@@ -62,6 +63,11 @@ variable "builder_image_pull_credentials_type" {
 
 variable "build_project_source" {
   description = "Information about the build output artifact location"
+  type        = string
+}
+
+variable "test_project_source" {
+  description = "Information about the test output artifact location"
   type        = string
 }
 

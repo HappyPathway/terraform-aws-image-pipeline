@@ -1,23 +1,59 @@
 # Purpose: Create CodeBuild projects
-# this code block creates a map of build projects, where each project 
-# has a set of variables and a build specification. If a project is named "build", 
-# it gets some default variables and a default build specification. 
-# Otherwise, it uses the variables and build specification defined 
-# for the project in the build_projects variable.
 locals {
-  buildspec = "${path.module}/templates/buildspec_build.yml"
-  build_projects = { for project in var.build_projects : (project.name) => (project.name) == "build" ? {
-    vars = merge({
-      packer_version  = var.packer_version,
-      mitogen_version = var.mitogen_version,
-      packer_config   = var.packer_config,
-    }, project.vars),
-    environment_variables = concat(var.environment_variables, project.environment_variables),
-    buildspec             = local.buildspec
-    } : {
-    vars                  = project.vars
-    environment_variables = concat(var.environment_variables, project.environment_variables),
-    buildspec             = project.buildspec
+  buildspecs = {
+    build = "${path.module}/templates/buildspec_build.yml"
+    test  = "${path.module}/templates/buildspec_test.yml"
+  }
+
+  # This Terraform code block is creating a map of build projects using a for loop. 
+  # It's iterating over the build_projects variable, which is expected to be a list of 
+  # maps where each map represents a build project.
+
+  # For each project, it checks the project's name:
+  # If the project's name is "build", it creates a map with the following keys:
+  # vars: This is a map that merges a predefined map (containing packer_version, mitogen_version, 
+  # and packer_config) with the vars from the current project.
+  # environment_variables: This is a list that concatenates a predefined list of 
+  # environment variables with the environment_variables from the current project.
+  # buildspec: This is set to a local value buildspec.
+
+  # If the project's name is "test", it creates a map with the following keys:
+  # vars: This is set to the vars from the current project.
+  # environment_variables: This is a list that concatenates a predefined list of environment variables with the environment_variables from the current project.
+  # buildspec: This is set to "test_buildspec.yml".
+
+  # If the project's name is neither "build" nor "test", it creates a map with the following keys:
+  # vars: This is set to the vars from the current project.
+  # environment_variables: This is a list that concatenates a predefined list of 
+  # environment variables with the environment_variables from the current project.
+  # buildspec: This is set to the buildspec from the current project.
+
+  # The result of this for loop is a map where each key is a project name and each 
+  # value is a map with keys vars, environment_variables, and buildspec. 
+  # This map is assigned to the build_projects local value.
+  build_projects = { for project in var.build_projects : (project.name) =>
+    (project.name) == "build" ? {
+      vars = merge({
+        packer_version  = var.packer_version,
+        mitogen_version = var.mitogen_version,
+        packer_config   = var.packer_config,
+        project_name    = var.project_name
+      }, project.vars),
+      environment_variables = concat(var.environment_variables, project.environment_variables),
+      buildspec             = lookup(local.buildspecs, project.name)
+      build_project_source  = var.build_project_source
+      } : (project.name) == "test" ? {
+      vars = merge({
+        project_name = var.project_name
+      }, project.vars)
+      environment_variables = concat(var.environment_variables, project.environment_variables),
+      buildspec             = lookup(local.buildspecs, project.name)
+      build_project_source  = var.test_project_source
+      } : {
+      vars                  = project.vars
+      environment_variables = concat(var.environment_variables, project.environment_variables),
+      buildspec             = project.buildspec
+      build_project_source  = project.project_source
     }
   }
 }

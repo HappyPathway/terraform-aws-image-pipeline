@@ -66,6 +66,14 @@ variable "stage_input" {
       input_artifacts  = ["SourceOutput", "SourceAnsibleOutput"],
       output_artifacts = ["BuildOutput"]
     },
+    {
+      name             = "test",
+      category         = "Build",
+      owner            = "AWS",
+      provider         = "CodeBuild",
+      input_artifacts  = ["SourceOutput", "SourceGossOutput"],
+      output_artifacts = ["BuildOutput"]
+    },
   ]
 }
 
@@ -163,15 +171,6 @@ variable "ansible_repo" {
 }
 
 
-variable "vpc_config" {
-  default = null
-  type = object({
-    security_group_ids = list(string)
-    subnets            = list(string)
-    vpc_id             = string
-  })
-}
-
 variable "goss_repo" {
   type = object({
     clone_url_http = string,
@@ -180,4 +179,13 @@ variable "goss_repo" {
     branch         = optional(string, "main")
   })
   description = "Source of Goss Repo"
+}
+
+variable "vpc_config" {
+  default = null
+  type = object({
+    security_group_ids = list(string)
+    subnets            = list(string)
+    vpc_id             = string
+  })
 }
