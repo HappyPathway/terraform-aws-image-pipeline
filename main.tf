@@ -74,6 +74,7 @@ module "codebuild_terraform" {
   s3_bucket_name                      = module.s3_artifacts_bucket.bucket
   build_projects                      = var.build_projects
   build_project_source                = var.build_project_source
+  test_project_source                 = var.test_project_source
   builder_compute_type                = var.builder_compute_type
   builder_image                       = var.builder_image
   builder_image_pull_credentials_type = var.builder_image_pull_credentials_type

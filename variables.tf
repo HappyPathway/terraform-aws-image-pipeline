@@ -122,11 +122,16 @@ variable "builder_image_pull_credentials_type" {
 }
 
 variable "build_project_source" {
-  description = "aws/codebuild/standard:4.0"
+  description = "Source Code Repo for Playbook"
   type        = string
   default     = "CODEPIPELINE"
 }
 
+variable "test_project_source" {
+  description = "Source Code Repo for Goss Testing Suite"
+  type        = string
+  default     = "CODEPIPELINE"
+}
 
 variable "build_environment_variables" {
   type = list(object({
