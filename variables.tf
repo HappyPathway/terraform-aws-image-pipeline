@@ -72,7 +72,7 @@ variable "stage_input" {
       owner            = "AWS",
       provider         = "CodeBuild",
       input_artifacts  = ["SourceOutput", "SourceGossOutput"],
-      output_artifacts = ["BuildOutput"]
+      output_artifacts = ["BuildTestOutput"]
     },
   ]
 }
