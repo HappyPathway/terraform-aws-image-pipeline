@@ -48,6 +48,7 @@ locals {
         project_name      = var.project_name,
         environment       = var.environment,
         terraform_version = var.terraform_version
+        state             = var.state
       }, project.vars)
       environment_variables = concat(var.environment_variables, project.environment_variables),
       buildspec             = lookup(local.buildspecs, project.name)
