@@ -48,7 +48,6 @@ locals {
         project_name      = var.project_name,
         environment       = var.environment,
         terraform_version = var.terraform_version
-        state             = var.state
       }, project.vars)
       environment_variables = concat(var.environment_variables, project.environment_variables),
       buildspec             = lookup(local.buildspecs, project.name)
@@ -94,10 +93,23 @@ resource "aws_codebuild_project" "terraform_codebuild_project" {
   }
   source {
     type = var.build_project_source
-    buildspec = templatefile(
+    # buildspec is set based on a conditional expression. 
+    # The each.key != "test" condition checks if the current key in the iteration (provided by each.key) is not equal to "test".
+    # If each.key is not "test", it uses the templatefile function to render a template file specified by each.value.buildspec, 
+    # with the variables specified by each.value.vars.
+    # If each.key is "test", it uses the templatefile function to render a template file specified by each.value.buildspec, 
+    # with the variables specified by merging each.value.vars and a map containing state set to the value of the state variable.
+    buildspec = each.key != "test" ? templatefile(
       each.value.buildspec,
       each.value.vars
-    )
+      ) : templatefile(
+      each.value.buildspec,
+      merge(
+        each.value.vars,
+        {
+          state = var.state
+        }
+    ))
   }
 
   dynamic "vpc_config" {
