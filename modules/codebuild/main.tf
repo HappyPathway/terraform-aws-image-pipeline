@@ -46,7 +46,7 @@ locals {
       } : (project.name) == "test" ? {
       vars = merge({
         project_name      = var.project_name,
-        environent        = var.environment,
+        environment       = var.environment,
         terraform_version = var.terraform_version
       }, project.vars)
       environment_variables = concat(var.environment_variables, project.environment_variables),
