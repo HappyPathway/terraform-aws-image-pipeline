@@ -93,6 +93,9 @@ variable "build_projects" {
   default = [
     {
       name = "build"
+    },
+    {
+      name = "test"
     }
   ]
 }

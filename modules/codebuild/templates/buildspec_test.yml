@@ -28,10 +28,9 @@ phases:
             - aws configure set aws_secret_access_key `jq -r '.SecretAccessKey' aws_credentials.json`
             - aws configure set aws_session_token `jq -r '.Token' aws_credentials.json`
             - echo "Applying Terraform configuration template"
-            - cd $${CODEBUILD_SRC_DIR}/$${CODE_SRC_DIR}
-            - /bin/packer init ${packer_config}
+            - cd $${CODEBUILD_SRC_DIR_SourceGossOutput}
             - /bin/terraform init -upgrade
-            - /bin/terraform apply -var goss_src_dir=$${CODEBUILD_SRC_DIR_SourceGossOutput -var project_name=${project_name} -var environment=${environment} -auto-approve
+            - /bin/terraform apply -var project_name=${project_name} -var environment=${environment} -auto-approve
 artifacts:
     files:
         - '**/*'
