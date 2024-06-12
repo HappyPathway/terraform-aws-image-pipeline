@@ -11,8 +11,6 @@ phases:
         commands:
             - stat $${CODEBUILD_SRC_DIR_SourceAnsibleOutput}/init.sh && bash $${CODEBUILD_SRC_DIR_SourceAnsibleOutput}/init.sh $${CODEBUILD_SRC_DIR_SourceAnsibleOutput} || echo "No init.sh script found"
             - apt-get install -y jq curl unzip
-            - curl -s -qL -o mitogen.tar.gz https://files.pythonhosted.org/packages/source/m/mitogen/mitogen-${mitogen_version}.tar.gz
-            - mv mitogen.tar.gz /opt; cd /opt; tar vxzf mitogen.tar.gz
             - curl -s -qL -o terraform.zip https://releases.hashicorp.com/terraform/${terraform_version}/terraform_${terraform_version}_linux_amd64.zip
             - unzip -o terraform.zip
             - mv terraform /bin

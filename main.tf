@@ -81,6 +81,7 @@ module "codebuild_terraform" {
   builder_image_pull_credentials_type = var.builder_image_pull_credentials_type
   builder_type                        = var.builder_type
   vpc_config                          = local.vpc_config
+  terraform_version                   = var.terraform_version
   environment_variables = concat(
     var.build_environment_variables,
     var.vpc_config != null ? [

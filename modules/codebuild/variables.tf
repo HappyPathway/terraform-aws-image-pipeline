@@ -40,6 +40,10 @@ variable "build_projects" {
   }))
 }
 
+variable "terraform_version" {
+  type = string
+}
+
 variable "builder_compute_type" {
   description = "Information about the compute resources the build project will use"
   type        = string

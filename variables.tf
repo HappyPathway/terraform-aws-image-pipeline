@@ -198,3 +198,8 @@ variable "vpc_config" {
     region             = string
   })
 }
+
+variable "terraform_version" {
+  type    = string
+  default = "1.3.10"
+}
