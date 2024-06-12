@@ -82,6 +82,7 @@ module "codebuild_terraform" {
   builder_type                        = var.builder_type
   vpc_config                          = local.vpc_config
   terraform_version                   = var.terraform_version
+  state                               = var.state
   environment_variables = concat(
     var.build_environment_variables,
     var.vpc_config != null ? [

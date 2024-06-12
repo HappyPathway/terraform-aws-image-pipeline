@@ -203,3 +203,10 @@ variable "terraform_version" {
   type    = string
   default = "1.3.10"
 }
+
+variable "state" {
+  type = object({
+    bucket = string,
+    region = string
+  })
+}

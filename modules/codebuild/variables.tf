@@ -121,3 +121,10 @@ variable "environment" {
   type        = string
   description = "environment to deploy the codebuild project"
 }
+
+variable "state" {
+  type = object({
+    bucket = string,
+    region = string
+  })
+}
