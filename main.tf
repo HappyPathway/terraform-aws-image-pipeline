@@ -121,6 +121,7 @@ module "codepipeline_iam_role" {
   s3_bucket_arn              = module.s3_artifacts_bucket.arn
   credentials_secret_arn     = aws_secretsmanager_secret.credentials.arn
   vpc_config                 = local.vpc_config
+  state                      = var.state
   tags = {
     Project_Name = var.project_name
     Environment  = var.environment

@@ -83,3 +83,12 @@ variable "vpc_config" {
     vpc_id             = string
   })
 }
+
+variable "state" {
+  type = object({
+    bucket         = string
+    key            = string
+    region         = string
+    dynamodb_table = string
+  })
+}
