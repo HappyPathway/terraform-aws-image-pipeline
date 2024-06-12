@@ -54,19 +54,14 @@ data "aws_iam_policy_document" "codepipeline_policy" {
       "s3:GetObject",
       "s3:GetObjectVersion",
       "s3:PutObjectAcl",
-      "s3:PutObject"
-    ]
-    resources = ["${var.s3_bucket_arn}/*"]
-  }
-
-  statement {
-    effect = "Allow"
-    actions = [
+      "s3:PutObject",
       "s3:GetBucketVersioning"
     ]
-    resources = [var.s3_bucket_arn]
+    resources = [
+      "${var.s3_bucket_arn}/*",
+      "arn:${data.aws_partition.current.partition}:s3:::${var.state.bucket}/*"
+    ]
   }
-
 
   statement {
     effect = "Allow"
