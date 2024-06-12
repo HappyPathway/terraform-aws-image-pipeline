@@ -98,7 +98,7 @@ data "aws_iam_policy_document" "codepipeline_policy" {
       "ec2:ImportKeyPair"
     ]
     resources = [
-      "arn:${data.aws_partition.current.partition}:key-pair:${data.aws_region.current.id}:${data.aws_caller_identity.current.account_id}/${var.project_name}-${var.environment}-deployer-key"
+      "arn:${data.aws_partition.current.partition}:ec2:${data.aws_region.current.id}:${data.aws_caller_identity.current.account_id}:key-pair/${var.project_name}-${var.environment}-deployer-key"
     ]
   }
   statement {
