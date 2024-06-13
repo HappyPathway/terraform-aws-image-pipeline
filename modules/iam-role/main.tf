@@ -184,7 +184,7 @@ data "aws_iam_policy_document" "codepipeline_policy" {
       "ec2:DescribeInstances",
       "ec2:DescribeInstanceStatus",
       "ec2:DescribeInstanceTypes",
-      "ec2:DescribeInstaneAttribute",
+      "ec2:DescribeInstanceAttribute",
       "ec2:DescribeKeyPairs",
       "ec2:DescribeRegions",
       "ec2:DescribeSecurityGroups",
