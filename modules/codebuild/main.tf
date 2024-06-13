@@ -107,7 +107,7 @@ resource "aws_codebuild_project" "terraform_codebuild_project" {
       merge(
         each.value.vars,
         {
-          state = var.state
+          state = merge(var.state, { bucket = var.s3_bucket_name })
         }
     ))
   }
