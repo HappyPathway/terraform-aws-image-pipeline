@@ -21,3 +21,9 @@ resource "aws_ssm_parameter" "vpc_id" {
   type  = "String"
   value = var.vpc_config.vpc_id
 }
+
+resource "aws_ssm_parameter" "ssh_user" {
+  name  = "/image-pipeline/${var.environment}/${var.project_name}/ssh_user"
+  type  = "String"
+  value = var.ssh_user
+}

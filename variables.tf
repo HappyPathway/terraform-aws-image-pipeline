@@ -211,3 +211,9 @@ variable "state" {
     region = string
   })
 }
+
+variable "ssh_user" {
+  type        = string
+  description = "SSH username"
+  default     = "ec2-user"
+}
