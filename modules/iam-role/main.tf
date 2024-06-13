@@ -140,15 +140,16 @@ data "aws_iam_policy_document" "codepipeline_policy" {
     ]
   }
 
-  statement {
-    effect = "Allow"
-    actions = [
-      "dynamodb:*",
-    ]
-    resources = [
-      "arn:${data.aws_partition.current.partition}:dynamodb:${data.aws_region.current.id}:${data.aws_caller_identity.current.account_id}:table/${var.state.dynamodb_table}"
-    ]
-  }
+  # statement {
+  #   effect = "Allow"
+  #   actions = [
+  #     "dynamodb:*",
+  #   ]
+  #   resources = [
+  #     "arn:${data.aws_partition.current.partition}:dynamodb:${data.aws_region.current.id}:${data.aws_caller_identity.current.account_id}:table/${var.state.dynamodb_table}"
+  #   ]
+  # }
+
   statement {
     effect = "Allow"
     actions = [
