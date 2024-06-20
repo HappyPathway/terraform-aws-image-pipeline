@@ -206,9 +206,10 @@ variable "terraform_version" {
 
 variable "state" {
   type = object({
-    bucket = string
-    key    = string
-    region = string
+    bucket         = string
+    key            = string
+    region         = string
+    dynamodb_table = string
   })
 }
 
