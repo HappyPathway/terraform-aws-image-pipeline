@@ -30,7 +30,7 @@ phases:
             - export AWS_SESSION_TOKEN=`jq -r '.Token' aws_credentials.json`
             - echo "Applying Terraform configuration template"
             - cd $${CODEBUILD_SRC_DIR_SourceGossOutput}
-            - /bin/terraform init -upgrade -backend-config="key=${state.key}" -backend-config="region=${state.region}" -backend-config="bucket=${state.bucket}" -backend-config="encrypt=true"
+            - /bin/terraform init # -upgrade -backend-config="key=${state.key}" -backend-config="region=${state.region}" -backend-config="bucket=${state.bucket}" -backend-config="encrypt=true"
             - TF_LOG=debug /bin/terraform apply -var project_name=${project_name} -var environment=${environment} -auto-approve
     post_build:
         commands:
