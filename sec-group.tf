@@ -29,7 +29,9 @@ resource "aws_vpc_security_group_ingress_rule" "allow_all_ssh_ipv4" {
   count             = var.vpc_config == null ? 0 : 1
   security_group_id = one(aws_security_group.packer).id
   cidr_ipv4         = "0.0.0.0/0"
-  ip_protocol       = "22"
+  ip_protocol       = "-1"
+  from_port         = 22
+  to_port           = 22
 }
 
 resource "aws_vpc_security_group_egress_rule" "allow_all_traffic_ipv6" {
