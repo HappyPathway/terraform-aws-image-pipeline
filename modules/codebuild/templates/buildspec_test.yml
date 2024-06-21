@@ -37,7 +37,7 @@ phases:
     post_build:
         commands:
             - cd $${CODEBUILD_SRC_DIR_SourceGossOutput}
-            - terraform destroy -var project_name=${project_name} -var environment=${environment} -auto-approve
+            - terraform destroy -var project_name=${project_name} -var environment=${environment} -var goss_directory=$${CODEBUILD_SRC_DIR_SourceGossOutput}  -auto-approve
 artifacts:
     files:
         - '**/*'
