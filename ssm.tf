@@ -27,3 +27,10 @@ resource "aws_ssm_parameter" "ssh_user" {
   type  = "String"
   value = var.ssh_user
 }
+
+
+resource "aws_ssm_parameter" "goss_profile" {
+  name  = "/image-pipeline/${var.environment}/${var.project_name}/goss_profile"
+  type  = "String"
+  value = var.goss_profile
+}

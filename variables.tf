@@ -218,3 +218,9 @@ variable "ssh_user" {
   description = "SSH username"
   default     = "ec2-user"
 }
+
+variable "goss_profile" {
+  type        = string
+  description = "GOSS Profile to be used for testing"
+  default     = "goss"
+}
