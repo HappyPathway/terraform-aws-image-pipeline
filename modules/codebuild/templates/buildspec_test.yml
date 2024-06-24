@@ -38,6 +38,7 @@ phases:
         commands:
             - cd $${CODEBUILD_SRC_DIR_SourceGossOutput}
             - terraform destroy -var project_name=${project_name} -var environment=${environment} -var goss_directory=$${CODEBUILD_SRC_DIR_SourceGossOutput}  -auto-approve
+            - test -s tf_ami_id.txt || aws ec2 deregister-image --image-id `cat tf_ami_id.txt` --region $AWS_REGION
 artifacts:
     files:
         - '**/*'
