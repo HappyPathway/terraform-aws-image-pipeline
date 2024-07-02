@@ -224,3 +224,13 @@ variable "goss_profile" {
   description = "GOSS Profile to be used for testing"
   default     = "goss"
 }
+
+variable "extra_parameters" {
+  type    = map(string)
+  default = {}
+}
+
+variable "secrets" {
+  type      = map(string)
+  sensitive = true
+}
