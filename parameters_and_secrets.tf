@@ -1,6 +1,6 @@
 
 locals {
-  parameters = merge({
+  parameters = tomap(merge({
     region             = local.vpc_config.region,
     subnets            = join(",", local.vpc_config.subnets),
     security_group_ids = join(",", local.vpc_config.security_group_ids),
@@ -14,11 +14,11 @@ locals {
     playbook = var.playbook
     }, var.userdata == null ? {} : {
     userdata = var.userdata
-  })
-  secrets = merge(
+  }))
+  secrets = tomap(merge(
     var.winrm_credentials == null ? {} : { winrm_credentials = var.winrm_credentials },
     var.secrets
-  )
+  ))
 }
 
 resource "aws_ssm_parameter" "parameters" {
