@@ -247,7 +247,7 @@ variable "source_ami" {
   type = string
 }
 
-variable "version" {
+variable "image_version" {
   type = string
 }
 
