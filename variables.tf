@@ -248,10 +248,6 @@ variable "source_ami" {
   type = string
 }
 
-variable "image_version" {
-  type = string
-}
-
 variable "shared_accounts" {
   type    = list(string)
   default = []
