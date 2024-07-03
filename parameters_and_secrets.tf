@@ -7,7 +7,7 @@ locals {
     vpc_id             = local.vpc_config.vpc_id,
     source_ami         = var.source_ami,
     ami_name           = "${var.project_name}-${var.image_version}",
-    shared_accounts    = var.shared_accounts,
+    shared_accounts    = join(",", var.shared_accounts),
     project_name       = var.project_name,
     instance_type      = var.instance_type
     }, var.playbook == null ? {} : {
