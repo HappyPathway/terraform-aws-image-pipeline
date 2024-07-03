@@ -253,7 +253,8 @@ variable "image_version" {
 }
 
 variable "shared_accounts" {
-  type = list(string)
+  type    = list(string)
+  default = []
 }
 
 variable "instance_type" {
@@ -261,9 +262,11 @@ variable "instance_type" {
 }
 
 variable "playbook" {
-  type = string
+  type    = string
+  default = null
 }
 
 variable "userdata" {
-  type = string
+  type    = string
+  default = null
 }

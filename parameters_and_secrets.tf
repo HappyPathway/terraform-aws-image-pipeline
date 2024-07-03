@@ -1,6 +1,6 @@
 
 locals {
-  parameters = {
+  parameters = merge({
     region             = local.vpc_config.region,
     subnets            = join(",", local.vpc_config.subnets),
     security_group_ids = join(",", local.vpc_config.security_group_ids),
@@ -9,10 +9,12 @@ locals {
     ami_name           = "${var.project_name}-${var.image_version}",
     shared_accounts    = var.shared_accounts,
     project_name       = var.project_name,
-    instance_type      = var.instance_type,
-    playbook           = var.playbook,
-    userdata           = var.userdata,
-  }
+    instance_type      = var.instance_type
+    }, var.playbook == null ? {} : {
+    playbook = var.playbook
+    }, var.userdata == null ? {} : {
+    userdata = var.userdata
+  })
   secrets = merge(
     var.winrm_credentials == null ? {} : { winrm_credentials = var.winrm_credentials },
     var.secrets
