@@ -1,53 +1,38 @@
-resource "aws_ssm_parameter" "security_group_id" {
-  name  = "/image-pipeline/${var.project_name}/security_group_ids"
-  type  = "StringList"
-  value = join(",", local.vpc_config.security_group_ids)
+
+locals {
+  parameters = {
+    region             = local.vpc_config.region,
+    subnets            = join(",", local.vpc_config.subnets),
+    security_group_ids = join(",", local.vpc_config.security_group_ids),
+    vpc_id             = local.vpc_config.vpc_id,
+    source_ami         = var.source_ami,
+    ami_name           = "${var.project_name}-${var.version}",
+    shared_accounts    = var.shared_accounts,
+    project_name       = var.project_name,
+    instance_type      = var.instance_type,
+    playbook           = var.playbook,
+    userdata           = var.userdata,
+  }
+  secrets = merge(
+    var.winrm_credentials == null ? {} : { winrm_credentials = var.winrm_credentials },
+    var.secrets
+  )
 }
 
-resource "aws_ssm_parameter" "region" {
-  name  = "/image-pipeline/${var.project_name}/region"
-  type  = "String"
-  value = local.vpc_config.region
-}
-
-resource "aws_ssm_parameter" "subnets" {
-  name  = "/image-pipeline/${var.project_name}/subnets"
-  type  = "StringList"
-  value = join(",", local.vpc_config.subnets)
-}
-
-resource "aws_ssm_parameter" "vpc_id" {
-  name  = "/image-pipeline/${var.project_name}/vpc_id"
-  type  = "String"
-  value = local.vpc_config.vpc_id
-}
-
-resource "aws_ssm_parameter" "ssh_user" {
-  name  = "/image-pipeline/${var.project_name}/ssh_user"
-  type  = "String"
-  value = var.ssh_user
-}
-
-resource "aws_ssm_parameter" "goss_profile" {
-  name  = "/image-pipeline/${var.project_name}/goss_profile"
-  type  = "String"
-  value = var.goss_profile
-}
-
-resource "aws_ssm_parameter" "extra_parameters" {
-  for_each = var.extra_parameters
+resource "aws_ssm_parameter" "parameters" {
+  for_each = tomap(merge(local.parameters, var.extra_parameters))
   name     = "/image-pipeline/${var.project_name}/${each.key}"
-  type     = "String"
+  type     = "StringList"
   value    = each.value
 }
 
 resource "aws_secretsmanager_secret" "secrets" {
-  for_each = var.secrets
+  for_each = tomap(local.secrets)
   name     = "/image-pipeline/${var.project_name}/${each.key}"
 }
 
 resource "aws_secretsmanager_secret_version" "secrets" {
-  for_each      = var.secrets
+  for_each      = tomap(local.secrets)
   secret_id     = lookup(aws_secretsmanager_secret.secrets, each.key).id
   secret_string = each.value
 }

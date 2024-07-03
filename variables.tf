@@ -234,3 +234,35 @@ variable "secrets" {
   type      = map(string)
   sensitive = true
 }
+
+variable "winrm_credentials" {
+  type = object({
+    username = string
+    password = string
+  })
+  default = null
+}
+
+variable "source_ami" {
+  type = string
+}
+
+variable "version" {
+  type = string
+}
+
+variable "shared_accounts" {
+  type = list(string)
+}
+
+variable "instance_type" {
+  type = string
+}
+
+variable "playbook" {
+  type = string
+}
+
+variable "userdata" {
+  type = string
+}
