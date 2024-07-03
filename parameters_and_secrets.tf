@@ -9,7 +9,8 @@ locals {
     ami_name           = var.project_name
     shared_accounts    = join(",", var.shared_accounts),
     project_name       = var.project_name,
-    instance_type      = var.instance_type
+    instance_type      = var.instance_type,
+    goss_profile       = var.goss_profile,
     }, var.playbook == null ? {} : {
     playbook = var.playbook
     }, var.userdata == null ? {} : {
