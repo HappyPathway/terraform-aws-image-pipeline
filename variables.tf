@@ -233,6 +233,7 @@ variable "extra_parameters" {
 variable "secrets" {
   type      = map(string)
   sensitive = true
+  default   = {}
 }
 
 variable "winrm_credentials" {
