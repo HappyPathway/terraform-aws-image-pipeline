@@ -19,6 +19,7 @@ locals {
     var.winrm_credentials == null ? {} : { winrm_credentials = var.winrm_credentials },
     var.secrets
   ))
+  secret_keys = issensitive(keys(local.secrets)) ? nonsensitive(keys(local.secrets)) : keys(local.secrets)
 }
 
 resource "aws_ssm_parameter" "parameters" {
@@ -29,12 +30,12 @@ resource "aws_ssm_parameter" "parameters" {
 }
 
 resource "aws_secretsmanager_secret" "secrets" {
-  for_each = tomap(local.secrets)
+  for_each = toset(local.secret_keys)
   name     = "/image-pipeline/${var.project_name}/${each.key}"
 }
 
 resource "aws_secretsmanager_secret_version" "secrets" {
-  for_each      = tomap(local.secrets)
+  for_each      = toset(local.secret_keys)
   secret_id     = lookup(aws_secretsmanager_secret.secrets, each.key).id
-  secret_string = each.value
+  secret_string = lookup(local.secrets, each.key)
 }
