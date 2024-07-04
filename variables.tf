@@ -216,7 +216,7 @@ variable "state" {
 variable "ssh_user" {
   type        = string
   description = "SSH username"
-  default     = "ec2-user"
+  default     = null
 }
 
 variable "goss_profile" {

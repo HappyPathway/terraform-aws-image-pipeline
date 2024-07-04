@@ -10,13 +10,14 @@ locals {
     project_name       = var.project_name,
     instance_type      = var.instance_type,
     goss_profile       = var.goss_profile,
-    ssh_user           = var.ssh_user,
     }, var.playbook == null ? {} : {
     playbook = var.playbook
     }, var.userdata == null ? {} : {
     userdata = var.userdata
     }, var.shared_accounts == null ? {} : {
     shared_accounts = join(",", var.shared_accounts),
+    }, var.ssh_user == null ? {} : {
+    ssh_user = var.ssh_user
     }
   ))
   all_parameters = merge(
