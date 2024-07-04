@@ -42,10 +42,6 @@ variable "source_repo_branch" {
 #   type        = string
 # }
 
-variable "environment" {
-  description = "Environment in which the script is run. Eg: dev, prod, etc"
-  type        = string
-}
 
 variable "stage_input" {
   description = "Tags to be attached to the CodePipeline"

@@ -32,12 +32,12 @@ phases:
             - cd $${CODEBUILD_SRC_DIR_SourceGossOutput}
             
             - /bin/terraform init -upgrade -backend-config="key=${state.key}" -backend-config="region=${state.region}" -backend-config="bucket=${state.bucket}" -backend-config="dynamodb_table=${state.dynamodb_table}" -backend-config="encrypt=true"
-            - /bin/terraform apply -var project_name=${project_name} -var environment=${environment} -var goss_directory=$${CODEBUILD_SRC_DIR_SourceGossOutput} -auto-approve
+            - /bin/terraform apply -var project_name=${project_name} -var goss_directory=$${CODEBUILD_SRC_DIR_SourceGossOutput} -auto-approve
 
     post_build:
         commands:
             - cd $${CODEBUILD_SRC_DIR_SourceGossOutput}
-            - terraform destroy -var project_name=${project_name} -var environment=${environment} -var goss_directory=$${CODEBUILD_SRC_DIR_SourceGossOutput}  -auto-approve
+            - terraform destroy -var project_name=${project_name} -var goss_directory=$${CODEBUILD_SRC_DIR_SourceGossOutput}  -auto-approve
             - test -f tf_ami_id.txt && aws ec2 deregister-image --image-id `cat tf_ami_id.txt` --region $AWS_REGION || echo "Tests passed, no AMI to deregister"
 artifacts:
     files:

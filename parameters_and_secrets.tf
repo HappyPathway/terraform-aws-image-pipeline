@@ -6,8 +6,7 @@ locals {
     security_group_ids = join(",", local.vpc_config.security_group_ids),
     vpc_id             = local.vpc_config.vpc_id,
     source_ami         = var.source_ami,
-    ami_name           = var.project_name
-    project_name       = var.project_name,
+    ami_name           = var.project_name,
     instance_type      = var.instance_type,
     goss_profile       = var.goss_profile,
     playbook           = var.playbook,
@@ -18,7 +17,8 @@ locals {
     }, var.shared_accounts == null ? {} : {
     shared_accounts = join(",", var.shared_accounts),
     }, var.ssh_user == null ? {} : {
-    ssh_user = var.ssh_user
+    ssh_user = var.ssh_user,
+    keyname  = "${var.project_name}-deployer-key"
     }
   ))
   all_parameters = merge(

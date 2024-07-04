@@ -1,9 +1,8 @@
 resource "aws_iam_user" "build_user" {
   name = var.project_name
-  path = "/tf-pipeline/${var.environment}/"
+  path = "/tf-pipeline/"
   tags = {
     Project_Name = var.project_name
-    Environment  = var.environment
     Account_ID   = local.account_id
     Region       = local.region
   }

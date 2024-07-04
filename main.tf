@@ -24,7 +24,6 @@ module "s3_artifacts_bucket" {
   codepipeline_role_arn = module.codepipeline_iam_role.role_arn
   tags = {
     Project_Name = var.project_name
-    Environment  = var.environment
     Account_ID   = local.account_id
     Region       = local.region
   }
@@ -43,7 +42,6 @@ module "codecommit_infrastructure_source_repo" {
   kms_key_arn              = module.codepipeline_kms.arn
   tags = {
     Project_Name = var.project_name
-    Environment  = var.environment
     Account_ID   = local.account_id
     Region       = local.region
   }
@@ -56,7 +54,6 @@ module "codepipeline_kms" {
   codepipeline_role_arn = module.codepipeline_iam_role.role_arn
   tags = {
     Project_Name = var.project_name
-    Environment  = var.environment
     Account_ID   = local.account_id
     Region       = local.region
   }
@@ -70,7 +67,6 @@ module "codebuild_terraform" {
   source = "./modules/codebuild"
 
   project_name                        = var.project_name
-  environment                         = var.environment
   role_arn                            = module.codepipeline_iam_role.role_arn
   s3_bucket_name                      = module.s3_artifacts_bucket.bucket
   build_projects                      = var.build_projects
@@ -102,7 +98,6 @@ module "codebuild_terraform" {
 
   tags = {
     Project_Name = var.project_name
-    Environment  = var.environment
     Account_ID   = local.account_id
     Region       = local.region
   }
@@ -111,7 +106,6 @@ module "codebuild_terraform" {
 module "codepipeline_iam_role" {
   source                     = "./modules/iam-role"
   project_name               = var.project_name
-  environment                = var.environment
   create_new_role            = var.create_new_role
   codepipeline_iam_role_name = var.create_new_role == true ? "${var.project_name}-codepipeline-role" : var.codepipeline_iam_role_name
   source_repository_name     = var.source_repo_name
@@ -124,7 +118,6 @@ module "codepipeline_iam_role" {
   state                      = var.state
   tags = {
     Project_Name = var.project_name
-    Environment  = var.environment
     Account_ID   = local.account_id
     Region       = local.region
   }
@@ -150,7 +143,6 @@ module "codepipeline_terraform" {
   kms_key_arn           = module.codepipeline_kms.arn
   tags = {
     Project_Name = var.project_name
-    Environment  = var.environment
     Account_ID   = local.account_id
     Region       = local.region
   }

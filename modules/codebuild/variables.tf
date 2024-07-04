@@ -117,12 +117,6 @@ variable "vpc_config" {
   })
 }
 
-variable "environment" {
-  type        = string
-  description = "environment to deploy the codebuild project"
-}
-
-
 variable "state" {
   type = object({
     bucket         = string

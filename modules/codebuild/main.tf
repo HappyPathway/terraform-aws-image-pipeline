@@ -37,8 +37,7 @@ locals {
         packer_version  = var.packer_version,
         mitogen_version = var.mitogen_version,
         packer_config   = var.packer_config,
-        project_name    = var.project_name,
-        environment     = var.environment,
+        project_name    = var.project_name
       }, project.vars),
       environment_variables = concat(var.environment_variables, project.environment_variables),
       buildspec             = lookup(local.buildspecs, project.name)
@@ -46,7 +45,6 @@ locals {
       } : (project.name) == "test" ? {
       vars = merge({
         project_name      = var.project_name,
-        environment       = var.environment,
         terraform_version = var.terraform_version
       }, project.vars)
       environment_variables = concat(var.environment_variables, project.environment_variables),
