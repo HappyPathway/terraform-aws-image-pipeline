@@ -7,7 +7,6 @@ locals {
     vpc_id             = local.vpc_config.vpc_id,
     source_ami         = var.source_ami,
     ami_name           = var.project_name
-    shared_accounts    = join(",", var.shared_accounts),
     project_name       = var.project_name,
     instance_type      = var.instance_type,
     goss_profile       = var.goss_profile,
@@ -15,7 +14,10 @@ locals {
     playbook = var.playbook
     }, var.userdata == null ? {} : {
     userdata = var.userdata
-  }))
+    }, var.shared_accounts == null ? {} : {
+    shared_accounts = join(",", var.shared_accounts),
+    }
+  ))
   all_parameters = merge(
     local.parameters,
     var.extra_parameters

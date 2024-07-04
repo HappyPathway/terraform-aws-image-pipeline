@@ -250,7 +250,7 @@ variable "source_ami" {
 
 variable "shared_accounts" {
   type    = list(string)
-  default = []
+  default = null
 }
 
 variable "instance_type" {
