@@ -10,6 +10,7 @@ locals {
     project_name       = var.project_name,
     instance_type      = var.instance_type,
     goss_profile       = var.goss_profile,
+    ssh_user           = var.ssh_user,
     }, var.playbook == null ? {} : {
     playbook = var.playbook
     }, var.userdata == null ? {} : {
