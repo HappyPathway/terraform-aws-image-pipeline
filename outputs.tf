@@ -66,3 +66,11 @@ output "build_user" {
 output "sec_group" {
   value = aws_security_group.packer
 }
+
+output "parameters" {
+  value = aws_ssm_parameter.parameters
+}
+
+output "secrets" {
+  value = aws_secretsmanager_secret.secrets
+}
