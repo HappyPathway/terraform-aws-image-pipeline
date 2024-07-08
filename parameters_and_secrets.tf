@@ -36,7 +36,7 @@ locals {
   ssm_parameters = merge(
     { for key, value in local.all_parameters : key => contains(["", null], value) ? "notset" : value },
     { parameters = join(",", local.parameters_keys) },
-    { secrets = join(",", local.secret_keys) }
+    length(local.secret_keys) > 0 ? { secrets = join(",", local.secret_keys) } : {}
   )
 }
 
