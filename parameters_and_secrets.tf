@@ -35,7 +35,7 @@ locals {
 }
 
 resource "aws_ssm_parameter" "parameters" {
-  for_each = tomap(local.all_parameters)
+  for_each = tomap({ for key, value in local.all_parameters : key => contains(["", null], value) ? "notset" : value })
   name     = "/image-pipeline/${var.project_name}/${each.key}"
   type     = "StringList"
   value    = each.value

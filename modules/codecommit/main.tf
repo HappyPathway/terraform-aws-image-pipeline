@@ -11,6 +11,7 @@ resource "aws_codecommit_repository" "source_repository" {
   description     = "Code Repository for hosting the terraform code and pipeline configuration files"
   tags            = var.tags
 }
+
 resource "aws_codecommit_approval_rule_template" "source_repository_approval" {
   count       = var.create_new_repo ? 1 : 0
   name        = "${var.source_repository_name}-${var.source_repository_branch}-Rule"
