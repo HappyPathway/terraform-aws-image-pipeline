@@ -15,7 +15,7 @@ locals {
     }, var.userdata == null ? {} : {
     userdata = var.userdata
     }, var.shared_accounts == null ? {
-    shared_accounts = null
+    shared_accounts = ""
     } : {
     shared_accounts = join(",", var.shared_accounts),
     }, var.ssh_user == null ? {} : {
