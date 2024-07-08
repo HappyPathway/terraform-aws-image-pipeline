@@ -27,15 +27,21 @@ locals {
     local.parameters,
     var.extra_parameters
   )
+  parameters_keys = issensitive(keys(local.parameters)) ? nonsensitive(keys(local.parameters)) : keys(local.parameters)
   secrets = tomap(merge(
     var.winrm_credentials == null ? {} : { winrm_credentials = var.winrm_credentials },
     var.secrets
   ))
   secret_keys = issensitive(keys(local.secrets)) ? nonsensitive(keys(local.secrets)) : keys(local.secrets)
+  ssm_parameters = merge(
+    { for key, value in local.all_parameters : key => contains(["", null], value) ? "notset" : value },
+    { parameters = join(",", local.parameters_keys) },
+    { secrets = join(",", local.secret_keys) }
+  )
 }
 
 resource "aws_ssm_parameter" "parameters" {
-  for_each = tomap({ for key, value in local.all_parameters : key => contains(["", null], value) ? "notset" : value })
+  for_each = tomap(local.ssm_parameters)
   name     = "/image-pipeline/${var.project_name}/${each.key}"
   type     = "StringList"
   value    = each.value
