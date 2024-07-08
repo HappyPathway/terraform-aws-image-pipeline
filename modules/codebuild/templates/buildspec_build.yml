@@ -11,9 +11,7 @@ phases:
         commands:
             - stat $${CODEBUILD_SRC_DIR_SourceAnsibleOutput}/init.sh && bash $${CODEBUILD_SRC_DIR_SourceAnsibleOutput}/init.sh $${CODEBUILD_SRC_DIR_SourceAnsibleOutput} || echo "No init.sh script found"
             - apt-get install -y jq curl unzip
-            - curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
-            - python3 get-pip.py
-            - python3 -m pip install ansible
+            - amazon-linux-extras install ansible2
             - curl -s -qL -o packer.zip https://releases.hashicorp.com/packer/${packer_version}/packer_${packer_version}_linux_amd64.zip
             - unzip -o packer.zip
             - mv packer /bin
