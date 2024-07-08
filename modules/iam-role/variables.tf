@@ -50,7 +50,7 @@ variable "ansible_repo" {
   type = object({
     clone_url_http = string,
     arn            = string,
-    name           = optional(string, "image-pipeline-ansible-roles")
+    name           = optional(string, "image-pipeline-ansible-playbooks")
     branch         = optional(string, "main")
   })
   description = "Source of Ansible Repo"
@@ -61,7 +61,7 @@ variable "goss_repo" {
   type = object({
     clone_url_http = string,
     arn            = string,
-    name           = optional(string, "image-pipeline-ansible-roles")
+    name           = optional(string, "image-pipeline-ansible-playbooks")
     branch         = optional(string, "main")
   })
   description = "Source of Ansible Repo"
