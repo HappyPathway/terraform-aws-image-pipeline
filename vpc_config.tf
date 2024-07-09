@@ -1,5 +1,5 @@
 resource "aws_vpc_endpoint" "endpoint" {
-  for_each = var.vpc_config == null && var.create_vpc_endpoint ? toset([]) : toset([
+  for_each = var.vpc_config == null || !var.create_vpc_endpoint ? toset([]) : toset([
     "codecommit",
     "git-codecommit",
     "s3"
