@@ -12,7 +12,9 @@ locals {
     playbook           = var.playbook,
     }, var.playbook == null ? {} : {
     playbook = var.playbook
-    }, var.userdata == null ? {} : {
+    }, var.userdata == null ? {
+    userdata = ""
+    } : {
     userdata = var.userdata
     }, var.shared_accounts == null ? {
     shared_accounts = ""
