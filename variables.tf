@@ -262,3 +262,8 @@ variable "userdata" {
   type    = string
   default = null
 }
+
+variable "create_vpc_endpoint" {
+  type    = bool
+  default = false
+}
