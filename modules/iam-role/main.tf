@@ -72,6 +72,15 @@ data "aws_iam_policy_document" "codepipeline_policy" {
   statement {
     effect = "Allow"
     actions = [
+      "secretsmanager:*"
+    ]
+    resources = [
+      "arn:${data.aws_partition.current.partition}:secretsmanager:${data.aws_region.current.id}:${data.aws_caller_identity.current.account_id}:secret/image-pipeline/${var.project_name}/*"
+    ]
+  }
+  statement {
+    effect = "Allow"
+    actions = [
       "kms:DescribeKey",
       "kms:GenerateDataKey*",
       "kms:Encrypt",
