@@ -57,5 +57,5 @@ resource "aws_secretsmanager_secret" "secrets" {
 resource "aws_secretsmanager_secret_version" "secrets" {
   for_each      = toset(local.secret_keys)
   secret_id     = lookup(aws_secretsmanager_secret.secrets, each.key).id
-  secret_string = lookup(local.secrets, each.key)
+  secret_string = jsonecode(lookup(local.secrets, each.key))
 }
