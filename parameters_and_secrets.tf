@@ -36,7 +36,10 @@ locals {
   )
 
   # Extract keys from the parameters map, handling sensitive keys appropriately.
-  parameters_keys = issensitive(keys(local.parameters)) ? nonsensitive(keys(local.parameters)) : keys(local.parameters)
+  parameters_keys = concat(
+    issensitive(keys(local.parameters)) ? nonsensitive(keys(local.parameters)) : keys(local.parameters),
+    length(local.secret_keys) > 0 ? ["secrets"] : [] # Include secret keys if there's any secrets.
+  )
 
   # Define a map of secrets, such as WinRM credentials and other sensitive information.
   secrets = tomap(merge(
@@ -51,7 +54,7 @@ locals {
   # Replace empty or null values with "notset" and compile lists of parameter and secret keys.
   ssm_parameters = merge(
     { for key, value in local.all_parameters : key => contains(["", null], value) ? "notset" : value }, # Replace empty/null values with "notset".
-    { parameters = join(",", local.parameters_keys) },                                                  # Compile a comma-separated list of parameter keys.
+    length(local.parameters_keys) > 0 ? { parameters = join(",", local.parameters_keys) } : {},         # Compile a comma-separated list of parameter keys.
     length(local.secret_keys) > 0 ? { secrets = join(",", local.secret_keys) } : {}                     # Compile a comma-separated list of secret keys if any.
   )
 }
