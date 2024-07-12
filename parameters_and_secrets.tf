@@ -32,16 +32,14 @@ locals {
   parameters_keys = issensitive(keys(local.parameters)) ? nonsensitive(keys(local.parameters)) : keys(local.parameters)
   secrets = tomap(merge(
     var.winrm_credentials == null ? {} : { winrm_credentials = var.winrm_credentials },
-    var.secrets,
-    { private_key = tls_private_key.ssh.private_key_pem }
+    var.secrets
   ))
   secret_keys = issensitive(keys(local.secrets)) ? nonsensitive(keys(local.secrets)) : keys(local.secrets)
   ssm_parameters = merge(
     { for key, value in local.all_parameters : key => contains(["", null], value) ? "notset" : value },
     { parameters = join(",", local.parameters_keys) },
     length(local.secret_keys) > 0 ? { secrets = join(",", local.secret_keys) } : {},
-    { keypair = aws_key_pair.deployer.key_name },
-    { public_key = tls_private_key.ssh.public_key_openssh }
+    { keypair = aws_key_pair.deployer.key_name }
   )
 }
 
