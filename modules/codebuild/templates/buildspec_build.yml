@@ -13,7 +13,7 @@ phases:
             - apt-get install -y jq curl unzip
             - curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
             - python3 get-pip.py --user
-            - python3 -m pip install --user ansible
+            - python3 -m pip install --user ansible pywinrm
             - stat $(python -m site --user-base)/bin/ansible-playbook || exit 1
             - curl -s -qL -o packer.zip https://releases.hashicorp.com/packer/${packer_version}/packer_${packer_version}_linux_amd64.zip
             - unzip -o packer.zip
