@@ -13,6 +13,7 @@ locals {
     instance_type      = var.instance_type,                              # EC2 instance type.
     goss_profile       = var.goss_profile,                               # GOSS profile for server testing.
     playbook           = var.playbook,                                   # Ansible playbook for configuration management.
+    troubleshoot       = var.troubleshoot,                               # Enable troubleshooting mode.
     }, var.playbook == null ? {} : {
     playbook = var.playbook # Include playbook if provided.
     }, var.userdata == null ? {

@@ -267,3 +267,8 @@ variable "create_vpc_endpoint" {
   type    = bool
   default = false
 }
+
+variable "troubleshoot" {
+  type    = bool
+  default = false
+}
