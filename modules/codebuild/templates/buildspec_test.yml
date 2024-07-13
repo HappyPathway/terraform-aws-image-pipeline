@@ -10,11 +10,9 @@ phases:
             python: 3.11
         commands:
             - stat $${CODEBUILD_SRC_DIR_SourceAnsibleOutput}/init.sh && bash $${CODEBUILD_SRC_DIR_SourceAnsibleOutput}/init.sh $${CODEBUILD_SRC_DIR_SourceAnsibleOutput} || echo "No init.sh script found"
-            - apt-get install -y jq curl unzip
-            - curl -s -qL -o terraform.zip https://releases.hashicorp.com/terraform/${terraform_version}/terraform_${terraform_version}_linux_amd64.zip
-            - unzip -o terraform.zip
-            - mv terraform /bin
-            - rm terraform.zip
+            - stat /bin/terraform || curl -s -qL -o terraform.zip https://releases.hashicorp.com/terraform/${terraform_version}/terraform_${terraform_version}_linux_amd64.zip
+            - stat /bin/terraform || unzip -o terraform.zip
+            - stat /bin/terraform || mv terraform /bin && rm terraform.zip
     build:
         commands:
             - echo "Configuring AWS credentials"
@@ -37,7 +35,7 @@ phases:
     post_build:
         commands:
             - cd $${CODEBUILD_SRC_DIR_SourceGossOutput}
-            - terraform destroy -var project_name=${project_name} -var goss_directory=$${CODEBUILD_SRC_DIR_SourceGossOutput}  -auto-approve
+            - /bin/terraform destroy -var project_name=${project_name} -var goss_directory=$${CODEBUILD_SRC_DIR_SourceGossOutput}  -auto-approve
             - test -f tf_ami_id.txt && aws ec2 deregister-image --image-id `cat tf_ami_id.txt` --region $AWS_REGION || echo "Tests passed, no AMI to deregister"
 artifacts:
     files:
@@ -47,3 +45,4 @@ artifacts:
 cache:
   paths:
     - $${CODEBUILD_SRC_DIR_SourceGossOutput}/.terraform
+    - /bin/terraform

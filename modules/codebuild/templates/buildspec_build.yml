@@ -10,15 +10,14 @@ phases:
             python: 3.11
         commands:
             - stat $${CODEBUILD_SRC_DIR_SourceAnsibleOutput}/init.sh && bash $${CODEBUILD_SRC_DIR_SourceAnsibleOutput}/init.sh $${CODEBUILD_SRC_DIR_SourceAnsibleOutput} || echo "No init.sh script found"
-            - apt-get install -y jq curl unzip
-            - curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
-            - python3 get-pip.py --user
-            - python3 -m pip install --user ansible pywinrm
+            - which pip3 || curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+            - which pip3 || python3 get-pip.py --user
+            - stat $(python -m site --user-base)/bin/ansible-playbook || python3 -m pip install --user ansible pywinrm
             - stat $(python -m site --user-base)/bin/ansible-playbook || exit 1
-            - curl -s -qL -o packer.zip https://releases.hashicorp.com/packer/${packer_version}/packer_${packer_version}_linux_amd64.zip
-            - unzip -o packer.zip
-            - mv packer /bin
-            - rm packer.zip
+            - stat /bin/packer || curl -s -qL -o packer.zip https://releases.hashicorp.com/packer/${packer_version}/packer_${packer_version}_linux_amd64.zip
+            - stat /bin/packer || unzip -o packer.zip
+            - stat /bin/packer || mv packer /bin && rm packer.zip
+
     build:
         commands:
             - echo "Configuring AWS credentials"
@@ -49,3 +48,5 @@ cache:
   paths:
     - '/root/.config/**/*'
     - '/root/.local/**/*'
+    - '/root/.pyenv/**/*'
+    - '/bin/packer'
