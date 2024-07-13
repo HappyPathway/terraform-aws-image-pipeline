@@ -29,7 +29,7 @@ phases:
             - echo "Applying Terraform configuration template"
             - cd $${CODEBUILD_SRC_DIR_SourceGossOutput}
             
-            - /bin/terraform init -upgrade -backend-config="key=${state.key}" -backend-config="region=${state.region}" -backend-config="bucket=${state.bucket}" -backend-config="dynamodb_table=${state.dynamodb_table}" -backend-config="encrypt=true"
+            - /bin/terraform init -backend-config="key=${state.key}" -backend-config="region=${state.region}" -backend-config="bucket=${state.bucket}" -backend-config="dynamodb_table=${state.dynamodb_table}" -backend-config="encrypt=true"
             - /bin/terraform apply -var project_name=${project_name} -var goss_directory=$${CODEBUILD_SRC_DIR_SourceGossOutput} -auto-approve
 
     post_build:
