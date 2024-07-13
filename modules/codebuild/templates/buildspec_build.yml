@@ -16,7 +16,7 @@ phases:
             - stat $(python -m site --user-base)/bin/ansible-playbook || exit 1
             - stat /bin/packer || curl -s -qL -o packer.zip https://releases.hashicorp.com/packer/${packer_version}/packer_${packer_version}_linux_amd64.zip
             - stat /bin/packer || unzip -o packer.zip
-            - stat /bin/packer || mv packer /bin && rm packer.zip
+            - stat /bin/packer || $(mv packer /bin && rm packer.zip)
 
     build:
         commands:
