@@ -42,3 +42,8 @@ phases:
 artifacts:
     files:
         - '**/*'
+
+
+cache:
+  paths:
+    - $${CODEBUILD_SRC_DIR_SourceGossOutput}/.terraform

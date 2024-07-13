@@ -44,3 +44,8 @@ phases:
 artifacts:
     files:
         - '**/*'
+
+cache:
+  paths:
+    - '/root/.config/**/*'
+    - '/root/.local/**/*'
