@@ -38,7 +38,7 @@ locals {
 
   # Extract keys from the parameters map, handling sensitive keys appropriately.
   parameters_keys = concat(
-    issensitive(keys(local.parameters)) ? nonsensitive(keys(local.parameters)) : keys(local.parameters),
+    issensitive(keys(local.all_parameters)) ? nonsensitive(keys(local.all_parameters)) : keys(local.all_parameters),
     length(local.secret_keys) > 0 ? ["secrets"] : [] # Include secret keys if there's any secrets.
   )
 
