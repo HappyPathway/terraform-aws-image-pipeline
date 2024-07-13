@@ -48,5 +48,4 @@ cache:
   paths:
     - '/root/.config/**/*'
     - '/root/.local/**/*'
-    - '/root/.pyenv/**/*'
     - '/bin/packer'
