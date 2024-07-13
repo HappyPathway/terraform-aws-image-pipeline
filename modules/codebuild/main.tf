@@ -69,6 +69,12 @@ resource "aws_codebuild_project" "terraform_codebuild_project" {
   artifacts {
     type = var.build_project_source
   }
+
+  cache {
+    type     = "S3"
+    location = var.s3_bucket_name
+  }
+
   environment {
     compute_type                = var.builder_compute_type
     image                       = var.builder_image
