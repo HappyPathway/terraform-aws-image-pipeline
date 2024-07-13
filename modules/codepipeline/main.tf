@@ -35,7 +35,7 @@ resource "aws_codepipeline" "terraform_pipeline" {
       configuration = {
         RepositoryName       = var.source_repo_name
         BranchName           = var.source_repo_branch
-        PollForSourceChanges = "true"
+        PollForSourceChanges = "false"
       }
     }
 
@@ -52,7 +52,7 @@ resource "aws_codepipeline" "terraform_pipeline" {
       configuration = {
         RepositoryName       = var.ansible_repo.name
         BranchName           = var.ansible_repo.branch
-        PollForSourceChanges = "true"
+        PollForSourceChanges = "false"
       }
     }
 
@@ -69,7 +69,7 @@ resource "aws_codepipeline" "terraform_pipeline" {
       configuration = {
         RepositoryName       = var.goss_repo.name
         BranchName           = var.goss_repo.branch
-        PollForSourceChanges = "true"
+        PollForSourceChanges = "false"
       }
     }
   }
