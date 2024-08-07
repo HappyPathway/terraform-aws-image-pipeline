@@ -33,13 +33,12 @@ module "s3_artifacts_bucket" {
 
 # Module for Infrastructure Source code repository
 module "codecommit_infrastructure_source_repo" {
-  source                   = "./modules/codecommit"
-  count                    = var.packer_source_type == "CodeCommit" ? 1 : 0
-  create_new_repo          = var.create_new_repo
-  packer_repository_name   = var.packer_repo.name
-  packer_repository_branch = var.packer_repo.branch
-  repo_approvers_arn       = local.approver_role
-  kms_key_arn              = module.codepipeline_kms.arn
+  source             = "./modules/codecommit"
+  count              = var.packer_source_type == "CodeCommit" ? 1 : 0
+  create_new_repo    = var.create_new_repo
+  packer_repo        = var.packer_repo
+  repo_approvers_arn = local.approver_role
+  kms_key_arn        = module.codepipeline_kms.arn
   tags = {
     Project_Name = var.project_name
     Account_ID   = local.account_id

@@ -6,21 +6,21 @@
 
 resource "aws_codecommit_repository" "packer_repository" {
   count           = var.create_new_repo ? 1 : 0
-  repository_name = var.packer_repository_name
-  default_branch  = var.packer_repository_branch
+  repository_name = var.packer_repo.name
+  default_branch  = var.packer_repo.branch
   description     = "Code Repository for hosting the terraform code and pipeline configuration files"
   tags            = var.tags
 }
 
 resource "aws_codecommit_approval_rule_template" "packer_repository_approval" {
   count       = var.create_new_repo ? 1 : 0
-  name        = "${var.packer_repository_name}-${var.packer_repository_branch}-Rule"
+  name        = "${var.packer_repo.name}-${var.packer_repo.branch}-Rule"
   description = "Approval rule template for enabling approval process"
 
   content = <<EOF
 {
     "Version": "2018-11-08",
-    "DestinationReferences": ["refs/heads/${var.packer_repository_branch}"],
+    "DestinationReferences": ["refs/heads/${var.packer_repo.branch}"],
     "Statements": [{
         "Type": "Approvers",
         "NumberOfApprovalsNeeded": 2,

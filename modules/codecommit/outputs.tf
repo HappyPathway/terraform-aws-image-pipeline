@@ -12,7 +12,7 @@ output "clone_url_http" {
 }
 
 output "repository_name" {
-  value       = var.create_new_repo ? aws_codecommit_repository.packer_repository[0].repository_name : var.packer_repository_name
+  value       = var.create_new_repo ? aws_codecommit_repository.packer_repository[0].repository_name : var.packer_repo.name
   description = "List containing the name of the CodeCommit repositories"
 }
 

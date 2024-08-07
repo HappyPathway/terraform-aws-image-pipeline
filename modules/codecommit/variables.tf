@@ -10,14 +10,13 @@ variable "create_new_repo" {
   default     = false
 }
 
-variable "packer_repository_name" {
-  type        = string
-  description = "Name of the Source CodeCommit repository used by the pipeline"
-}
-
-variable "packer_repository_branch" {
-  type        = string
-  description = "Branch of the Source CodeCommit repository used in pipeline"
+variable "packer_repo" {
+  type = object({
+    arn    = string
+    name   = string
+    branch = string
+  })
+  description = "Source of the Packer Repo"
 }
 
 variable "repo_approvers_arn" {
