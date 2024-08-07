@@ -36,8 +36,8 @@ module "codecommit_infrastructure_source_repo" {
   source                   = "./modules/codecommit"
   count                    = var.packer_source_type == "CodeCommit" ? 1 : 0
   create_new_repo          = var.create_new_repo
-  packer_repository_name   = var.packer_repo_name
-  packer_repository_branch = var.packer_repo_branch
+  packer_repository_name   = var.packer_repo.name
+  packer_repository_branch = var.packer_repo.branch
   repo_approvers_arn       = local.approver_role
   kms_key_arn              = module.codepipeline_kms.arn
   tags = {
@@ -108,7 +108,7 @@ module "codepipeline_iam_role" {
   project_name               = var.project_name
   create_new_role            = var.create_new_role
   codepipeline_iam_role_name = var.create_new_role == true ? "${var.project_name}-codepipeline-role" : var.codepipeline_iam_role_name
-  packer_repository_name     = var.packer_repo_name
+  packer_repository_name     = var.packer_repo.name
   ansible_repo               = var.ansible_repo
   goss_repo                  = var.goss_repo
   kms_key_arn                = module.codepipeline_kms.arn

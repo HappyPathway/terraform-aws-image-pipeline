@@ -27,16 +27,6 @@ variable "codepipeline_iam_role_name" {
   default     = "codepipeline-role"
 }
 
-variable "packer_repo_name" {
-  description = "Source repo name of the CodeCommit repository"
-  type        = string
-}
-
-variable "packer_repo_branch" {
-  description = "Default branch in the Source repo for which CodePipeline needs to be configured"
-  type        = string
-}
-
 # variable "repo_approvers_arn" {
 #   description = "ARN or ARN pattern for the IAM User/Role/Group that can be used for approving Pull Requests"
 #   type        = string
