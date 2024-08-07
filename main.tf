@@ -107,7 +107,7 @@ module "codepipeline_iam_role" {
   project_name               = var.project_name
   create_new_role            = var.create_new_role
   codepipeline_iam_role_name = var.create_new_role == true ? "${var.project_name}-codepipeline-role" : var.codepipeline_iam_role_name
-  packer_repository_name     = var.packer_repo.name
+  packer_repo                = var.packer_repo
   ansible_repo               = var.ansible_repo
   goss_repo                  = var.goss_repo
   kms_key_arn                = module.codepipeline_kms.arn

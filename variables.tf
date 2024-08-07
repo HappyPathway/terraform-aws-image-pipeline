@@ -171,6 +171,7 @@ variable "packer_bucket" {
 
 variable "packer_repo" {
   type = object({
+    arn    = optional(string)
     name   = optional(string, "image-pipeline-ansible-playbooks")
     branch = optional(string, "main")
   })
@@ -186,6 +187,7 @@ variable "ansible_source_type" {
 
 variable "ansible_repo" {
   type = object({
+    arn    = optional(string)
     name   = optional(string, "image-pipeline-ansible-playbooks")
     branch = optional(string, "main")
   })
@@ -220,6 +222,7 @@ variable "goss_bucket" {
 
 variable "goss_repo" {
   type = object({
+    arn    = optional(string)
     name   = optional(string, "image-pipeline-goss-testing")
     branch = optional(string, "main")
   })
