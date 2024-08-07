@@ -3,12 +3,6 @@
 #This AWS Content is provided subject to the terms of the AWS Customer Agreement available at
 #http://aws.amazon.com/agreement or other written agreement between Customer and either
 #Amazon Web Services, Inc. or Amazon Web Services EMEA SARL or both.
-
-variable "packer_repository_name" {
-  type        = string
-  description = "Name of the Source CodeCommit repository"
-}
-
 variable "project_name" {
   description = "Unique name for this project"
   type        = string
@@ -48,10 +42,9 @@ variable "create_new_role" {
 
 variable "ansible_repo" {
   type = object({
-    clone_url_http = string,
-    arn            = string,
-    name           = optional(string, "image-pipeline-ansible-playbooks")
-    branch         = optional(string, "main")
+    arn    = string,
+    name   = optional(string, "image-pipeline-ansible-playbooks")
+    branch = optional(string, "main")
   })
   description = "Source of Ansible Repo"
 }
@@ -59,10 +52,19 @@ variable "ansible_repo" {
 
 variable "goss_repo" {
   type = object({
-    clone_url_http = string,
-    arn            = string,
-    name           = optional(string, "image-pipeline-ansible-playbooks")
-    branch         = optional(string, "main")
+    arn    = string,
+    name   = optional(string, "image-pipeline-ansible-playbooks")
+    branch = optional(string, "main")
+  })
+  description = "Source of Ansible Repo"
+}
+
+
+variable "packer_repo" {
+  type = object({
+    arn    = string,
+    name   = optional(string, "image-pipeline-ansible-playbooks")
+    branch = optional(string, "main")
   })
   description = "Source of Ansible Repo"
 }
