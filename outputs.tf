@@ -5,17 +5,17 @@
 #Amazon Web Services, Inc. or Amazon Web Services EMEA SARL or both.
 
 output "codecommit_name" {
-  value       = var.packer_source_type == "CodeCommit" ? (module.codecommit_infrastructure_source_repo).repository_name : null
+  value       = var.packer_source_type == "CodeCommit" && var.create_new_repo ? (module.codecommit_infrastructure_source_repo).repository_name : null
   description = "The name of the Codecommit repository"
 }
 
 output "codecommit_url" {
-  value       = var.packer_source_type == "CodeCommit" ? one(module.codecommit_infrastructure_source_repo).clone_url_http : null
+  value       = var.packer_source_type == "CodeCommit" && var.create_new_repo ? one(module.codecommit_infrastructure_source_repo).clone_url_http : null
   description = "The Clone URL of the Codecommit repository"
 }
 
 output "codecommit_arn" {
-  value       = var.packer_source_type == "CodeCommit" ? one(module.codecommit_infrastructure_source_repo).arn : null
+  value       = var.packer_source_type == "CodeCommit" && var.create_new_repo ? one(module.codecommit_infrastructure_source_repo).arn : null
   description = "The ARN of the Codecommit repository"
 }
 
