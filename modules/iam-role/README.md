@@ -35,7 +35,7 @@ No modules.
 | <a name="input_kms_key_arn"></a> [kms\_key\_arn](#input\_kms\_key\_arn) | ARN of KMS key for encryption | `string` | n/a | yes |
 | <a name="input_project_name"></a> [project\_name](#input\_project\_name) | Unique name for this project | `string` | n/a | yes |
 | <a name="input_s3_bucket_arn"></a> [s3\_bucket\_arn](#input\_s3\_bucket\_arn) | The ARN of the S3 Bucket | `string` | n/a | yes |
-| <a name="input_source_repository_name"></a> [source\_repository\_name](#input\_source\_repository\_name) | Name of the Source CodeCommit repository | `string` | n/a | yes |
+| <a name="input_packer_repository_name"></a> [source\_repository\_name](#input\_source\_repository\_name) | Name of the Source CodeCommit repository | `string` | n/a | yes |
 | <a name="input_tags"></a> [tags](#input\_tags) | Tags to be attached to the IAM Role | `map(any)` | n/a | yes |
 
 ## Outputs

@@ -4,7 +4,7 @@
 #http://aws.amazon.com/agreement or other written agreement between Customer and either
 #Amazon Web Services, Inc. or Amazon Web Services EMEA SARL or both.
 
-variable "source_repository_name" {
+variable "packer_repository_name" {
   type        = string
   description = "Name of the Source CodeCommit repository"
 }

@@ -27,12 +27,12 @@ variable "codepipeline_iam_role_name" {
   default     = "codepipeline-role"
 }
 
-variable "source_repo_name" {
+variable "packer_repo_name" {
   description = "Source repo name of the CodeCommit repository"
   type        = string
 }
 
-variable "source_repo_branch" {
+variable "packer_repo_branch" {
   description = "Default branch in the Source repo for which CodePipeline needs to be configured"
   type        = string
 }
@@ -138,7 +138,7 @@ variable "build_environment_variables" {
     value = string
     type  = optional(string, "PLAINTEXT")
   }))
-  default = []
+  default = null
 }
 
 variable "packer_version" {
@@ -164,6 +164,38 @@ variable "build_permissions_iam_doc" {
 }
 
 
+variable "packer_source_type" {
+  description = "Type of source to be used for the CodePipeline"
+  type        = string
+  default     = "CodeCommit"
+}
+
+variable "packer_bucket" {
+  type = object({
+    name = string,
+    key  = string
+  })
+  description = "Source bucket details"
+  default     = null
+}
+
+variable "packer_repo" {
+  type = object({
+    clone_url_http = string,
+    arn            = string,
+    name           = optional(string, "image-pipeline-ansible-playbooks")
+    branch         = optional(string, "main")
+  })
+  description = "Source of the Terraform Repo"
+  default     = null
+}
+
+variable "ansible_source_type" {
+  description = "Type of source to be used for the Ansible CodePipeline"
+  type        = string
+  default     = "CodeCommit"
+}
+
 variable "ansible_repo" {
   type = object({
     clone_url_http = string,
@@ -172,8 +204,32 @@ variable "ansible_repo" {
     branch         = optional(string, "main")
   })
   description = "Source of Ansible Repo"
+  default     = null
 }
 
+variable "ansible_bucket" {
+  type = object({
+    name = string,
+    key  = string
+  })
+  description = "Ansible bucket details"
+}
+
+
+variable "goss_source_type" {
+  description = "Type of source to be used for the Goss CodePipeline"
+  type        = string
+  default     = "CodeCommit"
+}
+
+variable "goss_bucket" {
+  type = object({
+    name = string,
+    key  = string
+  })
+  description = "Goss bucket details"
+  default     = null
+}
 
 variable "goss_repo" {
   type = object({
@@ -183,6 +239,7 @@ variable "goss_repo" {
     branch         = optional(string, "main")
   })
   description = "Source of Goss Repo"
+  default     = null
 }
 
 variable "vpc_config" {

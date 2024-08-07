@@ -9,36 +9,6 @@ variable "project_name" {
   type        = string
 }
 
-variable "source_repo_name" {
-  description = "Source repo name of the CodeCommit repository"
-  type        = string
-}
-
-variable "source_repo_branch" {
-  description = "Default branch in the Source repo for which CodePipeline needs to be configured"
-  type        = string
-}
-
-variable "ansible_repo" {
-  type = object({
-    clone_url_http = string,
-    arn            = string,
-    name           = optional(string, "image-pipeline-ansible-playbooks")
-    branch         = optional(string, "main")
-  })
-  description = "Source of Ansible Repo"
-}
-
-
-variable "goss_repo" {
-  type = object({
-    clone_url_http = string,
-    arn            = string,
-    name           = optional(string, "image-pipeline-ansible-playbooks")
-    branch         = optional(string, "main")
-  })
-  description = "Source of Ansible Repo"
-}
 
 
 variable "s3_bucket_name" {
@@ -71,4 +41,84 @@ variable "stages" {
     input_artifacts  = list(string),
     output_artifacts = list(string)
   }))
+}
+
+variable "packer_source_type" {
+  description = "Type of source to be used for the CodePipeline"
+  type        = string
+  default     = "CodeCommit"
+}
+
+variable "packer_bucket" {
+  description = "Source bucket details"
+  type = object({
+    name = string,
+    key  = string
+  })
+  default = null
+}
+
+variable "packer_repo" {
+  type = object({
+    clone_url_http = string,
+    arn            = string,
+    name           = optional(string, "image-pipeline-ansible-playbooks")
+    branch         = optional(string, "main")
+  })
+  description = "Source of the Terraform Repo"
+  default     = null
+}
+
+
+variable "ansible_source_type" {
+  description = "Type of source to be used for the Ansible CodePipeline"
+  type        = string
+  default     = "CodeCommit"
+}
+
+variable "ansible_bucket" {
+  description = "Ansible bucket details"
+  type = object({
+    name = string,
+    key  = string
+  })
+  default = null
+}
+
+variable "ansible_repo" {
+  type = object({
+    clone_url_http = string,
+    arn            = string,
+    name           = optional(string, "image-pipeline-ansible-playbooks")
+    branch         = optional(string, "main")
+  })
+  description = "Source of Ansible Repo"
+  default     = null
+}
+
+
+variable "goss_source_type" {
+  description = "Type of source to be used for the Goss CodePipeline"
+  type        = string
+  default     = "CodeCommit"
+}
+
+variable "goss_repo" {
+  type = object({
+    clone_url_http = string,
+    arn            = string,
+    name           = optional(string, "image-pipeline-ansible-playbooks")
+    branch         = optional(string, "main")
+  })
+  description = "Source of Ansible Repo"
+  default     = null
+}
+
+variable "goss_bucket" {
+  description = "Goss bucket details"
+  type = object({
+    name = string,
+    key  = string
+  })
+  default = null
 }

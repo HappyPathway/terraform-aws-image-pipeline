@@ -118,7 +118,7 @@ data "aws_iam_policy_document" "codepipeline_policy" {
       "codecommit:UploadArchive"
     ]
     resources = [
-      "arn:${data.aws_partition.current.partition}:codecommit:${data.aws_region.current.id}:${data.aws_caller_identity.current.account_id}:${var.source_repository_name}",
+      "arn:${data.aws_partition.current.partition}:codecommit:${data.aws_region.current.id}:${data.aws_caller_identity.current.account_id}:${var.packer_repository_name}",
       var.ansible_repo.arn,
       var.goss_repo.arn
     ]

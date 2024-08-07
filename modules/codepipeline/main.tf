@@ -27,15 +27,18 @@ resource "aws_codepipeline" "terraform_pipeline" {
       category         = "Source"
       owner            = "AWS"
       version          = "1"
-      provider         = "CodeCommit"
+      provider         = var.packer_source_type
       namespace        = "SourceVariables"
       output_artifacts = ["SourceOutput"]
       run_order        = 1
 
-      configuration = {
-        RepositoryName       = var.source_repo_name
-        BranchName           = var.source_repo_branch
+      configuration = var.packer_source_type == "CodeCommit" ? {
+        RepositoryName       = var.packer_repo.name
+        BranchName           = var.packer_repo.branch
         PollForSourceChanges = "false"
+        } : {
+        S3Bucket    = var.packer_bucket.name
+        S3ObjectKey = var.packer_bucket.key
       }
     }
 
@@ -44,15 +47,18 @@ resource "aws_codepipeline" "terraform_pipeline" {
       category         = "Source"
       owner            = "AWS"
       version          = "1"
-      provider         = "CodeCommit"
+      provider         = var.ansible_source_type
       namespace        = "SourceAnsible"
       output_artifacts = ["SourceAnsibleOutput"]
       run_order        = 1
 
-      configuration = {
+      configuration = var.ansible_source_type == "CodeCommit" ? {
         RepositoryName       = var.ansible_repo.name
         BranchName           = var.ansible_repo.branch
         PollForSourceChanges = "false"
+        } : {
+        S3Bucket    = var.ansible_bucket.name
+        S3ObjectKey = var.ansible_bucket.key
       }
     }
 
@@ -61,15 +67,18 @@ resource "aws_codepipeline" "terraform_pipeline" {
       category         = "Source"
       owner            = "AWS"
       version          = "1"
-      provider         = "CodeCommit"
+      provider         = var.goss_source_type
       namespace        = "SourceGoss"
       output_artifacts = ["SourceGossOutput"]
       run_order        = 1
 
-      configuration = {
+      configuration = var.goss_source_type == "CodeCommit" ? {
         RepositoryName       = var.goss_repo.name
         BranchName           = var.goss_repo.branch
         PollForSourceChanges = "false"
+        } : {
+        S3Bucket    = var.goss_bucket.name
+        S3ObjectKey = var.goss_bucket.key
       }
     }
   }
