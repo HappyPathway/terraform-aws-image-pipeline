@@ -171,10 +171,8 @@ variable "packer_bucket" {
 
 variable "packer_repo" {
   type = object({
-    clone_url_http = string,
-    arn            = string,
-    name           = optional(string, "image-pipeline-ansible-playbooks")
-    branch         = optional(string, "main")
+    name   = optional(string, "image-pipeline-ansible-playbooks")
+    branch = optional(string, "main")
   })
   description = "Source of the Terraform Repo"
   default     = null
@@ -188,10 +186,8 @@ variable "ansible_source_type" {
 
 variable "ansible_repo" {
   type = object({
-    clone_url_http = string,
-    arn            = string,
-    name           = optional(string, "image-pipeline-ansible-playbooks")
-    branch         = optional(string, "main")
+    name   = optional(string, "image-pipeline-ansible-playbooks")
+    branch = optional(string, "main")
   })
   description = "Source of Ansible Repo"
   default     = null
@@ -224,10 +220,8 @@ variable "goss_bucket" {
 
 variable "goss_repo" {
   type = object({
-    clone_url_http = string,
-    arn            = string,
-    name           = optional(string, "image-pipeline-goss-testing")
-    branch         = optional(string, "main")
+    name   = optional(string, "image-pipeline-goss-testing")
+    branch = optional(string, "main")
   })
   description = "Source of Goss Repo"
   default     = null
