@@ -33,7 +33,7 @@ resource "aws_codepipeline" "terraform_pipeline" {
       run_order        = 1
 
       configuration = var.packer_source_type == "CodeCommit" ? {
-        RepositoryName       = var.packer_repo.name
+        RepositoryName       = var.packer_repo.repository_name
         BranchName           = var.packer_repo.branch
         PollForSourceChanges = "false"
         } : {
@@ -53,7 +53,7 @@ resource "aws_codepipeline" "terraform_pipeline" {
       run_order        = 1
 
       configuration = var.ansible_source_type == "CodeCommit" ? {
-        RepositoryName       = var.ansible_repo.name
+        RepositoryName       = var.ansible_repo.repository_name
         BranchName           = var.ansible_repo.branch
         PollForSourceChanges = "false"
         } : {
@@ -73,7 +73,7 @@ resource "aws_codepipeline" "terraform_pipeline" {
       run_order        = 1
 
       configuration = var.goss_source_type == "CodeCommit" ? {
-        RepositoryName       = var.goss_repo.name
+        RepositoryName       = var.goss_repo.repository_name
         BranchName           = var.goss_repo.branch
         PollForSourceChanges = "false"
         } : {

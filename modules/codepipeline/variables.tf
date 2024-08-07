@@ -60,8 +60,8 @@ variable "packer_bucket" {
 
 variable "packer_repo" {
   type = object({
-    name   = optional(string, "image-pipeline-ansible-playbooks")
-    branch = optional(string, "main")
+    repository_name = optional(string, "linux-image-pipeline")
+    branch          = optional(string, "main")
   })
   description = "Source of the Terraform Repo"
   default     = null
@@ -85,8 +85,8 @@ variable "ansible_bucket" {
 
 variable "ansible_repo" {
   type = object({
-    name   = optional(string, "image-pipeline-ansible-playbooks")
-    branch = optional(string, "main")
+    repository_name = optional(string, "image-pipeline-ansible-playbooks")
+    branch          = optional(string, "main")
   })
   description = "Source of Ansible Repo"
   default     = null
@@ -101,8 +101,8 @@ variable "goss_source_type" {
 
 variable "goss_repo" {
   type = object({
-    name   = optional(string, "image-pipeline-ansible-playbooks")
-    branch = optional(string, "main")
+    repository_name = optional(string, "image-pipeline-ansible-playbooks")
+    branch          = optional(string, "main")
   })
   description = "Source of Ansible Repo"
   default     = null
