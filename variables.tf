@@ -213,6 +213,7 @@ variable "ansible_bucket" {
     key  = string
   })
   description = "Ansible bucket details"
+  default     = null
 }
 
 
