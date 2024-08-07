@@ -26,7 +26,7 @@ data "aws_iam_policy_document" "codecommit_access" {
       "codecommit:UploadArchive"
     ]
     resources = [
-      "arn:${data.aws_partition.current.partition}:codecommit:${data.aws_region.current.id}:${data.aws_caller_identity.current.account_id}:${var.packer_repo.name}",
+      var.packer_repo.arn,
       var.ansible_repo.arn
     ]
   }
