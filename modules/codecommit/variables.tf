@@ -12,9 +12,9 @@ variable "create_new_repo" {
 
 variable "packer_repo" {
   type = object({
-    arn    = string
-    name   = string
-    branch = string
+    arn             = string
+    repository_name = string
+    branch          = string
   })
   description = "Source of the Packer Repo"
 }
