@@ -54,7 +54,7 @@ output "s3_arn" {
   description = "The ARN of the S3 Bucket"
 }
 
-output "s3_bucket_name" {
+output "s3_bucket" {
   value       = module.s3_artifacts_bucket.bucket
   description = "The Name of the S3 Bucket"
 }
