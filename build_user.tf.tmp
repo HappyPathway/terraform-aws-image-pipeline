@@ -27,7 +27,8 @@ data "aws_iam_policy_document" "codecommit_access" {
     ]
     resources = [
       var.packer_repo.arn,
-      var.ansible_repo.arn
+      var.ansible_repo.arn,
+      var.goss_repo.arn
     ]
   }
 }
@@ -73,6 +74,7 @@ data "aws_iam_policy_document" "packer_config" {
     resources = ["*"]
   }
 }
+
 resource "aws_iam_access_key" "build_user" {
   user = aws_iam_user.build_user.name
 }
