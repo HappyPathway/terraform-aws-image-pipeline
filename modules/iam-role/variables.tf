@@ -28,9 +28,9 @@ variable "s3_bucket_arn" {
   type        = string
 }
 
-variable "credentials_secret_arn" {
-  description = "The ARN of the AWS Secrets Manager credentials"
-}
+# variable "credentials_secret_arn" {
+#   description = "The ARN of the AWS Secrets Manager credentials"
+# }
 
 variable "create_new_role" {
   type        = bool
