@@ -117,11 +117,11 @@ data "aws_iam_policy_document" "codepipeline_policy" {
       "codecommit:ListBranches",
       "codecommit:UploadArchive"
     ]
-    resources = [
-      var.packer_repo.arn,
-      var.ansible_repo.arn,
-      var.goss_repo.arn
-    ]
+    resources = concat(
+      var.packer_repo == null ? [] : [var.packer_repo.arn],
+      var.ansible_repo == null ? [] : [var.ansible_repo.arn],
+      var.goss_repo == null ? [] : [var.goss_repo.arn]
+    )
   }
 
   statement {
