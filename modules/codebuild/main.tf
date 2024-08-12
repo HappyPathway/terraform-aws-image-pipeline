@@ -46,6 +46,7 @@ locals {
       vars = merge({
         project_name      = var.project_name,
         terraform_version = var.terraform_version
+        troubleshoot      = lower(tostring(var.troubleshoot))
       }, project.vars)
       environment_variables = concat(var.environment_variables, project.environment_variables),
       buildspec             = lookup(local.buildspecs, project.name)

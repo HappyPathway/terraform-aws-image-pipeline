@@ -125,3 +125,8 @@ variable "state" {
     dynamodb_table = string
   })
 }
+
+variable "troubleshoot" {
+  type    = bool
+  default = false
+}

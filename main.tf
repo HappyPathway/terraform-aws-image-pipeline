@@ -78,6 +78,7 @@ module "codebuild_terraform" {
   vpc_config                          = local.vpc_config
   terraform_version                   = var.terraform_version
   state                               = var.state
+  troubleshoot                        = var.troubleshoot
   environment_variables = concat(
     var.build_environment_variables,
     var.vpc_config != null ? [
