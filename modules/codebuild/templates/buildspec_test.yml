@@ -12,7 +12,7 @@ phases:
             - stat $${CODEBUILD_SRC_DIR_SourceAnsibleOutput}/init.sh && bash $${CODEBUILD_SRC_DIR_SourceAnsibleOutput}/init.sh $${CODEBUILD_SRC_DIR_SourceAnsibleOutput} || echo "No init.sh script found"
             - stat /bin/terraform || curl -s -qL -o terraform.zip https://releases.hashicorp.com/terraform/${terraform_version}/terraform_${terraform_version}_linux_amd64.zip
             - stat /bin/terraform || unzip -o terraform.zip
-            - stat /bin/terraform || mv terraform /bin && rm terraform.zip
+            - stat /bin/terraform || mv terraform /bin && rm terraform.zip || echo "files not present"
     build:
         commands:
             - echo "Configuring AWS credentials"
