@@ -36,8 +36,8 @@ phases:
         commands:
             - cd $${CODEBUILD_SRC_DIR_SourceGossOutput}
             - echo "the true or false value of the below lines is set by var.troubleshoot and is passed in from the terraform-aws-image-pipeline module"
-            - ${troubleshoot} && /bin/terraform destroy -var project_name=${project_name} -var goss_directory=$${CODEBUILD_SRC_DIR_SourceGossOutput}  -auto-approve
-            - ${troubleshoot} && test -f tf_ami_id.txt && aws ec2 deregister-image --image-id `cat tf_ami_id.txt` --region $AWS_REGION || echo "Tests passed, no AMI to deregister"
+            - ${troubleshoot} || /bin/terraform destroy -var project_name=${project_name} -var goss_directory=$${CODEBUILD_SRC_DIR_SourceGossOutput}  -auto-approve
+            - ${troubleshoot} || test -f tf_ami_id.txt && aws ec2 deregister-image --image-id `cat tf_ami_id.txt` --region $AWS_REGION || echo "Tests passed, no AMI to deregister"
 artifacts:
     files:
         - '**/*'
