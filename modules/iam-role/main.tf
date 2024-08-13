@@ -3,7 +3,14 @@
 #This AWS Content is provided subject to the terms of the AWS Customer Agreement available at
 #http://aws.amazon.com/agreement or other written agreement between Customer and either
 #Amazon Web Services, Inc. or Amazon Web Services EMEA SARL or both.
-
+data "s3_bucket" "assets" {
+  for_each = toset(concat(
+    var.goss_bucket == null ? [] : [var.goss_bucket.name],
+    var.ansible_bucket == null ? [] : [var.ansible_bucket.name],
+    var.packer_bucket == null ? [] : [var.packer_bucket.name]
+  ))
+  bucket = each.value
+}
 
 data "aws_iam_policy_document" "codepipeline_assume_role" {
   statement {
@@ -58,13 +65,13 @@ data "aws_iam_policy_document" "codepipeline_policy" {
       "arn:${data.aws_partition.current.partition}:s3:::${var.state.bucket}/*"
       ],
       var.goss_bucket == null ? [] : [
-        "arn:${data.aws_partition.current.partition}:s3:::${var.goss_bucket.name}/*"
+        "${lookup(data.s3_bucket.assets, var.goss_bucket.name).arn}/*"
       ],
       var.ansible_bucket == null ? [] : [
-        "arn:${data.aws_partition.current.partition}:s3:::${var.ansible_bucket.name}/*"
+        "${lookup(data.s3_bucket.assets, var.ansible_bucket.name).arn}/*"
       ],
       var.packer_bucket == null ? [] : [
-        "arn:${data.aws_partition.current.partition}:s3:::${var.packer_bucket.name}/*"
+        "${lookup(data.s3_bucket.assets, var.packer_bucket.name).arn}/*"
     ]))
   }
 
