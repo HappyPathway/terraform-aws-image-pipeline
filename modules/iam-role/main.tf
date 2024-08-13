@@ -53,10 +53,19 @@ data "aws_iam_policy_document" "codepipeline_policy" {
     actions = [
       "s3:*"
     ]
-    resources = [
+    resources = concat([
       "${var.s3_bucket_arn}/*",
       "arn:${data.aws_partition.current.partition}:s3:::${var.state.bucket}/*"
-    ]
+      ],
+      var.goss_bucket == null ? [] : [
+        "arn:${data.aws_partition.current.partition}:s3:::${var.goss_bucket.name}/*"
+      ],
+      var.ansible_bucket == null ? [] : [
+        "arn:${data.aws_partition.current.partition}:s3:::${var.ansible_bucket.name}/*"
+      ],
+      var.packer_bucket == null ? [] : [
+        "arn:${data.aws_partition.current.partition}:s3:::${var.packer_bucket.name}/*"
+    ])
   }
 
   statement {

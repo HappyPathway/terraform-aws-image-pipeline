@@ -49,6 +49,15 @@ variable "ansible_repo" {
   description = "Source of Ansible Repo"
 }
 
+variable "ansible_bucket" {
+  type = object({
+    name = string,
+    key  = string
+  })
+  description = "Ansible bucket details"
+  default     = null
+}
+
 
 variable "goss_repo" {
   type = object({
@@ -59,6 +68,14 @@ variable "goss_repo" {
   description = "Source of Ansible Repo"
 }
 
+variable "goss_bucket" {
+  type = object({
+    name = string,
+    key  = string
+  })
+  description = "Ansible bucket details"
+  default     = null
+}
 
 variable "packer_repo" {
   type = object({
@@ -69,6 +86,14 @@ variable "packer_repo" {
   description = "Source of Ansible Repo"
 }
 
+variable "packer_bucket" {
+  type = object({
+    name = string,
+    key  = string
+  })
+  description = "Ansible bucket details"
+  default     = null
+}
 
 
 
