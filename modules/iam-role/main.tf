@@ -3,7 +3,7 @@
 #This AWS Content is provided subject to the terms of the AWS Customer Agreement available at
 #http://aws.amazon.com/agreement or other written agreement between Customer and either
 #Amazon Web Services, Inc. or Amazon Web Services EMEA SARL or both.
-data "s3_bucket" "assets" {
+data "aws_s3_bucket" "assets" {
   for_each = toset(concat(
     var.goss_bucket == null ? [] : [var.goss_bucket.name],
     var.ansible_bucket == null ? [] : [var.ansible_bucket.name],
