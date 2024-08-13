@@ -65,13 +65,13 @@ data "aws_iam_policy_document" "codepipeline_policy" {
       "arn:${data.aws_partition.current.partition}:s3:::${var.state.bucket}/*"
       ],
       var.goss_bucket == null ? [] : [
-        "${lookup(data.s3_bucket.assets, var.goss_bucket.name).arn}/*"
+        "${lookup(data.aws_s3_bucket.assets, var.goss_bucket.name).arn}/*"
       ],
       var.ansible_bucket == null ? [] : [
-        "${lookup(data.s3_bucket.assets, var.ansible_bucket.name).arn}/*"
+        "${lookup(data.aws_s3_bucket.assets, var.ansible_bucket.name).arn}/*"
       ],
       var.packer_bucket == null ? [] : [
-        "${lookup(data.s3_bucket.assets, var.packer_bucket.name).arn}/*"
+        "${lookup(data.aws_s3_bucket.assets, var.packer_bucket.name).arn}/*"
     ]))
   }
 
