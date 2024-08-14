@@ -52,14 +52,16 @@ resource "aws_codepipeline" "terraform_pipeline" {
       output_artifacts = ["SourceAnsibleOutput"]
       run_order        = 1
 
-      configuration = var.ansible_source_type == "CodeCommit" ? {
-        RepositoryName       = var.ansible_repo.repository_name
-        BranchName           = var.ansible_repo.branch
-        PollForSourceChanges = "false"
+      configuration = merge(var.ansible_source_type == "CodeCommit" ? {
+        RepositoryName = var.ansible_repo.repository_name
+        BranchName     = var.ansible_repo.branch
         } : {
         S3Bucket    = var.ansible_bucket.name
         S3ObjectKey = var.ansible_bucket.key
-      }
+        },
+        {
+          PollForSourceChanges = "false"
+      })
     }
 
     action {
