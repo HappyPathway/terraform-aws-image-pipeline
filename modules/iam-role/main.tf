@@ -126,7 +126,7 @@ data "aws_iam_policy_document" "codepipeline_policy" {
   }
 
   dynamic "statement" {
-    for_each = length(local.codecommit_repo_count) > 0 ? ["*"] : []
+    for_each = local.codecommit_repo_count > 0 ? ["*"] : []
     content {
       effect = "Allow"
       actions = [
