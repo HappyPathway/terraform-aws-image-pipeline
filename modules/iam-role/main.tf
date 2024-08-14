@@ -43,7 +43,14 @@ resource "aws_iam_role" "codepipeline_role" {
   path               = "/"
 }
 
-
+locals {
+  codecommit_repos = concat(
+    var.packer_repo == null ? [] : [var.packer_repo.arn],
+    var.ansible_repo == null ? [] : [var.ansible_repo.arn],
+    var.goss_repo == null ? [] : [var.goss_repo.arn]
+  )
+  codecommit_repo_count = length(local.codecommit_repos)
+}
 
 data "aws_iam_policy_document" "codepipeline_policy" {
 
@@ -117,27 +124,27 @@ data "aws_iam_policy_document" "codepipeline_policy" {
       "arn:${data.aws_partition.current.partition}:ec2:${data.aws_region.current.id}:${data.aws_caller_identity.current.account_id}:key-pair/${var.project_name}-deployer-key"
     ]
   }
-  statement {
-    effect = "Allow"
-    actions = [
-      "codecommit:GitPull",
-      "codecommit:GitPush",
-      "codecommit:GetBranch",
-      "codecommit:CreateCommit",
-      "codecommit:ListRepositories",
-      "codecommit:BatchGetCommits",
-      "codecommit:BatchGetRepositories",
-      "codecommit:GetCommit",
-      "codecommit:GetRepository",
-      "codecommit:GetUploadArchiveStatus",
-      "codecommit:ListBranches",
-      "codecommit:UploadArchive"
-    ]
-    resources = concat(
-      var.packer_repo == null ? [] : [var.packer_repo.arn],
-      var.ansible_repo == null ? [] : [var.ansible_repo.arn],
-      var.goss_repo == null ? [] : [var.goss_repo.arn]
-    )
+
+  dynamic "statement" {
+    for_each = length(local.codecommit_repo_count) > 0 ? ["*"] : []
+    content {
+      effect = "Allow"
+      actions = [
+        "codecommit:GitPull",
+        "codecommit:GitPush",
+        "codecommit:GetBranch",
+        "codecommit:CreateCommit",
+        "codecommit:ListRepositories",
+        "codecommit:BatchGetCommits",
+        "codecommit:BatchGetRepositories",
+        "codecommit:GetCommit",
+        "codecommit:GetRepository",
+        "codecommit:GetUploadArchiveStatus",
+        "codecommit:ListBranches",
+        "codecommit:UploadArchive"
+      ]
+      resources = local.codecommit_repos
+    }
   }
 
   statement {
