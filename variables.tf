@@ -320,8 +320,9 @@ variable "troubleshoot" {
 
 variable "ecr_repo" {
   type = object({
-    name = string
-    tag  = string
+    name         = string
+    tag          = string
+    source_image = string
   })
   default = null
 }

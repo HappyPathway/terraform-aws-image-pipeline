@@ -26,8 +26,9 @@ locals {
     ssh_user = var.ssh_user,                      # SSH username for instance access.
     keyname  = "${var.project_name}-deployer-key" # Key pair name for SSH access.
     }, var.ecr_repo == null ? {} : {
-    ecr_repository_name = var.ecr_repo.name # ECR repository name.
-    image_tag           = var.ecr_repo.tag  # ECR image tag.
+    ecr_repository_name = var.ecr_repo.name         # ECR repository name.
+    image_tag           = var.ecr_repo.tag          # ECR image tag.
+    source_image        = var.ecr_repo.source_image # ECR image URI.
     }, var.source_ami == null ? {} : {
     source_ami    = var.source_ami,    # AMI ID used as the base image for instances.
     ami_name      = var.project_name,  # Name assigned to the AMI created.
