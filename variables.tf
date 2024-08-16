@@ -323,4 +323,5 @@ variable "ami" {
     instance_type = string
     source_ami    = string
   })
+  default = null
 }
