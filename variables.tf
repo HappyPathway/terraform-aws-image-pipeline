@@ -153,7 +153,6 @@ variable "build_permissions_iam_doc" {
   type = any
 }
 
-
 variable "packer_source_type" {
   description = "Type of source to be used for the CodePipeline"
   type        = string
@@ -285,17 +284,9 @@ variable "winrm_credentials" {
   default = null
 }
 
-variable "source_ami" {
-  type = string
-}
-
 variable "shared_accounts" {
   type    = list(string)
   default = null
-}
-
-variable "instance_type" {
-  type = string
 }
 
 variable "playbook" {
@@ -318,11 +309,18 @@ variable "troubleshoot" {
   default = false
 }
 
-variable "ecr_repo" {
+variable "image" {
   type = object({
-    name         = string
+    repo         = string
     tag          = string
     source_image = string
   })
   default = null
+}
+
+variable "ami" {
+  type = object({
+    instance_type = string
+    source_ami    = string
+  })
 }
