@@ -136,7 +136,7 @@ module "codepipeline_terraform" {
   ]
   source = "./modules/codepipeline"
 
-  project_name = trimsuffix(var.project_name, "-pipeline")
+  project_name = var.project_name
 
   packer_source_type = var.packer_source_type
   packer_repo        = var.packer_repo
