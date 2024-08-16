@@ -9,9 +9,6 @@ locals {
     subnets            = join(",", local.vpc_config.subnets),            # Comma-separated list of subnet IDs.
     security_group_ids = join(",", local.vpc_config.security_group_ids), # Comma-separated list of security group IDs.
     vpc_id             = local.vpc_config.vpc_id,                        # VPC ID where resources will be provisioned.
-    source_ami         = var.source_ami,                                 # AMI ID used as the base image for instances.
-    ami_name           = var.project_name,                               # Name assigned to the AMI created.
-    instance_type      = var.instance_type,                              # EC2 instance type.
     goss_profile       = var.goss_profile,                               # GOSS profile for server testing.
     playbook           = var.playbook,                                   # Ansible playbook for configuration management.
     troubleshoot       = var.troubleshoot,                               # Enable troubleshooting mode.
@@ -31,6 +28,10 @@ locals {
     }, var.ecr_repo == null ? {} : {
     ecr_repository_name = var.ecr_repo.name # ECR repository name.
     image_tag           = var.ecr_repo.tag  # ECR image tag.
+    }, var.source_ami == null ? {} : {
+    source_ami    = var.source_ami,    # AMI ID used as the base image for instances.
+    ami_name      = var.project_name,  # Name assigned to the AMI created.
+    instance_type = var.instance_type, # EC2 instance type.
     }
   ))
 
