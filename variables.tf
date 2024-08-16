@@ -317,3 +317,11 @@ variable "troubleshoot" {
   type    = bool
   default = false
 }
+
+variable "ecr_repo" {
+  type = object({
+    name = string
+    tag  = string
+  })
+  default = null
+}

@@ -4,6 +4,7 @@ locals {
   # This includes configurations like region, subnets, security group IDs, VPC ID, source AMI, and more.
   # Conditional logic is used to include optional parameters only if they are provided.
   parameters = tomap(merge({
+    aws_account_id     = data.aws_caller_identity.current.account_id,    # AWS account ID where resources will be provisioned.
     region             = local.vpc_config.region,                        # AWS region where resources will be provisioned.
     subnets            = join(",", local.vpc_config.subnets),            # Comma-separated list of subnet IDs.
     security_group_ids = join(",", local.vpc_config.security_group_ids), # Comma-separated list of security group IDs.
@@ -27,6 +28,9 @@ locals {
     }, var.ssh_user == null ? {} : {
     ssh_user = var.ssh_user,                      # SSH username for instance access.
     keyname  = "${var.project_name}-deployer-key" # Key pair name for SSH access.
+    }, var.ecr_repo == null ? {} : {
+    ecr_repository_name = var.ecr_repo.name # ECR repository name.
+    image_tag           = var.ecr_repo.tag  # ECR image tag.
     }
   ))
 
