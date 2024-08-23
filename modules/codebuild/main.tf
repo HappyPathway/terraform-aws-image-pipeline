@@ -1,8 +1,9 @@
 # Purpose: Create CodeBuild projects
 locals {
   buildspecs = {
-    build = "${path.module}/templates/buildspec_build.yml"
-    test  = "${path.module}/templates/buildspec_test.yml"
+    install = "${path.module}/templates/buildspec_install.yml"
+    build   = "${path.module}/templates/buildspec_build.yml"
+    test    = "${path.module}/templates/buildspec_test.yml"
   }
 
   # This Terraform code block is creating a map of build projects using a for loop. 
