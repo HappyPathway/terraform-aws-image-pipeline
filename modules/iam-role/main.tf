@@ -114,7 +114,24 @@ data "aws_iam_policy_document" "codepipeline_policy" {
       var.kms_key_arn
     ]
   }
-
+  statement {
+    effect = "Allow"
+    actions = [
+      "ecr:*"
+    ]
+    resources = [
+      "arn:${data.aws_partition.current.partition}:ecr:${data.aws_region.current.id}:${data.aws_caller_identity.current.account_id}:repository/${var.project_name}*"
+    ]
+  }
+  statement {
+    effect = "Allow"
+    actions = [
+      "ecr:getAuthorizationToken"
+    ]
+    resources = [
+      "*"
+    ]
+  }
   statement {
     effect = "Allow"
     actions = [
