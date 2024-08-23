@@ -29,7 +29,7 @@ locals {
     ecr_repository_name = var.image.repo         # ECR repository name.
     image_tag           = var.image.tag          # ECR image tag.
     source_image        = var.image.source_image # ECR image URI.
-    login_server        = var.image.login_server # ECR login server.
+    ecr_login_server    = var.image.login_server # ECR login server.
     }, var.ami == null ? {} : {
     source_ami    = var.ami.source_ami,    # AMI ID used as the base image for instances.
     ami_name      = var.project_name,      # Name assigned to the AMI created.
