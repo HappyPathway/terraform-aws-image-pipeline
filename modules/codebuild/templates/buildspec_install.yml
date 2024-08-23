@@ -23,7 +23,9 @@ phases:
 
 artifacts:
     files:
-        - '**/*'
+        - '/root/.config/**/*'
+        - '/root/.local/**/*'
+        - '/bin/packer'
 
 cache:
   paths:
