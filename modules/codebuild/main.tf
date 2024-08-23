@@ -32,7 +32,17 @@ locals {
   # value is a map with keys vars, environment_variables, and buildspec. 
   # This map is assigned to the build_projects local value.
   build_projects = { for project in var.build_projects : (project.name) =>
-    (project.name) == "build" ? {
+    (project.name) == "install" ? {
+      vars = merge({
+        packer_version  = var.packer_version,
+        mitogen_version = var.mitogen_version,
+        packer_config   = var.packer_config,
+        project_name    = var.project_name
+      }, project.vars),
+      environment_variables = concat(var.environment_variables, project.environment_variables),
+      buildspec             = lookup(local.buildspecs, project.name)
+      build_project_source  = var.build_project_source
+      } : (project.name) == "build" ? {
       vars = merge({
         packer_version  = var.packer_version,
         mitogen_version = var.mitogen_version,

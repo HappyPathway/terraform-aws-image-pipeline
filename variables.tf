@@ -45,11 +45,19 @@ variable "stage_input" {
   }))
   default = [
     {
+      name             = "install",
+      category         = "Build",
+      owner            = "AWS",
+      provider         = "CodeBuild",
+      input_artifacts  = ["SourceOutput", "SourceInstallOutput"],
+      output_artifacts = ["BuildOutput"]
+    },
+    {
       name             = "build",
       category         = "Build",
       owner            = "AWS",
       provider         = "CodeBuild",
-      input_artifacts  = ["SourceOutput", "SourceAnsibleOutput"],
+      input_artifacts  = ["SourceInstallOutput", "SourceAnsibleOutput"],
       output_artifacts = ["BuildOutput"]
     },
     {
@@ -77,6 +85,9 @@ variable "build_projects" {
     buildspec = optional(string)
   }))
   default = [
+    {
+      name = "install"
+    },
     {
       name = "build"
     },
