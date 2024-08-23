@@ -325,6 +325,7 @@ variable "image" {
     repo         = string
     tag          = string
     source_image = string
+    login_server = string
   })
   default = null
 }
