@@ -25,10 +25,12 @@ artifacts:
     files:
         - '/root/.config/**/*'
         - '/root/.local/**/*'
+        - '/root/.local/bin/**/*'
         - '/bin/packer'
 
 cache:
   paths:
     - '/root/.config/**/*'
     - '/root/.local/**/*'
+    - '/root/.local/bin/**/*'
     - '/bin/packer'
