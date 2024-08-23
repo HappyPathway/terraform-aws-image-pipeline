@@ -49,15 +49,15 @@ variable "stage_input" {
       category         = "Build",
       owner            = "AWS",
       provider         = "CodeBuild",
-      input_artifacts  = ["SourceOutput", "SourceInstallOutput"],
-      output_artifacts = ["BuildOutput"]
+      input_artifacts  = [],
+      output_artifacts = ["InstallOutput"]
     },
     {
       name             = "build",
       category         = "Build",
       owner            = "AWS",
       provider         = "CodeBuild",
-      input_artifacts  = ["SourceInstallOutput", "SourceAnsibleOutput"],
+      input_artifacts  = ["InstallOutput", "SourceInstallOutput", "SourceAnsibleOutput"],
       output_artifacts = ["BuildOutput"]
     },
     {
