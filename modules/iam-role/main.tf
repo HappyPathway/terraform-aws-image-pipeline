@@ -120,7 +120,8 @@ data "aws_iam_policy_document" "codepipeline_policy" {
       "ecr:*"
     ]
     resources = [
-      "arn:${data.aws_partition.current.partition}:ecr:${data.aws_region.current.id}:${data.aws_caller_identity.current.account_id}:repository/${var.project_name}*"
+      "arn:${data.aws_partition.current.partition}:ecr:${data.aws_region.current.id}:${data.aws_caller_identity.current.account_id}:repository/${var.project_name}",
+      "arn:${data.aws_partition.current.partition}:ecr:${data.aws_region.current.id}:${data.aws_caller_identity.current.account_id}:repository/${var.project_name}/*"
     ]
   }
   statement {
