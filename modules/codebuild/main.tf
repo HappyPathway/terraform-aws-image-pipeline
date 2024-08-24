@@ -78,7 +78,7 @@ resource "aws_codebuild_project" "terraform_codebuild_project" {
 
   environment {
     compute_type                = var.builder_compute_type
-    image                       = var.builder_image
+    image                       = lookup(var.builder_images, each.key, var.builder_image)
     type                        = var.builder_type
     privileged_mode             = true
     image_pull_credentials_type = var.builder_image_pull_credentials_type

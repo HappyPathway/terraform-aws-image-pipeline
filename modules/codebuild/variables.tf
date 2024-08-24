@@ -55,6 +55,10 @@ variable "builder_image" {
   default     = "happypathway/aws-codebuild-image-pipeline:latest"
 }
 
+variable "builder_images" {
+  type = map(string)
+}
+
 variable "builder_type" {
   description = "Type of build environment to use for related builds"
   type        = string
