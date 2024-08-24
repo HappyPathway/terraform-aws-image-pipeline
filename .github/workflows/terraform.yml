@@ -6,8 +6,13 @@ on:
     
 jobs:
   terraform:
-    uses: HappyPathway/terraform-validate@main
+    uses: HappyPathway/centralized-actions/.github/workflows/terraform-test.yml@main
     with:
       terraform_version: 1.9.1
       terraform_api: app.terraform.io
-      terraform_token: ${{ secrets.TFE_TOKEN }}
+      github_username: djaboxx
+      github_email: dave@roknsound.com
+      github_org: HappyPathway
+    secrets:
+      TFE_TOKEN: ${{ secrets.TFE_TOKEN }}
+      GH_TOKEN: ${{ secrets.GH_TOKEN }}
