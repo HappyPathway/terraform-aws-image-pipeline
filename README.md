@@ -187,6 +187,7 @@ Alternatively, use the _**create_new_role = false**_ option to use an existing I
 | <a name="input_create_new_repo"></a> [create\_new\_repo](#input\_create\_new\_repo) | Whether to create a new repository. Values are true or false. Defaulted to true always. | `bool` | `true` | no |
 | <a name="input_create_new_role"></a> [create\_new\_role](#input\_create\_new\_role) | Whether to create a new IAM Role. Values are true or false. Defaulted to true always. | `bool` | `true` | no |
 | <a name="input_create_vpc_endpoint"></a> [create\_vpc\_endpoint](#input\_create\_vpc\_endpoint) | n/a | `bool` | `false` | no |
+| <a name="input_docker_test_enabled"></a> [docker\_test\_enabled](#input\_docker\_test\_enabled) | n/a | `bool` | `false` | no |
 | <a name="input_extra_parameters"></a> [extra\_parameters](#input\_extra\_parameters) | n/a | `map(string)` | `{}` | no |
 | <a name="input_goss_binary"></a> [goss\_binary](#input\_goss\_binary) | GOSS Profile to be used for testing | `string` | `"goss-linux-amd64"` | no |
 | <a name="input_goss_bucket"></a> [goss\_bucket](#input\_goss\_bucket) | Goss bucket details | <pre>object({<br>    name = string,<br>    key  = string<br>  })</pre> | `null` | no |
