@@ -29,9 +29,10 @@ phases:
         commands:
             - cd $${CODEBUILD_SRC_DIR_SourceGossOutput}
             - export GOSS_FILE=$(aws ssm get-parameter --name /image-pipeline/${project_name}/goss_profile --region $AWS_REGION --query 'Parameter.Value' --output text).yaml
+            - export GOSS_PATH=$${CODEBUILD_SRC_DIR_SourceGossOutput}/dependencies/$(aws ssm get-parameter --name /image-pipeline/${project_name}/goss_profile --region $AWS_REGION --query 'Parameter.Value' --output text)
             - export REPO=$(aws ssm get-parameter --name /image-pipeline/${project_name}/ecr_repository_name --region $AWS_REGION --query 'Parameter.Value' --output text)
             - export IMAGE_TAG=$(aws ssm get-parameter --name /image-pipeline/${project_name}/image_tag --region $AWS_REGION --query 'Parameter.Value' --output text)
-            - ./dependencies/dgoss run -e GOSS_FILE=$${GOSS_FILE} $${REPO}/${project_name}:$${IMAGE_TAG}
+            - ./dependencies/dgoss run -e GOSS_FILE=$${GOSS_FILE} -r GOSS_PATH=$${GOSS_PATH} $${REPO}/${project_name}:$${IMAGE_TAG}
             
 artifacts:
     files:
