@@ -114,15 +114,22 @@ data "aws_iam_policy_document" "codepipeline_policy" {
       var.kms_key_arn
     ]
   }
-  statement {
-    effect = "Allow"
-    actions = [
-      "ecr:*"
-    ]
-    resources = [
-      "arn:${data.aws_partition.current.partition}:ecr:${data.aws_region.current.id}:${data.aws_caller_identity.current.account_id}:repository/${var.project_name}",
-      "arn:${data.aws_partition.current.partition}:ecr:${data.aws_region.current.id}:${data.aws_caller_identity.current.account_id}:repository/${var.project_name}/*"
-    ]
+  dynamic "statement" {
+    for_each = var.image == null ? [] : ["*"]
+    content {
+      effect = "Allow"
+      actions = [
+        "ecr:*"
+      ]
+      resources = concat([
+        "arn:${data.aws_partition.current.partition}:ecr:${data.aws_region.current.id}:${data.aws_caller_identity.current.account_id}:repository/${var.image.dest_docker_repo}",
+        "arn:${data.aws_partition.current.partition}:ecr:${data.aws_region.current.id}:${data.aws_caller_identity.current.account_id}:repository/${var.image.dest_docker_repo}/*"
+        ],
+        var.image.source_docker_repo == var.image.dest_docker_repo ? [] : [
+          "arn:${data.aws_partition.current.partition}:ecr:${data.aws_region.current.id}:${data.aws_caller_identity.current.account_id}:repository/${var.image.source_docker_repo}",
+          "arn:${data.aws_partition.current.partition}:ecr:${data.aws_region.current.id}:${data.aws_caller_identity.current.account_id}:repository/${var.image.source_docker_repo}/*"
+      ])
+    }
   }
   statement {
     effect = "Allow"

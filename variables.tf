@@ -336,9 +336,12 @@ variable "troubleshoot" {
 
 variable "image" {
   type = object({
-    repo         = string
-    tag          = string
-    source_image = string
+    dest_image         = string
+    source_image       = string
+    source_tag         = string
+    dest_tag           = string
+    dest_docker_repo   = string
+    source_docker_repo = string
   })
   default = null
 }

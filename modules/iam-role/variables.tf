@@ -114,3 +114,15 @@ variable "state" {
     dynamodb_table = string
   })
 }
+
+variable "image" {
+  type = object({
+    dest_image         = string
+    source_image       = string
+    source_tag         = string
+    dest_tag           = string
+    dest_docker_repo   = string
+    source_docker_repo = string
+  })
+  default = null
+}
