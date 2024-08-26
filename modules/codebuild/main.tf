@@ -42,8 +42,8 @@ locals {
         project_name    = var.project_name
       }, project.vars),
       environment_variables = concat(var.environment_variables, project.environment_variables),
-      buildspec             = lookup(var.build_projects, project.name, lookup(local.buildspecs, project.name))
-      build_project_source  = lookup(var.build_projects, "project_source", var.build_project_source)
+      buildspec             = lookup(project, "buildspec", lookup(local.buildspecs, project.name))
+      build_project_source  = lookup(project, "project_source", var.build_project_source)
       } : (project.name) == "test" ? {
       vars = merge({
         project_name      = var.project_name,
@@ -51,8 +51,8 @@ locals {
         troubleshoot      = lower(tostring(var.troubleshoot))
       }, project.vars)
       environment_variables = concat(var.environment_variables, project.environment_variables),
-      buildspec             = lookup(var.build_projects, project.name, lookup(local.buildspecs, project.name))
-      build_project_source  = var.test_project_source
+      buildspec             = lookup(project, "buildspec", lookup(local.buildspecs, project.name))
+      build_project_source  = lookup(project, "project_source", var.test_project_source)
       } : {
       vars                  = project.vars
       environment_variables = concat(var.environment_variables, project.environment_variables),
