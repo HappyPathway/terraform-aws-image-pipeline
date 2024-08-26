@@ -80,6 +80,7 @@ module "codebuild_terraform" {
   terraform_version                   = var.terraform_version
   state                               = var.state
   troubleshoot                        = var.troubleshoot
+  docker_test_enabled                 = var.docker_test_enabled
   environment_variables = concat(
     var.build_environment_variables,
     var.vpc_config != null ? [

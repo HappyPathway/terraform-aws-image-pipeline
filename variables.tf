@@ -350,3 +350,8 @@ variable "ami" {
   })
   default = null
 }
+
+variable "docker_test_enabled" {
+  type    = bool
+  default = false
+}

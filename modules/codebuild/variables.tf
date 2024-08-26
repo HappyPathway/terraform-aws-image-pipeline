@@ -134,3 +134,8 @@ variable "troubleshoot" {
   type    = bool
   default = false
 }
+
+variable "docker_test_enabled" {
+  type    = bool
+  default = false
+}

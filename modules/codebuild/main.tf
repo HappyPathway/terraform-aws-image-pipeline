@@ -5,7 +5,19 @@ locals {
     test        = "${path.module}/templates/buildspec_test.yml"
     docker_test = "${path.module}/templates/buildspec_docker_test.yml"
   }
-
+  build_projects = concat([
+    for project in var.build_projects : project if var.docker_test_enabled == true && project.name != "test"
+  ],
+    [
+      {
+        name = "docker_test"
+        vars = {}
+        environment_variables = []
+        buildspec = lookup(local.buildspecs, "docker_test")
+        project_source = var.build_project_source
+      }
+    ]
+  )
   # This Terraform code block is creating a map of build projects using a for loop. 
   # It's iterating over the build_projects variable, which is expected to be a list of 
   # maps where each map represents a build project.
@@ -44,7 +56,7 @@ locals {
       environment_variables = concat(var.environment_variables, project.environment_variables),
       buildspec             = lookup(project, "buildspec", lookup(local.buildspecs, project.name))
       build_project_source  = lookup(project, "project_source", var.build_project_source)
-      } : endswith(project.name, "test") ? {
+      } : contains(["test", "docker_test"], project.name) ? {
       vars = merge({
         project_name      = var.project_name,
         terraform_version = var.terraform_version
