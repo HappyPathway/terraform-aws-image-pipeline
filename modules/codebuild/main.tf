@@ -1,8 +1,9 @@
 # Purpose: Create CodeBuild projects
 locals {
   buildspecs = {
-    build = "${path.module}/templates/buildspec_build.yml"
-    test  = "${path.module}/templates/buildspec_test.yml"
+    build       = "${path.module}/templates/buildspec_build.yml"
+    test        = "${path.module}/templates/buildspec_test.yml"
+    docker_test = "${path.module}/templates/buildspec_docker_test.yml"
   }
 
   # This Terraform code block is creating a map of build projects using a for loop. 
@@ -31,6 +32,7 @@ locals {
   # The result of this for loop is a map where each key is a project name and each 
   # value is a map with keys vars, environment_variables, and buildspec. 
   # This map is assigned to the build_projects local value.
+
   build_projects = { for project in var.build_projects : (project.name) =>
     (project.name) == "build" ? {
       vars = merge({
@@ -40,8 +42,8 @@ locals {
         project_name    = var.project_name
       }, project.vars),
       environment_variables = concat(var.environment_variables, project.environment_variables),
-      buildspec             = lookup(local.buildspecs, project.name)
-      build_project_source  = var.build_project_source
+      buildspec             = lookup(var.build_projects, project.name, lookup(local.buildspecs, project.name))
+      build_project_source  = lookup(var.build_projects, "project_source", var.build_project_source)
       } : (project.name) == "test" ? {
       vars = merge({
         project_name      = var.project_name,
@@ -49,7 +51,7 @@ locals {
         troubleshoot      = lower(tostring(var.troubleshoot))
       }, project.vars)
       environment_variables = concat(var.environment_variables, project.environment_variables),
-      buildspec             = lookup(local.buildspecs, project.name)
+      buildspec             = lookup(var.build_projects, project.name, lookup(local.buildspecs, project.name))
       build_project_source  = var.test_project_source
       } : {
       vars                  = project.vars

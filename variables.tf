@@ -270,6 +270,15 @@ variable "goss_profile" {
   default     = "goss"
 }
 
+variable "goss_binary" {
+  type        = string
+  description = "GOSS Profile to be used for testing"
+  default     = "goss-linux-amd64"
+}
+
+
+
+
 variable "extra_parameters" {
   type    = map(string)
   default = {}
