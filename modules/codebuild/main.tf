@@ -31,8 +31,8 @@ locals {
   # The result of this for loop is a map where each key is a project name and each 
   # value is a map with keys vars, environment_variables, and buildspec. 
   # This map is assigned to the build_projects local value.
-  _build_projects = concat([
-    for project in var.build_projects : project if var.docker_test_enabled == true && project.name != "test"
+  _build_projects = var.docker_test_enabled ? concat([
+    for project in var.build_projects : project if project.name != "test"
     ],
     [
       {
@@ -43,7 +43,7 @@ locals {
         project_source        = var.build_project_source
       }
     ]
-  )
+  ) : var.build_projects
   build_projects = { for project in local._build_projects : (project.name) =>
     (project.name) == "build" ? {
       vars = merge({
