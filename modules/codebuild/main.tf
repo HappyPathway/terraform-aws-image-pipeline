@@ -36,7 +36,7 @@ locals {
     ],
     [
       {
-        name                  = "docker_test"
+        name                  = "test"
         vars                  = {}
         environment_variables = []
         buildspec             = lookup(local.buildspecs, "docker_test")
