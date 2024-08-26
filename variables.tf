@@ -98,6 +98,11 @@ variable "builder_image" {
   default     = "aws/codebuild/amazonlinux2-x86_64-standard:3.0"
 }
 
+variable "builder_images" {
+  type    = map(string)
+  default = {}
+}
+
 variable "builder_type" {
   description = "Type of codebuild run environment"
   type        = string
@@ -264,6 +269,15 @@ variable "goss_profile" {
   description = "GOSS Profile to be used for testing"
   default     = "goss"
 }
+
+variable "goss_binary" {
+  type        = string
+  description = "GOSS Profile to be used for testing"
+  default     = "goss-linux-amd64"
+}
+
+
+
 
 variable "extra_parameters" {
   type    = map(string)

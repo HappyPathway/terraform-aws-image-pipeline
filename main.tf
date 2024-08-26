@@ -73,6 +73,7 @@ module "codebuild_terraform" {
   test_project_source                 = var.test_project_source
   builder_compute_type                = var.builder_compute_type
   builder_image                       = var.builder_image
+  builder_images                      = var.builder_images
   builder_image_pull_credentials_type = var.builder_image_pull_credentials_type
   builder_type                        = var.builder_type
   vpc_config                          = local.vpc_config

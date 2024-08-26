@@ -1,8 +1,9 @@
 # Purpose: Create CodeBuild projects
 locals {
   buildspecs = {
-    build = "${path.module}/templates/buildspec_build.yml"
-    test  = "${path.module}/templates/buildspec_test.yml"
+    build       = "${path.module}/templates/buildspec_build.yml"
+    test        = "${path.module}/templates/buildspec_test.yml"
+    docker_test = "${path.module}/templates/buildspec_docker_test.yml"
   }
 
   # This Terraform code block is creating a map of build projects using a for loop. 
@@ -31,6 +32,7 @@ locals {
   # The result of this for loop is a map where each key is a project name and each 
   # value is a map with keys vars, environment_variables, and buildspec. 
   # This map is assigned to the build_projects local value.
+
   build_projects = { for project in var.build_projects : (project.name) =>
     (project.name) == "build" ? {
       vars = merge({
@@ -40,8 +42,8 @@ locals {
         project_name    = var.project_name
       }, project.vars),
       environment_variables = concat(var.environment_variables, project.environment_variables),
-      buildspec             = lookup(local.buildspecs, project.name)
-      build_project_source  = var.build_project_source
+      buildspec             = lookup(project, "buildspec", lookup(local.buildspecs, project.name))
+      build_project_source  = lookup(project, "project_source", var.build_project_source)
       } : (project.name) == "test" ? {
       vars = merge({
         project_name      = var.project_name,
@@ -49,8 +51,8 @@ locals {
         troubleshoot      = lower(tostring(var.troubleshoot))
       }, project.vars)
       environment_variables = concat(var.environment_variables, project.environment_variables),
-      buildspec             = lookup(local.buildspecs, project.name)
-      build_project_source  = var.test_project_source
+      buildspec             = lookup(project, "buildspec", lookup(local.buildspecs, project.name))
+      build_project_source  = lookup(project, "project_source", var.test_project_source)
       } : {
       vars                  = project.vars
       environment_variables = concat(var.environment_variables, project.environment_variables),
@@ -78,7 +80,7 @@ resource "aws_codebuild_project" "terraform_codebuild_project" {
 
   environment {
     compute_type                = var.builder_compute_type
-    image                       = var.builder_image
+    image                       = lookup(var.builder_images, each.key, var.builder_image)
     type                        = var.builder_type
     privileged_mode             = true
     image_pull_credentials_type = var.builder_image_pull_credentials_type
@@ -105,10 +107,10 @@ resource "aws_codebuild_project" "terraform_codebuild_project" {
     # If each.key is "test", it uses the templatefile function to render a template file specified by each.value.buildspec, 
     # with the variables specified by merging each.value.vars and a map containing state set to the value of the state variable.
     buildspec = each.key != "test" ? templatefile(
-      each.value.buildspec,
+      lookup(each.value, "buildspec") == null ? lookup(local.buildspecs, each.key) : lookup(each.value, "buildspec"),
       each.value.vars
       ) : templatefile(
-      each.value.buildspec,
+      lookup(each.value, "buildspec") == null ? lookup(local.buildspecs, each.key) : lookup(each.value, "buildspec"),
       merge(
         each.value.vars,
         {

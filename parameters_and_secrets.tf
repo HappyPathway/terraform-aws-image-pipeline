@@ -10,6 +10,7 @@ locals {
     security_group_ids = join(",", local.vpc_config.security_group_ids), # Comma-separated list of security group IDs.
     vpc_id             = local.vpc_config.vpc_id,                        # VPC ID where resources will be provisioned.
     goss_profile       = var.goss_profile,                               # GOSS profile for server testing.
+    goss_binary        = var.goss_binary,                                # GOSS binary for server testing.
     playbook           = var.playbook,                                   # Ansible playbook for configuration management.
     troubleshoot       = var.troubleshoot,                               # Enable troubleshooting mode.
     }, var.playbook == null ? {} : {
