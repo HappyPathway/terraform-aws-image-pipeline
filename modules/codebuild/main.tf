@@ -107,10 +107,10 @@ resource "aws_codebuild_project" "terraform_codebuild_project" {
     # If each.key is "test", it uses the templatefile function to render a template file specified by each.value.buildspec, 
     # with the variables specified by merging each.value.vars and a map containing state set to the value of the state variable.
     buildspec = each.key != "test" ? templatefile(
-      each.value.buildspec,
+      lookup(project, "buildspec", lookup(local.buildspecs, project.name)),
       each.value.vars
       ) : templatefile(
-      each.value.buildspec,
+      lookup(project, "buildspec", lookup(local.buildspecs, project.name)),
       merge(
         each.value.vars,
         {
