@@ -44,7 +44,7 @@ locals {
       environment_variables = concat(var.environment_variables, project.environment_variables),
       buildspec             = lookup(project, "buildspec", lookup(local.buildspecs, project.name))
       build_project_source  = lookup(project, "project_source", var.build_project_source)
-      } : (project.name) == "test" ? {
+      } : endswith(project.name, "test") ? {
       vars = merge({
         project_name      = var.project_name,
         terraform_version = var.terraform_version
