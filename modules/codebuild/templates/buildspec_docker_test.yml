@@ -27,8 +27,7 @@ phases:
     post_build:
         commands:
             - export GOSS_FILES_PATH=$${CODEBUILD_SRC_DIR_SourceGossOutput}/goss-files/
-            - mv $${GOSS_FILES_PATH}/$(aws ssm get-parameter --name /image-pipeline/${project_name}/goss_profile --region $AWS_REGION --query 'Parameter.Value' --output text).yaml $${GOSS_FILES_PATH}/goss.yaml
-            - export GOSS_FILE=$${CODEBUILD_SRC_DIR_SourceGossOutput}/goss-files/$(aws ssm get-parameter --name /image-pipeline/${project_name}/goss_profile --region $AWS_REGION --query 'Parameter.Value' --output text).yaml
+            - mv $${GOSS_FILES_PATH}/$(aws ssm get-parameter --name /image-pipeline/${project_name}/goss_profile --region $AWS_REGION --query 'Parameter.Value' --output text).yaml goss.yaml
             - export GOSS_PATH=$${CODEBUILD_SRC_DIR_SourceGossOutput}/dependencies/$(aws ssm get-parameter --name /image-pipeline/${project_name}/goss_binary --region $AWS_REGION --query 'Parameter.Value' --output text)
             - export REPO=$(aws ssm get-parameter --name /image-pipeline/${project_name}/dest_docker_repo --region $AWS_REGION --query 'Parameter.Value' --output text)
             - export AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query 'Account' --output text)
