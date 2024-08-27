@@ -30,7 +30,7 @@ phases:
             - export GOSS_PATH=$${CODEBUILD_SRC_DIR_SourceGossOutput}/dependencies/$(aws ssm get-parameter --name /image-pipeline/${project_name}/goss_binary --region $AWS_REGION --query 'Parameter.Value' --output text)
             - export REPO=$(aws ssm get-parameter --name /image-pipeline/${project_name}/dest_docker_repo --region $AWS_REGION --query 'Parameter.Value' --output text)
             - export IMAGE_TAG=$(aws ssm get-parameter --name /image-pipeline/${project_name}/dest_tag --region $AWS_REGION --query 'Parameter.Value' --output text)
-            - $${CODEBUILD_SRC_DIR_SourceGossOutput}/dependencies/dgoss run -e GOSS_FILE=$${GOSS_FILE} -r GOSS_PATH=$${GOSS_PATH} $${REPO}/${project_name}:$${IMAGE_TAG}
+            - $${CODEBUILD_SRC_DIR_SourceGossOutput}/dependencies/dgoss run -e GOSS_FILE=$${GOSS_FILE} -e GOSS_PATH=$${GOSS_PATH} $${REPO}/${project_name}:$${IMAGE_TAG}
             
 artifacts:
     files:
