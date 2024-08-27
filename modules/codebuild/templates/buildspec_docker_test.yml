@@ -27,7 +27,7 @@ phases:
     post_build:
         commands:
             - export GOSS_FILES=$${CODEBUILD_SRC_DIR_SourceGossOutput}/goss-files/
-            - mv ${GOSS_FILES}/$(aws ssm get-parameter --name /image-pipeline/${project_name}/goss_profile --region $AWS_REGION --query 'Parameter.Value' --output text).yaml $${GOSS_FILES}/goss.yaml
+            - mv $${GOSS_FILES}/$(aws ssm get-parameter --name /image-pipeline/${project_name}/goss_profile --region $AWS_REGION --query 'Parameter.Value' --output text).yaml $${GOSS_FILES}/goss.yaml
             - mv $(aws ssm get-parameter --name /image-pipeline/${project_name}/goss_profile --region $AWS_REGION --query 'Parameter.Value' --output text).yaml ./goss/goss.yaml
             - export GOSS_FILE=$${CODEBUILD_SRC_DIR_SourceGossOutput}/goss-files/$(aws ssm get-parameter --name /image-pipeline/${project_name}/goss_profile --region $AWS_REGION --query 'Parameter.Value' --output text).yaml
             - export GOSS_PATH=$${CODEBUILD_SRC_DIR_SourceGossOutput}/dependencies/$(aws ssm get-parameter --name /image-pipeline/${project_name}/goss_binary --region $AWS_REGION --query 'Parameter.Value' --output text)
