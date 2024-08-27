@@ -76,6 +76,7 @@ module "codebuild_terraform" {
   builder_images                      = var.builder_images
   builder_image_pull_credentials_type = var.builder_image_pull_credentials_type
   builder_type                        = var.builder_type
+  packer_config                       = var.packer_config
   vpc_config                          = local.vpc_config
   terraform_version                   = var.terraform_version
   state                               = var.state
