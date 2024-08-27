@@ -7,10 +7,12 @@ on:
       - main
     
 jobs:
-  terraform:
+  gtag:
     uses: HappyPathway/centralized-actions/.github/workflows/gtag.yml@main
     with:
       patch: true
       github_org: HappyPathway
+      github_username: djaboxx
+      github_email: dave@roknsound.com
     secrets:
       GH_TOKEN: ${{ secrets.GH_TOKEN }}
