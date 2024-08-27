@@ -1,46 +1,78 @@
+# Purpose: Create CodeBuild projects
 locals {
-  # Define paths to buildspec templates
   buildspecs = {
     build       = "${path.module}/templates/buildspec_build.yml"
     test        = "${path.module}/templates/buildspec_test.yml"
     docker_test = "${path.module}/templates/buildspec_docker_test.yml"
   }
+  # This Terraform code block is creating a map of build projects using a for loop. 
+  # It's iterating over the build_projects variable, which is expected to be a list of 
+  # maps where each map represents a build project.
 
-  # Conditionally include a docker_test build project if docker_test_enabled is true
-  _build_projects = var.docker_test_enabled ? concat(
-    # Include all build projects except the one named "test"
-    [for project in var.build_projects : project if project.name != "test"],
-    # Add a new "test" project with docker_test buildspec
-    [{
-      name                  = "test"
-      vars                  = {}
-      environment_variables = []
-      buildspec             = local.buildspecs.docker_test
-      project_source        = var.build_project_source
-    }]
+  # For each project, it checks the project's name:
+  # If the project's name is "build", it creates a map with the following keys:
+  # vars: This is a map that merges a predefined map (containing packer_version, mitogen_version, 
+  # and packer_config) with the vars from the current project.
+  # environment_variables: This is a list that concatenates a predefined list of 
+  # environment variables with the environment_variables from the current project.
+  # buildspec: This is set to a local value buildspec.
+
+  # If the project's name is "test", it creates a map with the following keys:
+  # vars: This is set to the vars from the current project.
+  # environment_variables: This is a list that concatenates a predefined list of environment variables with the environment_variables from the current project.
+  # buildspec: This is set to "test_buildspec.yml".
+
+  # If the project's name is neither "build" nor "test", it creates a map with the following keys:
+  # vars: This is set to the vars from the current project.
+  # environment_variables: This is a list that concatenates a predefined list of 
+  # environment variables with the environment_variables from the current project.
+  # buildspec: This is set to the buildspec from the current project.
+
+  # The result of this for loop is a map where each key is a project name and each 
+  # value is a map with keys vars, environment_variables, and buildspec. 
+  # This map is assigned to the build_projects local value.
+  _build_projects = var.docker_test_enabled ? concat([
+    for project in var.build_projects : project if project.name != "test"
+    ],
+    [
+      {
+        name                  = "test"
+        vars                  = {}
+        environment_variables = []
+        buildspec             = lookup(local.buildspecs, "docker_test")
+        project_source        = var.build_project_source
+      }
+    ]
   ) : var.build_projects
-
-  # Create a map of build projects with merged variables and environment settings
-  build_projects = {
-    for project in local._build_projects : project.name => {
-      # Merge common variables with project-specific variables
+  build_projects = { for project in local._build_projects : (project.name) =>
+    (project.name) == "build" ? {
+      vars = merge({
+        packer_version  = var.packer_version,
+        mitogen_version = var.mitogen_version,
+        packer_config   = var.packer_config,
+        project_name    = var.project_name
+      }, project.vars),
+      environment_variables = concat(var.environment_variables, project.environment_variables),
+      buildspec             = lookup(project, "buildspec", lookup(local.buildspecs, project.name))
+      build_project_source  = lookup(project, "project_source", var.build_project_source)
+      } : contains(["test", "docker_test"], project.name) ? {
       vars = merge({
         project_name      = var.project_name,
-        packer_version    = var.packer_version,
-        mitogen_version   = var.mitogen_version,
-        packer_config     = var.packer_config,
-        terraform_version = var.terraform_version,
+        terraform_version = var.terraform_version
         troubleshoot      = lower(tostring(var.troubleshoot))
       }, project.vars)
-      # Concatenate common environment variables with project-specific ones
-      environment_variables = concat(var.environment_variables, project.environment_variables)
-      # Lookup the buildspec for the project, defaulting to the one in buildspecs map
-      buildspec = lookup(project, "buildspec", lookup(local.buildspecs, project.name))
-      # Lookup the project source, defaulting to the common project source
-      build_project_source = lookup(project, "project_source", var.build_project_source)
+      environment_variables = concat(var.environment_variables, project.environment_variables),
+      buildspec             = lookup(project, "buildspec", lookup(local.buildspecs, project.name))
+      build_project_source  = lookup(project, "project_source", var.test_project_source)
+      } : {
+      vars                  = project.vars
+      environment_variables = concat(var.environment_variables, project.environment_variables),
+      buildspec             = project.buildspec
+      build_project_source  = project.project_source
     }
   }
 }
+
 
 resource "aws_codebuild_project" "terraform_codebuild_project" {
   for_each       = local.build_projects
@@ -79,10 +111,23 @@ resource "aws_codebuild_project" "terraform_codebuild_project" {
   }
   source {
     type = var.build_project_source
-    buildspec = templatefile(
-      lookup(each.value, "buildspec", lookup(local.buildspecs, each.key)),
-      each.key != "test" ? each.value.vars : merge(each.value.vars, { state = merge(var.state, { bucket = var.s3_bucket_name }) })
-    )
+    # buildspec is set based on a conditional expression. 
+    # The each.key != "test" condition checks if the current key in the iteration (provided by each.key) is not equal to "test".
+    # If each.key is not "test", it uses the templatefile function to render a template file specified by each.value.buildspec, 
+    # with the variables specified by each.value.vars.
+    # If each.key is "test", it uses the templatefile function to render a template file specified by each.value.buildspec, 
+    # with the variables specified by merging each.value.vars and a map containing state set to the value of the state variable.
+    buildspec = each.key != "test" ? templatefile(
+      lookup(each.value, "buildspec") == null ? lookup(local.buildspecs, each.key) : lookup(each.value, "buildspec"),
+      each.value.vars
+      ) : templatefile(
+      lookup(each.value, "buildspec") == null ? lookup(local.buildspecs, each.key) : lookup(each.value, "buildspec"),
+      merge(
+        each.value.vars,
+        {
+          state = merge(var.state, { bucket = var.s3_bucket_name })
+        }
+    ))
   }
 
   dynamic "vpc_config" {
