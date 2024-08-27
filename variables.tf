@@ -358,10 +358,3 @@ variable "docker_test_enabled" {
   type    = bool
   default = false
 }
-
-
-variable "packer_config" {
-  type        = string
-  description = "Name of Packer Config in Repo"
-  default     = "build.pkr.hcl"
-}
