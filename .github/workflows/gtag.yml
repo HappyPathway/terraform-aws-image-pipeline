@@ -7,6 +7,18 @@ on:
       - main
     
 jobs:
+  terraform:
+    uses: HappyPathway/centralized-actions/.github/workflows/terraform-test.yml@main
+    with:
+      terraform_version: 1.9.1
+      terraform_api: app.terraform.io
+      github_username: djaboxx
+      github_email: dave@roknsound.com
+      github_org: HappyPathway
+    secrets:
+      TFE_TOKEN: ${{ secrets.TFE_TOKEN }}
+      GH_TOKEN: ${{ secrets.GH_TOKEN }}
+
   gtag:
     uses: HappyPathway/centralized-actions/.github/workflows/gtag.yml@main
     with:
@@ -16,3 +28,4 @@ jobs:
       github_email: dave@roknsound.com
     secrets:
       GH_TOKEN: ${{ secrets.GH_TOKEN }}
+
