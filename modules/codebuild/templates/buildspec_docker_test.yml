@@ -26,8 +26,8 @@ phases:
 
     post_build:
         commands:
-            - export GOSS_FILES=$${CODEBUILD_SRC_DIR_SourceGossOutput}/goss-files/
-            - mv $${GOSS_FILES}/$(aws ssm get-parameter --name /image-pipeline/${project_name}/goss_profile --region $AWS_REGION --query 'Parameter.Value' --output text).yaml $${GOSS_FILES}/goss.yaml
+            - export GOSS_FILES_PATH=$${CODEBUILD_SRC_DIR_SourceGossOutput}/goss-files/
+            - mv $${GOSS_FILES_PATH}/$(aws ssm get-parameter --name /image-pipeline/${project_name}/goss_profile --region $AWS_REGION --query 'Parameter.Value' --output text).yaml $${GOSS_FILES_PATH}/goss.yaml
             - export GOSS_FILE=$${CODEBUILD_SRC_DIR_SourceGossOutput}/goss-files/$(aws ssm get-parameter --name /image-pipeline/${project_name}/goss_profile --region $AWS_REGION --query 'Parameter.Value' --output text).yaml
             - export GOSS_PATH=$${CODEBUILD_SRC_DIR_SourceGossOutput}/dependencies/$(aws ssm get-parameter --name /image-pipeline/${project_name}/goss_binary --region $AWS_REGION --query 'Parameter.Value' --output text)
             - export REPO=$(aws ssm get-parameter --name /image-pipeline/${project_name}/dest_docker_repo --region $AWS_REGION --query 'Parameter.Value' --output text)
@@ -36,7 +36,7 @@ phases:
             - export ECR_SERVER=$${AWS_ACCOUNT_ID}.dkr.ecr.$${AWS_REGION}.amazonaws.com
             - docker login -u AWS -p $${DOCKER_PASSWORD} $${ECR_SERVER}
             - export IMAGE_TAG=$(aws ssm get-parameter --name /image-pipeline/${project_name}/dest_tag --region $AWS_REGION --query 'Parameter.Value' --output text)
-            - $${CODEBUILD_SRC_DIR_SourceGossOutput}/dependencies/dgoss run -v $${GOSS_FILES}:/goss -e GOSS_PATH=$${GOSS_PATH} $${ECR_SERVER}/$${REPO}/${project_name}:$${IMAGE_TAG}
+            - $${CODEBUILD_SRC_DIR_SourceGossOutput}/dependencies/dgoss run -e GOSS_FILES_PATH_PATH=$${GOSS_FILES_PATH} -e GOSS_PATH=$${GOSS_PATH} $${ECR_SERVER}/$${REPO}/${project_name}:$${IMAGE_TAG}
             
 artifacts:
     files:
