@@ -37,7 +37,7 @@ phases:
             - export ECR_SERVER=$${AWS_ACCOUNT_ID}.dkr.ecr.$${AWS_REGION}.amazonaws.com
             - docker login -u AWS -p $${DOCKER_PASSWORD} $${ECR_SERVER}
             - export IMAGE_TAG=$(aws ssm get-parameter --name /image-pipeline/${project_name}/dest_tag --region $AWS_REGION --query 'Parameter.Value' --output text)
-            - $${CODEBUILD_SRC_DIR_SourceGossOutput}/dependencies/dgoss run -v ${GOSS_FILES}:/goss -e GOSS_PATH=$${GOSS_PATH} $${ECR_SERVER}/$${REPO}/${project_name}:$${IMAGE_TAG}
+            - $${CODEBUILD_SRC_DIR_SourceGossOutput}/dependencies/dgoss run -v $${GOSS_FILES}:/goss -e GOSS_PATH=$${GOSS_PATH} $${ECR_SERVER}/$${REPO}/${project_name}:$${IMAGE_TAG}
             
 artifacts:
     files:
