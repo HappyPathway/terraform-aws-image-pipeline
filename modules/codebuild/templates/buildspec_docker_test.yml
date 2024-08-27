@@ -30,8 +30,11 @@ phases:
             - export GOSS_PATH=$${CODEBUILD_SRC_DIR_SourceGossOutput}/dependencies/$(aws ssm get-parameter --name /image-pipeline/${project_name}/goss_binary --region $AWS_REGION --query 'Parameter.Value' --output text)
             - export REPO=$(aws ssm get-parameter --name /image-pipeline/${project_name}/dest_docker_repo --region $AWS_REGION --query 'Parameter.Value' --output text)
             - export AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query 'Account' --output text)
+            - export DOCKER_PASSWORD=$(aws ecr get-login-password --region $AWS_REGION)
+            - export ECR_SERVER=$${AWS_ACCOUNT_ID}.dkr.ecr.$${AWS_REGION}.amazonaws.com
+            - docker login -u AWS -p $${DOCKER_PASSWORD} $${ECR_SERVER}
             - export IMAGE_TAG=$(aws ssm get-parameter --name /image-pipeline/${project_name}/dest_tag --region $AWS_REGION --query 'Parameter.Value' --output text)
-            - $${CODEBUILD_SRC_DIR_SourceGossOutput}/dependencies/dgoss run -e GOSS_FILE=$${GOSS_FILE} -e GOSS_PATH=$${GOSS_PATH} $${AWS_ACCOUNT_ID}.dkr.ecr.$${AWS_REGION}.amazonaws.com/$${REPO}/${project_name}:$${IMAGE_TAG}
+            - $${CODEBUILD_SRC_DIR_SourceGossOutput}/dependencies/dgoss run -e GOSS_FILE=$${GOSS_FILE} -e GOSS_PATH=$${GOSS_PATH} $${ECR_SERVER}/$${REPO}/${project_name}:$${IMAGE_TAG}
             
 artifacts:
     files:
