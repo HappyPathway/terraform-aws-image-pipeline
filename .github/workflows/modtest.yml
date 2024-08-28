@@ -11,7 +11,7 @@ jobs:
   modtest:
     uses: HappyPathway/centralized-actions/.github/workflows/modtest.yml@main
     with:
-       workspace: aws-image-pipelin
+       workspace: aws-image-pipeline
        github_server: github.com 
        github_org: HappyPathway
        mod_source: image-pipeline/aws
