@@ -16,6 +16,7 @@ jobs:
        github_org: HappyPathway
        mod_source: image-pipeline/aws
        branch: ${{ github.head_ref }}
+       terraform_version: 1.9.1
     secrets:
       TFE_TOKEN: ${{ secrets.TFE_TOKEN }}
       GH_TOKEN: ${{ secrets.GH_TOKEN }}
