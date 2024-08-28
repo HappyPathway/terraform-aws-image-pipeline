@@ -1,4 +1,4 @@
-name: "Terraform"
+name: "ModTest"
 
 on:
   workflow_dispatch:
