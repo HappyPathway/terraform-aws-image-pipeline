@@ -6,7 +6,7 @@
 
 resource "aws_codepipeline" "terraform_pipeline" {
 
-  name     = "${var.project_name}-pipeline"
+  name     = var.project_name
   role_arn = var.codepipeline_role_arn
   tags     = var.tags
 
@@ -23,7 +23,7 @@ resource "aws_codepipeline" "terraform_pipeline" {
     name = "Source"
 
     action {
-      name             = "Download-Source"
+      name             = "Download-Packer-Template"
       category         = "Source"
       owner            = "AWS"
       version          = "1"
@@ -89,7 +89,7 @@ resource "aws_codepipeline" "terraform_pipeline" {
     for_each = var.stages
 
     content {
-      name = "Stage-${stage.value["name"]}"
+      name = stage.value["name"]
       action {
         category         = stage.value["category"]
         name             = "Action-${stage.value["name"]}"
