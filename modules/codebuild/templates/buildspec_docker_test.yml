@@ -26,22 +26,15 @@ phases:
 
     post_build:
         commands:
-            - export GOSS_FILES_PATH=$${CODEBUILD_SRC_DIR_SourceGossOutput}/goss-files/
-            - echo "GOSS_FILES_PATH is set to $${GOSS_FILES_PATH}"
-            - ls -l $${GOSS_FILES_PATH}
-            - mv $${GOSS_FILES_PATH}/$(aws ssm get-parameter --name /image-pipeline/${project_name}/goss_profile --region $AWS_REGION --query 'Parameter.Value' --output text).yaml goss.yaml
-            - echo "Moved goss file to goss.yaml"
-            - ls -l goss.yaml
-            - export GOSS_PATH=$${CODEBUILD_SRC_DIR_SourceGossOutput}/dependencies/$(aws ssm get-parameter --name /image-pipeline/${project_name}/goss_binary --region $AWS_REGION --query 'Parameter.Value' --output text)
-            - echo "GOSS_PATH is set to $${GOSS_PATH}"
+            - export GOSS_FILE=$${CODEBUILD_SRC_DIR_SourceGossOutput}/goss-files/$(aws ssm get-parameter --name /image-pipeline/${project_name}/goss_profile --region $AWS_REGION --query 'Parameter.Value' --output text).yaml
+            - export GOSS_BINARY=$${CODEBUILD_SRC_DIR_SourceGossOutput}/dependencies/$(aws ssm get-parameter --name /image-pipeline/${project_name}/goss_binary --region $AWS_REGION --query 'Parameter.Value' --output text)
             - export REPO=$(aws ssm get-parameter --name /image-pipeline/${project_name}/dest_docker_repo --region $AWS_REGION --query 'Parameter.Value' --output text)
             - export AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query 'Account' --output text)
             - export DOCKER_PASSWORD=$(aws ecr get-login-password --region $AWS_REGION)
             - export ECR_SERVER=$${AWS_ACCOUNT_ID}.dkr.ecr.$${AWS_REGION}.amazonaws.com
             - docker login -u AWS -p $${DOCKER_PASSWORD} $${ECR_SERVER}
             - export IMAGE_TAG=$(aws ssm get-parameter --name /image-pipeline/${project_name}/dest_tag --region $AWS_REGION --query 'Parameter.Value' --output text)
-            - echo "Running dgoss with IMAGE_TAG $${IMAGE_TAG}"
-            - $${CODEBUILD_SRC_DIR_SourceGossOutput}/dependencies/dgoss run -e GOSS_FILES_PATH_PATH=$${GOSS_FILES_PATH} -e GOSS_PATH=$${GOSS_PATH} $${ECR_SERVER}/$${REPO}/${project_name}:$${IMAGE_TAG}
+            - docker run -v ${GOSS_FILE}:/opt/goss/goss.yaml -v ${GOSS_BINARY}:/opt/goss/goss $${ECR_SERVER}/$${REPO}/${project_name}:$${IMAGE_TAG} /opt/goss/goss -g /opt/goss/goss.yaml validate
 artifacts:
     files:
         - '**/*'
