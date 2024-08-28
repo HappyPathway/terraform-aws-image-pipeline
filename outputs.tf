@@ -67,8 +67,12 @@ output "sec_group" {
   value = aws_security_group.packer
 }
 
-output "parameters" {
-  value = aws_ssm_parameter.parameters
+output "managed_parameters" {
+  value = aws_ssm_parameter.managed_parameters
+}
+
+output "nonmanaged_parameters" {
+  value = aws_ssm_parameter.nonmanaged_parameters
 }
 
 output "secrets" {
