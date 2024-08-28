@@ -117,7 +117,6 @@ variable "state" {
 
 variable "image" {
   type = object({
-    dest_image         = string
     source_image       = string
     source_tag         = string
     dest_tag           = string
