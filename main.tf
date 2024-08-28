@@ -117,7 +117,7 @@ module "codepipeline_iam_role" {
   ansible_bucket             = var.ansible_bucket
   goss_repo                  = var.goss_repo
   goss_bucket                = var.goss_bucket
-  image = merge(var.image,
+  image = var.image == null ? null : merge(var.image,
     {
       dest_image = var.project_name
     }
