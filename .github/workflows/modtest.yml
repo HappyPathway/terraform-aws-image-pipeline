@@ -11,8 +11,8 @@ jobs:
   modtest:
     uses: HappyPathway/centralized-actions/.github/workflows/modtest.yml@main
     with:
-       workspace: ${{ vars.test_workspace }}
+       workspace: aws-image-pipelin
        github_server: github.com 
-       github_org: ${{ vars.GH_ORG }}
+       github_org: HappyPathway
        mod_source: image-pipeline/aws
        branch: ${{ github.head_ref }}
