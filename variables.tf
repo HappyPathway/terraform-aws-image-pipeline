@@ -336,11 +336,10 @@ variable "troubleshoot" {
 
 variable "image" {
   type = object({
-    dest_image         = string
-    source_image       = string
-    source_tag         = string
     dest_tag           = string
     dest_docker_repo   = string
+    source_image       = string
+    source_tag         = string
     source_docker_repo = string
   })
   default = null
@@ -357,4 +356,11 @@ variable "ami" {
 variable "docker_test_enabled" {
   type    = bool
   default = false
+}
+
+variable "nonmanaged_parameters" {
+  type = list(string)
+  default = [
+    "dest_tag"
+  ]
 }

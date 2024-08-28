@@ -26,7 +26,12 @@ locals {
     }, var.ssh_user == null ? {} : {
     ssh_user = var.ssh_user,                      # SSH username for instance access.
     keyname  = "${var.project_name}-deployer-key" # Key pair name for SSH access.
-    }, var.image == null ? {} : var.image,
+    }, var.image == null ? {} : merge(
+    var.image,
+    {
+      dest_image = var.project_name
+    }
+    ),
     var.ami == null ? {} : {
       source_ami    = var.ami.source_ami,    # AMI ID used as the base image for instances.
       ami_name      = var.project_name,      # Name assigned to the AMI created.
@@ -64,11 +69,25 @@ locals {
   )
 }
 
-resource "aws_ssm_parameter" "parameters" {
-  for_each = tomap(local.ssm_parameters)
+# Managed Parameters: Parameters not listed in var.nonmanaged_parameters are fully managed by Terraform.
+resource "aws_ssm_parameter" "managed_parameters" {
+  for_each = tomap({ for k, v in local.ssm_parameters : k => v if !contains(var.nonmanaged_parameters, k) })
   name     = "/image-pipeline/${var.project_name}/${each.key}"
   type     = "StringList"
   value    = each.value
+}
+
+# Non-Managed Parameters: Parameters listed in var.nonmanaged_parameters are partially managed by Terraform, 
+# with changes to their values being ignored to allow for external updates without causing Terraform to 
+# revert them.
+resource "aws_ssm_parameter" "nonmanaged_parameters" {
+  for_each = tomap({ for k, v in local.ssm_parameters : k => v if contains(var.nonmanaged_parameters, k) })
+  name     = "/image-pipeline/${var.project_name}/${each.key}"
+  type     = "StringList"
+  value    = each.value
+  lifecycle {
+    ignore_changes = [value]
+  }
 }
 
 resource "aws_secretsmanager_secret" "secrets" {
