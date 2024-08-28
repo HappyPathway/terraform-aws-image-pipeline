@@ -16,3 +16,5 @@ jobs:
        github_org: HappyPathway
        mod_source: image-pipeline/aws
        branch: ${{ github.head_ref }}
+    secrets:
+      TFE_TOKEN: ${{ secrets.TFE_TOKEN }}
