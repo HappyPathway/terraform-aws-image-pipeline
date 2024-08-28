@@ -1,0 +1,22 @@
+name: "ModTest"
+
+on:
+  workflow_dispatch:
+  pull_request:
+  push:
+    branches:
+      - dev
+    
+jobs:
+  modtest:
+    uses: HappyPathway/centralized-actions/.github/workflows/modtest.yml@main
+    with:
+       workspace: aws-image-pipeline
+       github_server: github.com 
+       github_org: HappyPathway
+       mod_source: image-pipeline/aws
+       branch: ${{ github.head_ref }}
+       terraform_version: 1.9.1
+    secrets:
+      TFE_TOKEN: ${{ secrets.TFE_TOKEN }}
+      GH_TOKEN: ${{ secrets.GH_TOKEN }}

@@ -12,14 +12,15 @@ jobs:
     with:
       terraform_version: 1.9.1
       terraform_api: app.terraform.io
-      github_username: djaboxx
-      github_email: dave@roknsound.com
-      github_org: HappyPathway
+      github_username: ${{ github.actor }}
+      github_email: ${{ github.actor }}@roknsound.com
+      github_org: ${{ inputs.GH_ORG }}
     secrets:
       TFE_TOKEN: ${{ secrets.TFE_TOKEN }}
       GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
   gtag:
+    needs: terraform
     uses: HappyPathway/centralized-actions/.github/workflows/gtag.yml@main
     with:
       patch: true
