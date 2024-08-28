@@ -18,3 +18,4 @@ jobs:
        branch: ${{ github.head_ref }}
     secrets:
       TFE_TOKEN: ${{ secrets.TFE_TOKEN }}
+      GH_TOKEN: ${{ secrets.GH_TOKEN }}
