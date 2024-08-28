@@ -34,7 +34,7 @@ phases:
             - export ECR_SERVER=$${AWS_ACCOUNT_ID}.dkr.ecr.$${AWS_REGION}.amazonaws.com
             - docker login -u AWS -p $${DOCKER_PASSWORD} $${ECR_SERVER}
             - export IMAGE_TAG=$(aws ssm get-parameter --name /image-pipeline/${project_name}/dest_tag --region $AWS_REGION --query 'Parameter.Value' --output text)
-            - docker run -v ${GOSS_FILE}:/opt/goss/goss.yaml -v ${GOSS_BINARY}:/opt/goss/goss $${ECR_SERVER}/$${REPO}/${project_name}:$${IMAGE_TAG} /opt/goss/goss -g /opt/goss/goss.yaml validate
+            - docker run -v $${GOSS_FILE}:/opt/goss/goss.yaml -v $${GOSS_BINARY}:/opt/goss/goss $${ECR_SERVER}/$${REPO}/${project_name}:$${IMAGE_TAG} /opt/goss/goss -g /opt/goss/goss.yaml validate
 artifacts:
     files:
         - '**/*'
