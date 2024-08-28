@@ -157,7 +157,8 @@ Alternatively, use the _**create_new_role = false**_ option to use an existing I
 | [aws_secretsmanager_secret_version.secrets](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/secretsmanager_secret_version) | resource |
 | [aws_security_group.packer](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group) | resource |
 | [aws_security_group_rule.sg_rule](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group_rule) | resource |
-| [aws_ssm_parameter.parameters](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ssm_parameter) | resource |
+| [aws_ssm_parameter.managed_parameters](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ssm_parameter) | resource |
+| [aws_ssm_parameter.nonmanaged_parameters](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ssm_parameter) | resource |
 | [aws_vpc_endpoint.endpoint](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc_endpoint) | resource |
 | [aws_vpc_security_group_egress_rule.allow_all_traffic_ipv4](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc_security_group_egress_rule) | resource |
 | [aws_vpc_security_group_egress_rule.allow_all_traffic_ipv6](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc_security_group_egress_rule) | resource |
@@ -194,8 +195,9 @@ Alternatively, use the _**create_new_role = false**_ option to use an existing I
 | <a name="input_goss_profile"></a> [goss\_profile](#input\_goss\_profile) | GOSS Profile to be used for testing | `string` | `"goss"` | no |
 | <a name="input_goss_repo"></a> [goss\_repo](#input\_goss\_repo) | Source of Goss Repo | <pre>object({<br>    arn             = optional(string)<br>    repository_name = optional(string, "image-pipeline-goss-testing")<br>    branch          = optional(string, "main")<br>  })</pre> | `null` | no |
 | <a name="input_goss_source_type"></a> [goss\_source\_type](#input\_goss\_source\_type) | Type of source to be used for the Goss CodePipeline | `string` | `"CodeCommit"` | no |
-| <a name="input_image"></a> [image](#input\_image) | n/a | <pre>object({<br>    dest_image         = string<br>    source_image       = string<br>    source_tag         = string<br>    dest_tag           = string<br>    dest_docker_repo   = string<br>    source_docker_repo = string<br>  })</pre> | `null` | no |
+| <a name="input_image"></a> [image](#input\_image) | n/a | <pre>object({<br>    dest_tag           = string<br>    dest_docker_repo   = string<br>    source_image       = string<br>    source_tag         = string<br>    source_docker_repo = string<br>  })</pre> | `null` | no |
 | <a name="input_mitogen_version"></a> [mitogen\_version](#input\_mitogen\_version) | Mitogen Version | `string` | `"0.3.7"` | no |
+| <a name="input_nonmanaged_parameters"></a> [nonmanaged\_parameters](#input\_nonmanaged\_parameters) | n/a | `list(string)` | <pre>[<br>  "dest_tag"<br>]</pre> | no |
 | <a name="input_packer_bucket"></a> [packer\_bucket](#input\_packer\_bucket) | Source bucket details | <pre>object({<br>    name = string,<br>    key  = string<br>  })</pre> | `null` | no |
 | <a name="input_packer_config"></a> [packer\_config](#input\_packer\_config) | Name of Packer Config in Repo | `string` | `"build.pkr.hcl"` | no |
 | <a name="input_packer_repo"></a> [packer\_repo](#input\_packer\_repo) | Source of the Terraform Repo | <pre>object({<br>    arn             = optional(string)<br>    repository_name = optional(string, "linux-image-pipeline")<br>    branch          = optional(string, "main")<br>  })</pre> | `null` | no |
@@ -227,7 +229,8 @@ Alternatively, use the _**create_new_role = false**_ option to use an existing I
 | <a name="output_codepipeline_name"></a> [codepipeline\_name](#output\_codepipeline\_name) | The Name of the CodePipeline |
 | <a name="output_iam_arn"></a> [iam\_arn](#output\_iam\_arn) | The ARN of the IAM Role used by the CodePipeline |
 | <a name="output_kms_arn"></a> [kms\_arn](#output\_kms\_arn) | The ARN of the KMS key used in the codepipeline |
-| <a name="output_parameters"></a> [parameters](#output\_parameters) | n/a |
+| <a name="output_managed_parameters"></a> [managed\_parameters](#output\_managed\_parameters) | n/a |
+| <a name="output_nonmanaged_parameters"></a> [nonmanaged\_parameters](#output\_nonmanaged\_parameters) | n/a |
 | <a name="output_s3_arn"></a> [s3\_arn](#output\_s3\_arn) | The ARN of the S3 Bucket |
 | <a name="output_s3_bucket"></a> [s3\_bucket](#output\_s3\_bucket) | The Name of the S3 Bucket |
 | <a name="output_sec_group"></a> [sec\_group](#output\_sec\_group) | n/a |
