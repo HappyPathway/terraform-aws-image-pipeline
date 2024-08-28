@@ -35,7 +35,8 @@ phases:
             - docker login -u AWS -p $${DOCKER_PASSWORD} $${ECR_SERVER}
             - export IMAGE_TAG=$(aws ssm get-parameter --name /image-pipeline/${project_name}/dest_tag --region $AWS_REGION --query 'Parameter.Value' --output text)
             - chmod +x $${GOSS_BINARY}
-            - docker run -v $${GOSS_FILE}:/opt/goss/goss.yaml -v $${GOSS_BINARY}:/opt/goss/goss $${ECR_SERVER}/$${REPO}/${project_name}:$${IMAGE_TAG} /opt/goss/goss -g /opt/goss/goss.yaml validate
+            - echo "aws ecr batch-delete-image --repository-name $${REPO}/${project_name} --image-ids imageTag=$${IMAGE_TAG}" > delete_image.sh && chmod +x delete_image.sh
+            - (docker run -v $${GOSS_FILE}:/opt/goss/goss.yaml -v $${GOSS_BINARY}:/opt/goss/goss $${ECR_SERVER}/$${REPO}/${project_name}:$${IMAGE_TAG} /opt/goss/goss -g /opt/goss/goss.yaml validate) || (echo "Goss test failed" && ./delete_image.sh)
 artifacts:
     files:
         - '**/*'
