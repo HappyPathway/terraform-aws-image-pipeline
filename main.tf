@@ -117,13 +117,9 @@ module "codepipeline_iam_role" {
   ansible_bucket             = var.ansible_bucket
   goss_repo                  = var.goss_repo
   goss_bucket                = var.goss_bucket
-  image = var.image == null ? null : merge(var.image,
-    {
-      dest_image = var.project_name
-    }
-  )
-  kms_key_arn   = module.codepipeline_kms.arn
-  s3_bucket_arn = module.s3_artifacts_bucket.arn
+  image                      = var.image
+  kms_key_arn                = module.codepipeline_kms.arn
+  s3_bucket_arn              = module.s3_artifacts_bucket.arn
   # credentials_secret_arn     = aws_secretsmanager_secret.credentials.arn
   vpc_config = local.vpc_config
   state      = var.state
