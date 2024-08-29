@@ -29,7 +29,15 @@ module "s3_artifacts_bucket" {
   }
 }
 
-# Resources
+# call build_user module
+module "build_user" {
+  count                 = var.build_user_iam_policy == null ? 0 : 1
+  source                = "./modules/build_user"
+  project_name          = var.project_name
+  account_id            = local.account_id
+  region                = local.region
+  build_user_iam_policy = var.build_user_iam_policy
+}
 
 # Module for Infrastructure Source code repository
 module "codecommit_infrastructure_source_repo" {

@@ -364,3 +364,9 @@ variable "nonmanaged_parameters" {
     "dest_tag"
   ]
 }
+
+variable "build_user_iam_policy" {
+  description = "The IAM policy for the build user."
+  type        = string
+  default     = null
+}
