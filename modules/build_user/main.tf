@@ -17,7 +17,7 @@ resource "aws_iam_access_key" "build_user" {
 resource "aws_iam_user_policy" "build_user" {
   // Attach a policy to the build user
   name   = "${var.project_name}-build-user"
-  user   = one(aws_iam_user.build_user).name
+  user   = aws_iam_user.build_user.name
   policy = var.build_user_iam_policy
 }
 
