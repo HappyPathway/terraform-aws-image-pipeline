@@ -30,7 +30,7 @@ resource "aws_secretsmanager_secret_version" "credentials" {
   // Store the build user's access key and secret key in the Secrets Manager secret
   secret_id = aws_secretsmanager_secret.credentials.id
   secret_string = jsonencode({
-    aws_secret_access_key = aws_iam_access_key.build_user.secret_id,
+    aws_secret_access_key = aws_iam_access_key.build_user.secret,
     aws_access_key_id     = aws_iam_access_key.build_user.id
   })
 }
