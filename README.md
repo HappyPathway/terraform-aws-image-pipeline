@@ -142,6 +142,7 @@ Alternatively, use the _**create_new_role = false**_ option to use an existing I
 
 | Name | Source | Version |
 |------|--------|---------|
+| <a name="module_build_user"></a> [build\_user](#module\_build\_user) | ./modules/build_user | n/a |
 | <a name="module_codebuild_terraform"></a> [codebuild\_terraform](#module\_codebuild\_terraform) | ./modules/codebuild | n/a |
 | <a name="module_codecommit_infrastructure_source_repo"></a> [codecommit\_infrastructure\_source\_repo](#module\_codecommit\_infrastructure\_source\_repo) | ./modules/codecommit | n/a |
 | <a name="module_codepipeline_iam_role"></a> [codepipeline\_iam\_role](#module\_codepipeline\_iam\_role) | ./modules/iam-role | n/a |
@@ -179,6 +180,7 @@ Alternatively, use the _**create_new_role = false**_ option to use an existing I
 | <a name="input_build_permissions_iam_doc"></a> [build\_permissions\_iam\_doc](#input\_build\_permissions\_iam\_doc) | n/a | `any` | n/a | yes |
 | <a name="input_build_project_source"></a> [build\_project\_source](#input\_build\_project\_source) | Source Code Repo for Playbook | `string` | `"CODEPIPELINE"` | no |
 | <a name="input_build_projects"></a> [build\_projects](#input\_build\_projects) | List of Names of the CodeBuild projects to be created | <pre>list(object({<br>    name = string,<br>    vars = optional(map(string), {})<br>    environment_variables = optional(list(object({<br>      name  = string<br>      value = string<br>      type  = string<br>    })), [])<br>    buildspec = optional(string)<br>  }))</pre> | <pre>[<br>  {<br>    "name": "build"<br>  },<br>  {<br>    "name": "test"<br>  }<br>]</pre> | no |
+| <a name="input_build_user_iam_policy"></a> [build\_user\_iam\_policy](#input\_build\_user\_iam\_policy) | The IAM policy for the build user. | `string` | `null` | no |
 | <a name="input_builder_compute_type"></a> [builder\_compute\_type](#input\_builder\_compute\_type) | Relative path to the Apply and Destroy build spec file | `string` | `"BUILD_GENERAL1_SMALL"` | no |
 | <a name="input_builder_image"></a> [builder\_image](#input\_builder\_image) | Docker Image to be used by codebuild | `string` | `"aws/codebuild/amazonlinux2-x86_64-standard:3.0"` | no |
 | <a name="input_builder_image_pull_credentials_type"></a> [builder\_image\_pull\_credentials\_type](#input\_builder\_image\_pull\_credentials\_type) | Image pull credentials type used by codebuild project | `string` | `"CODEBUILD"` | no |
