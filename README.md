@@ -186,7 +186,6 @@ Alternatively, use the _**create_new_role = false**_ option to use an existing I
 | <a name="input_builder_images"></a> [builder\_images](#input\_builder\_images) | n/a | `map(string)` | `{}` | no |
 | <a name="input_builder_type"></a> [builder\_type](#input\_builder\_type) | Type of codebuild run environment | `string` | `"LINUX_CONTAINER"` | no |
 | <a name="input_codepipeline_iam_role_name"></a> [codepipeline\_iam\_role\_name](#input\_codepipeline\_iam\_role\_name) | Name of the IAM role to be used by the Codepipeline | `string` | `"codepipeline-role"` | no |
-| <a name="input_create_new_repo"></a> [create\_new\_repo](#input\_create\_new\_repo) | Whether to create a new repository. Values are true or false. Defaulted to true always. | `bool` | `true` | no |
 | <a name="input_create_new_role"></a> [create\_new\_role](#input\_create\_new\_role) | Whether to create a new IAM Role. Values are true or false. Defaulted to true always. | `bool` | `true` | no |
 | <a name="input_create_vpc_endpoint"></a> [create\_vpc\_endpoint](#input\_create\_vpc\_endpoint) | n/a | `bool` | `false` | no |
 | <a name="input_docker_test_enabled"></a> [docker\_test\_enabled](#input\_docker\_test\_enabled) | n/a | `bool` | `false` | no |
@@ -197,7 +196,6 @@ Alternatively, use the _**create_new_role = false**_ option to use an existing I
 | <a name="input_goss_repo"></a> [goss\_repo](#input\_goss\_repo) | Source of Goss Repo | <pre>object({<br>    arn             = optional(string)<br>    repository_name = optional(string, "image-pipeline-goss-testing")<br>    branch          = optional(string, "main")<br>  })</pre> | `null` | no |
 | <a name="input_goss_source_type"></a> [goss\_source\_type](#input\_goss\_source\_type) | Type of source to be used for the Goss CodePipeline | `string` | `"CodeCommit"` | no |
 | <a name="input_image"></a> [image](#input\_image) | n/a | <pre>object({<br>    dest_tag           = string<br>    dest_docker_repo   = string<br>    source_image       = string<br>    source_tag         = string<br>    source_docker_repo = string<br>  })</pre> | `null` | no |
-| <a name="input_mitogen_version"></a> [mitogen\_version](#input\_mitogen\_version) | Mitogen Version | `string` | `"0.3.7"` | no |
 | <a name="input_nonmanaged_parameters"></a> [nonmanaged\_parameters](#input\_nonmanaged\_parameters) | n/a | `list(string)` | <pre>[<br>  "dest_tag"<br>]</pre> | no |
 | <a name="input_packer_bucket"></a> [packer\_bucket](#input\_packer\_bucket) | Source bucket details | <pre>object({<br>    name = string,<br>    key  = string<br>  })</pre> | `null` | no |
 | <a name="input_packer_config"></a> [packer\_config](#input\_packer\_config) | Name of Packer Config in Repo | `string` | `"build.pkr.hcl"` | no |
