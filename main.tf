@@ -72,22 +72,8 @@ module "codebuild_terraform" {
   state                               = var.state
   troubleshoot                        = var.troubleshoot
   docker_test_enabled                 = var.docker_test_enabled
-  environment_variables = concat(
-    var.build_environment_variables,
-    var.vpc_config != null ? [
-      {
-        name  = "PKR_VAR_security_group_id",
-        value = element(var.vpc_config.security_group_ids, 0),
-        type  = "PLAINTEXT"
-      },
-      {
-        name  = "PKR_VAR_subnet_id",
-        value = element(var.vpc_config.subnets, 0),
-        type  = "PLAINTEXT"
-      }
-    ] : []
-  )
-  kms_key_arn = module.codepipeline_kms.arn
+  environment_variables               = var.build_environment_variables
+  kms_key_arn                         = module.codepipeline_kms.arn
 
   tags = {
     Project_Name = var.project_name
