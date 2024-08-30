@@ -165,6 +165,7 @@ Alternatively, use the _**create_new_role = false**_ option to use an existing I
 | [aws_vpc_security_group_egress_rule.allow_all_traffic_ipv6](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc_security_group_egress_rule) | resource |
 | [aws_vpc_security_group_ingress_rule.allow_all_ssh_ipv4](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc_security_group_ingress_rule) | resource |
 | [aws_caller_identity.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/caller_identity) | data source |
+| [aws_iam_policy_document.build_user_default](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_partition.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/partition) | data source |
 | [aws_region.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/region) | data source |
 
@@ -205,8 +206,10 @@ Alternatively, use the _**create_new_role = false**_ option to use an existing I
 | <a name="input_packer_repo"></a> [packer\_repo](#input\_packer\_repo) | Source of the Terraform Repo | <pre>object({<br>    arn             = optional(string)<br>    repository_name = optional(string, "linux-image-pipeline")<br>    branch          = optional(string, "main")<br>  })</pre> | `null` | no |
 | <a name="input_packer_source_type"></a> [packer\_source\_type](#input\_packer\_source\_type) | Type of source to be used for the CodePipeline | `string` | `"CodeCommit"` | no |
 | <a name="input_packer_version"></a> [packer\_version](#input\_packer\_version) | Terraform CLI Version | `string` | `"1.10.3"` | no |
+| <a name="input_parameter_arns"></a> [parameter\_arns](#input\_parameter\_arns) | n/a | `list(string)` | `null` | no |
 | <a name="input_playbook"></a> [playbook](#input\_playbook) | n/a | `string` | `null` | no |
 | <a name="input_project_name"></a> [project\_name](#input\_project\_name) | Unique name for this project | `string` | n/a | yes |
+| <a name="input_secret_arns"></a> [secret\_arns](#input\_secret\_arns) | n/a | `list(string)` | `null` | no |
 | <a name="input_secrets"></a> [secrets](#input\_secrets) | n/a | `map(string)` | `{}` | no |
 | <a name="input_shared_accounts"></a> [shared\_accounts](#input\_shared\_accounts) | n/a | `list(string)` | `null` | no |
 | <a name="input_ssh_user"></a> [ssh\_user](#input\_ssh\_user) | SSH username | `string` | `null` | no |
