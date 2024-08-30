@@ -9,12 +9,6 @@ variable "project_name" {
   type        = string
 }
 
-variable "create_new_repo" {
-  description = "Whether to create a new repository. Values are true or false. Defaulted to true always."
-  type        = bool
-  default     = true
-}
-
 variable "create_new_role" {
   description = "Whether to create a new IAM Role. Values are true or false. Defaulted to true always."
   type        = bool
@@ -140,12 +134,6 @@ variable "packer_version" {
   type        = string
   description = "Terraform CLI Version"
   default     = "1.10.3"
-}
-
-variable "mitogen_version" {
-  type        = string
-  description = "Mitogen Version"
-  default     = "0.3.7"
 }
 
 variable "packer_config" {
