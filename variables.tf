@@ -297,17 +297,6 @@ variable "userdata" {
   default = null
 }
 
-variable "vpc_services" {
-  type = list(string)
-  default = [
-    "codecommit",
-    "git-codecommit",
-    "s3",
-    "ecr.dkr",
-    "ecr.api",
-  ]
-}
-
 variable "troubleshoot" {
   type    = bool
   default = false
