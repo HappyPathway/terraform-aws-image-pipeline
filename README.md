@@ -186,7 +186,6 @@ Alternatively, use the _**create_new_role = false**_ option to use an existing I
 | <a name="input_builder_type"></a> [builder\_type](#input\_builder\_type) | Type of codebuild run environment | `string` | `"LINUX_CONTAINER"` | no |
 | <a name="input_codepipeline_iam_role_name"></a> [codepipeline\_iam\_role\_name](#input\_codepipeline\_iam\_role\_name) | Name of the IAM role to be used by the Codepipeline | `string` | `"codepipeline-role"` | no |
 | <a name="input_create_new_role"></a> [create\_new\_role](#input\_create\_new\_role) | Whether to create a new IAM Role. Values are true or false. Defaulted to true always. | `bool` | `true` | no |
-| <a name="input_create_vpc_endpoint"></a> [create\_vpc\_endpoint](#input\_create\_vpc\_endpoint) | n/a | `bool` | `false` | no |
 | <a name="input_docker_test_enabled"></a> [docker\_test\_enabled](#input\_docker\_test\_enabled) | n/a | `bool` | `false` | no |
 | <a name="input_extra_parameters"></a> [extra\_parameters](#input\_extra\_parameters) | n/a | `map(string)` | `{}` | no |
 | <a name="input_goss_binary"></a> [goss\_binary](#input\_goss\_binary) | GOSS Profile to be used for testing | `string` | `"goss-linux-amd64"` | no |
