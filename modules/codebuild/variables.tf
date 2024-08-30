@@ -100,12 +100,6 @@ variable "packer_version" {
   default     = "1.10.3"
 }
 
-variable "mitogen_version" {
-  type        = string
-  description = "Packer CLI Version"
-  default     = "0.3.7"
-}
-
 variable "packer_config" {
   type        = string
   description = "Name of Packer Config in Repo"

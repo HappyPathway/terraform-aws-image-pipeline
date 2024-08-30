@@ -11,8 +11,8 @@ locals {
 
   # For each project, it checks the project's name:
   # If the project's name is "build", it creates a map with the following keys:
-  # vars: This is a map that merges a predefined map (containing packer_version, mitogen_version, 
-  # and packer_config) with the vars from the current project.
+  # vars: This is a map that merges a predefined map (containing packer_version, and packer_config) 
+  # with the vars from the current project.
   # environment_variables: This is a list that concatenates a predefined list of 
   # environment variables with the environment_variables from the current project.
   # buildspec: This is set to a local value buildspec.
@@ -47,10 +47,9 @@ locals {
   build_projects = { for project in local._build_projects : (project.name) =>
     (project.name) == "build" ? {
       vars = merge({
-        packer_version  = var.packer_version,
-        mitogen_version = var.mitogen_version,
-        packer_config   = var.packer_config,
-        project_name    = var.project_name
+        packer_version = var.packer_version,
+        packer_config  = var.packer_config,
+        project_name   = var.project_name
       }, project.vars),
       environment_variables = concat(var.environment_variables, project.environment_variables),
       buildspec             = lookup(project, "buildspec", lookup(local.buildspecs, project.name))

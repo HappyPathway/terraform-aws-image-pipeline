@@ -154,10 +154,6 @@ variable "packer_config" {
   default     = "build.pkr.hcl"
 }
 
-variable "build_permissions_iam_doc" {
-  type = any
-}
-
 variable "packer_source_type" {
   description = "Type of source to be used for the CodePipeline"
   type        = string
