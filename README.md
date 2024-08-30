@@ -144,7 +144,6 @@ Alternatively, use the _**create_new_role = false**_ option to use an existing I
 |------|--------|---------|
 | <a name="module_build_user"></a> [build\_user](#module\_build\_user) | ./modules/build_user | n/a |
 | <a name="module_codebuild_terraform"></a> [codebuild\_terraform](#module\_codebuild\_terraform) | ./modules/codebuild | n/a |
-| <a name="module_codecommit_infrastructure_source_repo"></a> [codecommit\_infrastructure\_source\_repo](#module\_codecommit\_infrastructure\_source\_repo) | ./modules/codecommit | n/a |
 | <a name="module_codepipeline_iam_role"></a> [codepipeline\_iam\_role](#module\_codepipeline\_iam\_role) | ./modules/iam-role | n/a |
 | <a name="module_codepipeline_kms"></a> [codepipeline\_kms](#module\_codepipeline\_kms) | ./modules/kms | n/a |
 | <a name="module_codepipeline_terraform"></a> [codepipeline\_terraform](#module\_codepipeline\_terraform) | ./modules/codepipeline | n/a |
@@ -178,7 +177,6 @@ Alternatively, use the _**create_new_role = false**_ option to use an existing I
 | <a name="input_ansible_repo"></a> [ansible\_repo](#input\_ansible\_repo) | Source of Ansible Repo | <pre>object({<br>    arn             = optional(string)<br>    repository_name = optional(string, "image-pipeline-ansible-playbooks")<br>    branch          = optional(string, "main")<br>  })</pre> | `null` | no |
 | <a name="input_ansible_source_type"></a> [ansible\_source\_type](#input\_ansible\_source\_type) | Type of source to be used for the Ansible CodePipeline | `string` | `"CodeCommit"` | no |
 | <a name="input_build_environment_variables"></a> [build\_environment\_variables](#input\_build\_environment\_variables) | n/a | <pre>list(object({<br>    name  = string<br>    value = string<br>    type  = optional(string, "PLAINTEXT")<br>  }))</pre> | `null` | no |
-| <a name="input_build_permissions_iam_doc"></a> [build\_permissions\_iam\_doc](#input\_build\_permissions\_iam\_doc) | n/a | `any` | n/a | yes |
 | <a name="input_build_project_source"></a> [build\_project\_source](#input\_build\_project\_source) | Source Code Repo for Playbook | `string` | `"CODEPIPELINE"` | no |
 | <a name="input_build_projects"></a> [build\_projects](#input\_build\_projects) | List of Names of the CodeBuild projects to be created | <pre>list(object({<br>    name = string,<br>    vars = optional(map(string), {})<br>    environment_variables = optional(list(object({<br>      name  = string<br>      value = string<br>      type  = string<br>    })), [])<br>    buildspec = optional(string)<br>  }))</pre> | <pre>[<br>  {<br>    "name": "build"<br>  },<br>  {<br>    "name": "test"<br>  }<br>]</pre> | no |
 | <a name="input_build_user_iam_policy"></a> [build\_user\_iam\_policy](#input\_build\_user\_iam\_policy) | The IAM policy for the build user. | `string` | `null` | no |
@@ -227,9 +225,6 @@ Alternatively, use the _**create_new_role = false**_ option to use an existing I
 
 | Name | Description |
 |------|-------------|
-| <a name="output_codecommit_arn"></a> [codecommit\_arn](#output\_codecommit\_arn) | The ARN of the Codecommit repository |
-| <a name="output_codecommit_name"></a> [codecommit\_name](#output\_codecommit\_name) | The name of the Codecommit repository |
-| <a name="output_codecommit_url"></a> [codecommit\_url](#output\_codecommit\_url) | The Clone URL of the Codecommit repository |
 | <a name="output_codepipeline_arn"></a> [codepipeline\_arn](#output\_codepipeline\_arn) | The ARN of the CodePipeline |
 | <a name="output_codepipeline_name"></a> [codepipeline\_name](#output\_codepipeline\_name) | The Name of the CodePipeline |
 | <a name="output_iam_arn"></a> [iam\_arn](#output\_iam\_arn) | The ARN of the IAM Role used by the CodePipeline |
