@@ -214,7 +214,6 @@ Alternatively, use the _**create_new_role = false**_ option to use an existing I
 | <a name="input_troubleshoot"></a> [troubleshoot](#input\_troubleshoot) | n/a | `bool` | `false` | no |
 | <a name="input_userdata"></a> [userdata](#input\_userdata) | n/a | `string` | `null` | no |
 | <a name="input_vpc_config"></a> [vpc\_config](#input\_vpc\_config) | n/a | <pre>object({<br>    security_group_ids = list(string)<br>    subnets            = list(string)<br>    vpc_id             = string<br>    region             = string<br>  })</pre> | `null` | no |
-| <a name="input_vpc_services"></a> [vpc\_services](#input\_vpc\_services) | n/a | `list(string)` | <pre>[<br>  "codecommit",<br>  "git-codecommit",<br>  "s3",<br>  "ecr.dkr",<br>  "ecr.api"<br>]</pre> | no |
 | <a name="input_winrm_credentials"></a> [winrm\_credentials](#input\_winrm\_credentials) | n/a | <pre>object({<br>    username = string<br>    password = string<br>  })</pre> | `null` | no |
 
 ## Outputs
