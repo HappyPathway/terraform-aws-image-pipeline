@@ -36,7 +36,7 @@ module "build_user" {
   project_name          = var.project_name
   account_id            = local.account_id
   region                = local.region
-  build_user_iam_policy = var.build_user_iam_policy
+  build_user_iam_policy = local.build_user_iam_policy
 }
 
 # Module for Infrastructure Source code repository

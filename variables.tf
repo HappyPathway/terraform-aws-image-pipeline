@@ -370,3 +370,13 @@ variable "build_user_iam_policy" {
   type        = string
   default     = null
 }
+
+variable "parameter_arns" {
+  type    = list(string)
+  default = null
+}
+
+variable "secret_arns" {
+  type    = list(string)
+  default = null
+}
