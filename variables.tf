@@ -297,11 +297,6 @@ variable "userdata" {
   default = null
 }
 
-variable "create_vpc_endpoint" {
-  type    = bool
-  default = false
-}
-
 variable "vpc_services" {
   type = list(string)
   default = [
