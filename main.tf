@@ -31,7 +31,7 @@ module "s3_artifacts_bucket" {
 
 # call build_user module
 module "build_user" {
-  count                 = var.build_user_iam_policy == null ? 0 : 1
+  count                 = local.build_user_iam_policy == null ? 0 : 1
   source                = "./modules/build_user"
   project_name          = var.project_name
   account_id            = local.account_id
