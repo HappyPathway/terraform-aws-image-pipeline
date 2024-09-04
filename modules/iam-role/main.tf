@@ -88,7 +88,8 @@ data "aws_iam_policy_document" "codepipeline_policy" {
       "ssm:*"
     ]
     resources = [
-      "arn:${data.aws_partition.current.partition}:ssm:${data.aws_region.current.id}:${data.aws_caller_identity.current.account_id}:parameter/image-pipeline/${var.project_name}/*"
+      "arn:${data.aws_partition.current.partition}:ssm:${data.aws_region.current.id}:${data.aws_caller_identity.current.account_id}:parameter/image-pipeline/${var.project_name}/*",
+      "arn:${data.aws_partition.current.partition}:ssm:${data.aws_region.current.id}:${data.aws_caller_identity.current.account_id}:parameter/image-pipeline/global/*"
     ]
   }
 
@@ -99,6 +100,7 @@ data "aws_iam_policy_document" "codepipeline_policy" {
     ]
     resources = [
       "arn:${data.aws_partition.current.partition}:secretsmanager:${data.aws_region.current.id}:${data.aws_caller_identity.current.account_id}:secret:/image-pipeline/${var.project_name}/*"
+      "arn:${data.aws_partition.current.partition}:secretsmanager:${data.aws_region.current.id}:${data.aws_caller_identity.current.account_id}:secret:/image-pipeline/global/*"
     ]
   }
   statement {
