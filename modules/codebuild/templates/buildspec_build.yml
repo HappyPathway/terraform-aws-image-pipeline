@@ -35,7 +35,7 @@ phases:
             - cd $${CODEBUILD_SRC_DIR}/$${CODE_SRC_DIR}
             - /bin/packer init ${packer_config}
             - ln -s $${CODEBUILD_SRC_DIR_SourceAnsibleOutput}/roles
-            - /bin/packer build -var project_name=${project_name} -var ansible_dir=$${CODEBUILD_SRC_DIR_SourceAnsibleOutput} -var session_token=$${AWS_SESSION_TOKEN} -var access_key=$${AWS_SECRET_ACCESS_KEY} -var secret_key=$${AWS_SECRET_ACCESS_KEY} ${packer_config}
+            - /bin/packer build -var region=$${AWS_REGION} -var project_name=${project_name} -var ansible_dir=$${CODEBUILD_SRC_DIR_SourceAnsibleOutput} -var session_token=$${AWS_SESSION_TOKEN} -var access_key=$${AWS_SECRET_ACCESS_KEY} -var secret_key=$${AWS_SECRET_ACCESS_KEY} ${packer_config}
     post_build:
         commands:
             - cd $${CODEBUILD_SRC_DIR}/$${CODE_SRC_DIR}
