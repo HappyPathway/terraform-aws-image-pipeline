@@ -71,7 +71,7 @@ module "codebuild_terraform" {
   terraform_version                   = var.terraform_version
   state                               = var.state
   troubleshoot                        = var.troubleshoot
-  docker_test_enabled                 = var.docker_test_enabled
+  docker_build                        = var.docker_build
   environment_variables               = var.build_environment_variables
   kms_key_arn                         = module.codepipeline_kms.arn
 

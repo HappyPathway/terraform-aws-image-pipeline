@@ -321,7 +321,7 @@ variable "ami" {
   default = null
 }
 
-variable "docker_test_enabled" {
+variable "docker_build" {
   type    = bool
   default = false
 }

@@ -1,9 +1,10 @@
 # Purpose: Create CodeBuild projects
 locals {
   buildspecs = {
-    build       = "${path.module}/templates/buildspec_build.yml"
-    test        = "${path.module}/templates/buildspec_test.yml"
-    docker_test = "${path.module}/templates/buildspec_docker_test.yml"
+    build        = "${path.module}/templates/buildspec_build.yml"
+    test         = "${path.module}/templates/buildspec_test.yml"
+    docker_test  = "${path.module}/templates/buildspec_docker_test.yml"
+    docker_build = "${path.module}/templates/buildspec_docker_build.yml"
   }
   # This Terraform code block is creating a map of build projects using a for loop. 
   # It's iterating over the build_projects variable, which is expected to be a list of 
@@ -31,10 +32,17 @@ locals {
   # The result of this for loop is a map where each key is a project name and each 
   # value is a map with keys vars, environment_variables, and buildspec. 
   # This map is assigned to the build_projects local value.
-  _build_projects = var.docker_test_enabled ? concat([
-    for project in var.build_projects : project if project.name != "test"
+  _build_projects = var.docker_build ? concat([
+    for project in var.build_projects : project if !contains(["test", "build"], project.name)
     ],
     [
+      {
+        name                  = "build"
+        vars                  = {}
+        environment_variables = []
+        buildspec             = lookup(local.buildspecs, "docker_build")
+        project_source        = var.build_project_source
+      },
       {
         name                  = "test"
         vars                  = {}
