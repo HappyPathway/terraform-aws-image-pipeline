@@ -67,11 +67,17 @@ locals {
     length(local.parameters_keys) > 0 ? { parameters = join(",", local.parameters_keys) } : {},         # Compile a comma-separated list of parameter keys.
     length(local.secret_keys) > 0 ? { secrets = join(",", local.secret_keys) } : {}                     # Compile a comma-separated list of secret keys if any.
   )
+  nonsensitive_parameters = tomap(
+    { for k, v in local.ssm_parameters :
+      (issensitive(k) ? nonsensitive(k) : k) => (issensitive(v) ? nonsensitive(v) : v)
+      if !contains(var.nonmanaged_parameters, issensitive(k) ? nonsensitive(k) : k)
+    }
+  )
 }
 
 # Managed Parameters: Parameters not listed in var.nonmanaged_parameters are fully managed by Terraform.
 resource "aws_ssm_parameter" "managed_parameters" {
-  for_each = tomap({ for k, v in local.ssm_parameters : k => v if !contains(var.nonmanaged_parameters, k) })
+  for_each = local.nonsensitive_parameters
   name     = "/image-pipeline/${var.project_name}/${each.key}"
   type     = "StringList"
   value    = each.value
@@ -81,7 +87,7 @@ resource "aws_ssm_parameter" "managed_parameters" {
 # with changes to their values being ignored to allow for external updates without causing Terraform to 
 # revert them.
 resource "aws_ssm_parameter" "nonmanaged_parameters" {
-  for_each = tomap({ for k, v in local.ssm_parameters : k => v if contains(var.nonmanaged_parameters, k) })
+  for_each = local.nonsensitive_parameters
   name     = "/image-pipeline/${var.project_name}/${each.key}"
   type     = "StringList"
   value    = each.value
