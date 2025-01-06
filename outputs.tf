@@ -56,10 +56,6 @@ output "managed_parameters" {
   value = aws_ssm_parameter.managed_parameters
 }
 
-output "nonmanaged_parameters" {
-  value = aws_ssm_parameter.nonmanaged_parameters
-}
-
 output "secrets" {
   value = aws_secretsmanager_secret.secrets
 }
