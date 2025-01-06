@@ -83,18 +83,18 @@ resource "aws_ssm_parameter" "managed_parameters" {
   value    = each.value
 }
 
-# Non-Managed Parameters: Parameters listed in var.nonmanaged_parameters are partially managed by Terraform, 
-# with changes to their values being ignored to allow for external updates without causing Terraform to 
-# revert them.
-resource "aws_ssm_parameter" "nonmanaged_parameters" {
-  for_each = local.nonsensitive_parameters
-  name     = "/image-pipeline/${var.project_name}/${each.key}"
-  type     = "StringList"
-  value    = each.value
-  lifecycle {
-    ignore_changes = [value]
-  }
-}
+# # Non-Managed Parameters: Parameters listed in var.nonmanaged_parameters are partially managed by Terraform, 
+# # with changes to their values being ignored to allow for external updates without causing Terraform to 
+# # revert them.
+# resource "aws_ssm_parameter" "nonmanaged_parameters" {
+#   for_each = [for param in local.nonsensitive_parameters : param if !contains(var.nonmanaged_parameters, param.key)]
+#   name     = "/image-pipeline/${var.project_name}/${each.key}"
+#   type     = "StringList"
+#   value    = each.value
+#   lifecycle {
+#     ignore_changes = [value]
+#   }
+# }
 
 resource "aws_secretsmanager_secret" "secrets" {
   for_each = toset(local.secret_keys)
