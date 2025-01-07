@@ -25,10 +25,9 @@ data "aws_iam_policy_document" "build_user_default" {
     actions = [
       "kms:*"
     ]
-    resources = concat([
-      "arn:${data.aws_partition.current.partition}:kms:${data.aws_region.current.id}:${data.aws_caller_identity.current.account_id}:parameter/image-pipeline/${var.project_name}/*"
-      ],
-    var.parameter_arns == null ? [] : var.parameter_arns)
+    resources =[
+      "arn:${data.aws_partition.current.partition}:kms:${data.aws_region.current.id}:${data.aws_caller_identity.current.account_id}:*"
+    ]
   }
 
   statement {
