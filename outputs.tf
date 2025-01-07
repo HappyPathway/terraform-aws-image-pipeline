@@ -45,7 +45,7 @@ output "s3_bucket" {
 }
 
 output user {
-  value = module.build_user.user
+  value = one(module.build_user).user
 }
 
 output "sec_group" {
