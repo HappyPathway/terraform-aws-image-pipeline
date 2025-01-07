@@ -59,3 +59,4 @@ output "managed_parameters" {
 output "secrets" {
   value = aws_secretsmanager_secret.secrets
 }
+
