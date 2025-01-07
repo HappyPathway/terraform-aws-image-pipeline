@@ -44,9 +44,9 @@ output "s3_bucket" {
   description = "The Name of the S3 Bucket"
 }
 
-# output "build_user" {
-#   value = aws_iam_user.build_user
-# }
+output user {
+  value = module.build_user.user
+}
 
 output "sec_group" {
   value = aws_security_group.packer
