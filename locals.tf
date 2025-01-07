@@ -15,8 +15,18 @@ data "aws_iam_policy_document" "build_user_default" {
     actions = [
       "ssm:*"
     ]
+    resources = [
+      "arn:${data.aws_partition.current.partition}:ssm:${data.aws_region.current.id}:${data.aws_caller_identity.current.account_id}:*"
+    ]
+  }
+
+  statement {
+    effect = "Allow"
+    actions = [
+      "kms:*"
+    ]
     resources = concat([
-      "arn:${data.aws_partition.current.partition}:ssm:${data.aws_region.current.id}:${data.aws_caller_identity.current.account_id}:parameter/image-pipeline/${var.project_name}/*"
+      "arn:${data.aws_partition.current.partition}:kms:${data.aws_region.current.id}:${data.aws_caller_identity.current.account_id}:parameter/image-pipeline/${var.project_name}/*"
       ],
     var.parameter_arns == null ? [] : var.parameter_arns)
   }
