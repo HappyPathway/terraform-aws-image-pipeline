@@ -95,7 +95,7 @@ module "codepipeline_iam_role" {
   goss_bucket                = var.goss_bucket
   image                      = var.image
   kms_key_arn                = module.codepipeline_kms.arn
-  shared_kms_key_arn         = var.shared_kms_key_arn
+  shared_kms_key_arns        = var.shared_kms_key_arns
   s3_bucket_arn              = module.s3_artifacts_bucket.arn
   # credentials_secret_arn     = aws_secretsmanager_secret.credentials.arn
   vpc_config = local.vpc_config

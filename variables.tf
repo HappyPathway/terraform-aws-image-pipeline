@@ -349,7 +349,7 @@ variable "secret_arns" {
   default = null
 }
 
-variable shared_kms_key_arn {
-  type    = string
-  default = null
+variable shared_kms_key_arns {
+  type    = list(string)
+  default = []
 }
