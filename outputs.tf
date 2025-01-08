@@ -44,7 +44,7 @@ output "s3_bucket" {
   description = "The Name of the S3 Bucket"
 }
 
-output user {
+output "user" {
   value = one(module.build_user).user
 }
 

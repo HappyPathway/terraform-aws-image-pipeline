@@ -25,7 +25,7 @@ data "aws_iam_policy_document" "build_user_default" {
     actions = [
       "kms:*"
     ]
-    resources =[
+    resources = [
       "arn:${data.aws_partition.current.partition}:kms:${data.aws_region.current.id}:${data.aws_caller_identity.current.account_id}:*"
     ]
   }

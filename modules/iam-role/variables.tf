@@ -24,10 +24,10 @@ variable "kms_key_arn" {
 }
 
 
-variable "shared_kms_key_arn" {
+variable "shared_kms_key_arns" {
   description = "ARN of KMS key for encryption"
-  type        = string
-  default = null
+  type        = list(string)
+  default     = []
 }
 
 variable "s3_bucket_arn" {

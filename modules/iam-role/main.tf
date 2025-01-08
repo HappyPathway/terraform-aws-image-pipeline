@@ -114,8 +114,8 @@ data "aws_iam_policy_document" "codepipeline_policy" {
     ]
     resources = concat([
       var.kms_key_arn
-    ],
-    var.shared_kms_key_arn == null ? [] : 
+      ],
+      var.shared_kms_key_arn == null ? [] :
       var.shared_kms_key_arns
     )
   }
