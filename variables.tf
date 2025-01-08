@@ -348,3 +348,8 @@ variable "secret_arns" {
   type    = list(string)
   default = null
 }
+
+variable shared_kms_key_arn {
+  type    = string
+  default = null
+}
