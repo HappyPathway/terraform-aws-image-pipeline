@@ -353,3 +353,19 @@ variable "shared_kms_key_arns" {
   type    = list(string)
   default = []
 }
+
+variable "image_volume_mapping" {
+  type = list(object({
+    device_name           = string
+    volume_size           = number
+    volume_type           = string
+    delete_on_termination = bool
+    encrypted             = optional(bool, false)
+    iops                  = optional(number, null)
+    snapshot_id           = optional(string, null)
+    throughput            = optional(number, null)
+    virtual_name          = optional(string, null)
+    kms_key_id            = optional(string, null)
+  }))
+  default = []
+}
