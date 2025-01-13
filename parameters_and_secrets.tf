@@ -13,7 +13,7 @@ locals {
     goss_binary          = var.goss_binary,                                # GOSS binary for server testing.
     playbook             = var.playbook,                                   # Ansible playbook for configuration management.
     troubleshoot         = var.troubleshoot,                               # Enable troubleshooting mode.
-    image_volume_mapping = jsonencode(var.image_volume_mapping),           # Mapping of volumes to attach to the instance.
+    volume_map           = jsonencode(var.image_volume_mapping),           # Mapping of volumes to attach to the instance.
     }, var.playbook == null ? {} : {
     playbook = var.playbook # Include playbook if provided.
     }, var.userdata == null ? {
