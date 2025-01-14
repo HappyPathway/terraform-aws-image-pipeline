@@ -7,7 +7,7 @@ resource "random_pet" "keyname" {
   keepers = {
     project = var.project_name
   }
-}`
+}
 
 resource "aws_key_pair" "deployer" {
   key_name   = "${var.project_name}-deployer-key-${random_pet.keyname.id}"
