@@ -14,6 +14,7 @@ locals {
     playbook             = var.playbook,                                   # Ansible playbook for configuration management.
     troubleshoot         = var.troubleshoot,                               # Enable troubleshooting mode.
     volume_map           = jsonencode(var.image_volume_mapping),           # Mapping of volumes to attach to the instance.
+    key_pair             = "${var.project_name}-deployer-key-${random_pet.keyname.id}"
     }, var.playbook == null ? {} : {
     playbook = var.playbook # Include playbook if provided.
     }, var.userdata == null ? {

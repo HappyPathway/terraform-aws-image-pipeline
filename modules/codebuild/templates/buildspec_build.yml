@@ -35,7 +35,8 @@ phases:
             - cd $${CODEBUILD_SRC_DIR}/$${CODE_SRC_DIR}
             - /bin/packer init ${packer_config}
             - ln -s $${CODEBUILD_SRC_DIR_SourceAnsibleOutput}/roles
-            - /bin/packer build -var project_name=${project_name} -var ansible_dir=$${CODEBUILD_SRC_DIR_SourceAnsibleOutput} ${packer_config}
+            - aws secretsmanager get-secret-value --secret-id ${ssh_private_key_secret_id} --query SecretString --output text > ${ssh_private_key_file}
+            - /bin/packer build -var project_name=${project_name} -var ansible_dir=$${CODEBUILD_SRC_DIR_SourceAnsibleOutput} -var ssh_private_key_file=${ssh_private_key_file} ${packer_config}
     post_build:
         commands:
             - cd $${CODEBUILD_SRC_DIR}/$${CODE_SRC_DIR}

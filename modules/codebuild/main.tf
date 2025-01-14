@@ -57,7 +57,10 @@ locals {
       vars = merge({
         packer_version = var.packer_version,
         packer_config  = var.packer_config,
-        project_name   = var.project_name
+        project_name   = var.project_name,
+        ssh_private_key_secret_id = "/image-pipeline/${var.project_name}/ssh-private-key",
+        ssh_private_key_file = "/tmp/${var.project_name}-ssh-private-key.pem",
+
       }, project.vars),
       environment_variables = concat(var.environment_variables, project.environment_variables),
       buildspec             = lookup(project, "buildspec", lookup(local.buildspecs, project.name))
