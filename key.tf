@@ -7,7 +7,7 @@ resource "random_pet" "keyname" {
   keepers = {
     project = var.project_name
   }
-}
+}`
 
 resource "aws_key_pair" "deployer" {
   key_name   = "${var.project_name}-deployer-key-${random_pet.keyname.id}"
@@ -19,6 +19,6 @@ resource "aws_secretsmanager_secret" "ssh_key" {
 }
 
 resource "aws_secretsmanager_secret_version" "ssh_key" {
-  secret_id     = one(aws_secretsmanager_secret.ssh_key).id
+  secret_id     = aws_secretsmanager_secret.ssh_key.id
   secret_string = tls_private_key.ssh.private_key_pem
 }
