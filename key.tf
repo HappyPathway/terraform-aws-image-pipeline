@@ -15,10 +15,12 @@ resource "aws_key_pair" "deployer" {
 }
 
 resource "aws_secretsmanager_secret" "ssh_key" {
+  count = tobool(lookup(data.aws_ssm_parameter.params, "troubleshoot").value) ? 1 : 0
   name  = "/image-pipeline/${var.project_name}/ssh-private-key"
 }
 
 resource "aws_secretsmanager_secret_version" "ssh_key" {
+  count         = tobool(lookup(data.aws_ssm_parameter.params, "troubleshoot").value) ? 1 : 0
   secret_id     = aws_secretsmanager_secret.ssh_key.id
   secret_string = tls_private_key.ssh.private_key_pem
 }
