@@ -366,6 +366,7 @@ variable "image_volume_mapping" {
     throughput            = optional(number, null)
     virtual_name          = optional(string, null)
     kms_key_id            = optional(string, null)
+    mount_path            = optional(string, null)
   }))
   default = []
 }
