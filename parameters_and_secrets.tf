@@ -14,11 +14,7 @@ locals {
     playbook             = var.playbook,                                   # Ansible playbook for configuration management.
     troubleshoot         = var.troubleshoot,                               # Enable troubleshooting mode.
     # Mapping of volumes to attach to the instance.
-    volume_map = jsonencode([
-      for _map in var.image_volume_mapping : merge(_map, {
-        kms_key_id = var.kms_key_id == null ? module.codepipeline_kms.arn : var.kms_key_id
-      })
-    ])
+    volume_map = jsonencode(var.image_volume_mapping)
 
     key_name             = "${var.project_name}-deployer-key-${random_pet.keyname.id}"                                   # KMS key ID for encryption.
     }, var.playbook == null ? {} : {
