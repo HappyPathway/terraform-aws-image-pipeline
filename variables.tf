@@ -354,6 +354,11 @@ variable "shared_kms_key_arns" {
   default = []
 }
 
+variable kms_key_id {
+  type    = string
+  default = null
+}
+
 variable "image_volume_mapping" {
   type = list(object({
     device_name           = string
