@@ -13,11 +13,14 @@ locals {
     goss_binary          = var.goss_binary,                                # GOSS binary for server testing.
     playbook             = var.playbook,                                   # Ansible playbook for configuration management.
     troubleshoot         = var.troubleshoot,                               # Enable troubleshooting mode.
-    volume_map           = jsonencode([ for _map in var.image_volume_mapping : merge(_map, {
-      kms_key_id = var.kms_key_id == null ? module.codepipeline_kms.arn : var.kms_key_id
-    }) ]),           # Mapping of volumes to attach to the instance.
-    key_name             = "${var.project_name}-deployer-key-${random_pet.keyname.id}"
-    kms_key_id           = var.kms_key_id,                                   # KMS key ID for encryption.
+    # Mapping of volumes to attach to the instance.
+    volume_map = jsonencode([
+      for _map in var.image_volume_mapping : merge(_map, {
+        kms_key_id = var.kms_key_id == null ? module.codepipeline_kms.arn : var.kms_key_id
+      })
+    ])
+
+    key_name             = "${var.project_name}-deployer-key-${random_pet.keyname.id}"                                   # KMS key ID for encryption.
     }, var.playbook == null ? {} : {
     playbook = var.playbook # Include playbook if provided.
     }, var.userdata == null ? {
