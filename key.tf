@@ -15,7 +15,7 @@ resource "aws_key_pair" "deployer" {
 }
 
 resource "aws_secretsmanager_secret" "ssh_key" {
-  name  = "/image-pipeline/${var.project_name}/ssh-private-key"
+  name = "/image-pipeline/${var.project_name}/ssh-private-key"
 }
 
 resource "aws_secretsmanager_secret_version" "ssh_key" {

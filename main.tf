@@ -74,7 +74,7 @@ module "codebuild_terraform" {
   docker_build                        = var.docker_build
   environment_variables               = var.build_environment_variables
   kms_key_arn                         = module.codepipeline_kms.arn
-
+  required_packages                   = var.required_packages
   tags = {
     Project_Name = var.project_name
     Account_ID   = local.account_id

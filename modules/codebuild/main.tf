@@ -55,11 +55,11 @@ locals {
   build_projects = { for project in local._build_projects : (project.name) =>
     (project.name) == "build" ? {
       vars = merge({
-        packer_version = var.packer_version,
-        packer_config  = var.packer_config,
-        project_name   = var.project_name,
+        packer_version            = var.packer_version,
+        packer_config             = var.packer_config,
+        project_name              = var.project_name,
         ssh_private_key_secret_id = "/image-pipeline/${var.project_name}/ssh-private-key",
-        ssh_private_key_file = "/tmp/${var.project_name}-ssh-private-key.pem",
+        ssh_private_key_file      = "/tmp/${var.project_name}-ssh-private-key.pem",
 
       }, project.vars),
       environment_variables = concat(var.environment_variables, project.environment_variables),
@@ -121,16 +121,19 @@ resource "aws_codebuild_project" "terraform_codebuild_project" {
   }
   source {
     type = var.build_project_source
-    # buildspec is set based on a conditional expression. 
-    # The each.key != "test" condition checks if the current key in the iteration (provided by each.key) is not equal to "test".
-    # If each.key is not "test", it uses the templatefile function to render a template file specified by each.value.buildspec, 
-    # with the variables specified by each.value.vars.
-    # If each.key is "test", it uses the templatefile function to render a template file specified by each.value.buildspec, 
-    # with the variables specified by merging each.value.vars and a map containing state set to the value of the state variable.
+    # 
+    # The test phase requires a state backend whereas the build phase does not.
+    # that's the whole reason for this code here.
+    #
+    # if key is test, then use the test template which uses state variables.
     buildspec = each.key != "test" ? templatefile(
       lookup(each.value, "buildspec") == null ? lookup(local.buildspecs, each.key) : lookup(each.value, "buildspec"),
-      each.value.vars
-      ) : templatefile(
+      merge(
+        each.value.vars,
+        {
+          required_packages = var.required_packages
+        }
+      )) : templatefile(
       lookup(each.value, "buildspec") == null ? lookup(local.buildspecs, each.key) : lookup(each.value, "buildspec"),
       merge(
         each.value.vars,

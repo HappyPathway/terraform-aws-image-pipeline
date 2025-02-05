@@ -354,7 +354,7 @@ variable "shared_kms_key_arns" {
   default = []
 }
 
-variable kms_key_id {
+variable "kms_key_id" {
   type    = string
   default = null
 }
@@ -372,6 +372,14 @@ variable "image_volume_mapping" {
     virtual_name          = optional(string, null)
     kms_key_id            = optional(string, null)
     mount_path            = optional(string, null)
+  }))
+  default = []
+}
+
+variable "required_packages" {
+  type = list(object({
+    src  = string
+    dest = string
   }))
   default = []
 }

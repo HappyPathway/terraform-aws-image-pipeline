@@ -4,19 +4,19 @@ locals {
   # This includes configurations like region, subnets, security group IDs, VPC ID, source AMI, and more.
   # Conditional logic is used to include optional parameters only if they are provided.
   parameters = tomap(merge({
-    aws_account_id       = data.aws_caller_identity.current.account_id,    # AWS account ID where resources will be provisioned.
-    region               = local.vpc_config.region,                        # AWS region where resources will be provisioned.
-    subnets              = join(",", local.vpc_config.subnets),            # Comma-separated list of subnet IDs.
-    security_group_ids   = join(",", local.vpc_config.security_group_ids), # Comma-separated list of security group IDs.
-    vpc_id               = local.vpc_config.vpc_id,                        # VPC ID where resources will be provisioned.
-    goss_profile         = var.goss_profile,                               # GOSS profile for server testing.
-    goss_binary          = var.goss_binary,                                # GOSS binary for server testing.
-    playbook             = var.playbook,                                   # Ansible playbook for configuration management.
-    troubleshoot         = var.troubleshoot,                               # Enable troubleshooting mode.
+    aws_account_id     = data.aws_caller_identity.current.account_id,    # AWS account ID where resources will be provisioned.
+    region             = local.vpc_config.region,                        # AWS region where resources will be provisioned.
+    subnets            = join(",", local.vpc_config.subnets),            # Comma-separated list of subnet IDs.
+    security_group_ids = join(",", local.vpc_config.security_group_ids), # Comma-separated list of security group IDs.
+    vpc_id             = local.vpc_config.vpc_id,                        # VPC ID where resources will be provisioned.
+    goss_profile       = var.goss_profile,                               # GOSS profile for server testing.
+    goss_binary        = var.goss_binary,                                # GOSS binary for server testing.
+    playbook           = var.playbook,                                   # Ansible playbook for configuration management.
+    troubleshoot       = var.troubleshoot,                               # Enable troubleshooting mode.
     # Mapping of volumes to attach to the instance.
     volume_map = jsonencode(var.image_volume_mapping)
 
-    key_name             = "${var.project_name}-deployer-key-${random_pet.keyname.id}"                                   # KMS key ID for encryption.
+    key_name = "${var.project_name}-deployer-key-${random_pet.keyname.id}" # KMS key ID for encryption.
     }, var.playbook == null ? {} : {
     playbook = var.playbook # Include playbook if provided.
     }, var.userdata == null ? {
