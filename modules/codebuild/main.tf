@@ -131,7 +131,7 @@ resource "aws_codebuild_project" "terraform_codebuild_project" {
       merge(
         each.value.vars,
         {
-          required_packages = var.required_packages,
+          required_packages = jsondecode(var.required_packages),
           bucket            = var.assets_bucket_name,
         }
       )) : templatefile(
