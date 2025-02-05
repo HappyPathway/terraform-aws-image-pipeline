@@ -36,10 +36,8 @@ phases:
             - /bin/packer init ${packer_config}
             - ln -s $${CODEBUILD_SRC_DIR_SourceAnsibleOutput}/roles
             - aws secretsmanager get-secret-value --secret-id ${ssh_private_key_secret_id} --query SecretString --output text > ${ssh_private_key_file}
-            %{ for package in required_packages ~}
-            - aws s3 cp ${package.src} ${package.dest}
-            %{ endfor ~}
-            - /bin/packer build -var project_name=${project_name} -var ansible_dir=$${CODEBUILD_SRC_DIR_SourceAnsibleOutput} -var ssh_private_key_file=${ssh_private_key_file} ${packer_config}
+            - echo '${required_packages}' > required_packages.json
+            - /bin/packer build -var bucket=${bucket} -var project_name=${project_name} -var ansible_dir=$${CODEBUILD_SRC_DIR_SourceAnsibleOutput} -var ssh_private_key_file=${ssh_private_key_file} ${packer_config}
     post_build:
         commands:
             - cd $${CODEBUILD_SRC_DIR}/$${CODE_SRC_DIR}

@@ -33,7 +33,7 @@ locals {
   # value is a map with keys vars, environment_variables, and buildspec. 
   # This map is assigned to the build_projects local value.
   _build_projects = var.docker_build ? concat([
-    for project in var.build_projects : project if !contains(["test", "build"], project.name)
+    for project in var.build_projects : project if ! contains(["test", "build"], project.name)
     ],
     [
       {
@@ -131,7 +131,8 @@ resource "aws_codebuild_project" "terraform_codebuild_project" {
       merge(
         each.value.vars,
         {
-          required_packages = var.required_packages
+          required_packages = var.required_packages,
+          bucket            = var.assets_bucket_name,
         }
       )) : templatefile(
       lookup(each.value, "buildspec") == null ? lookup(local.buildspecs, each.key) : lookup(each.value, "buildspec"),

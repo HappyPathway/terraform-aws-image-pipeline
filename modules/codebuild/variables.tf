@@ -15,6 +15,12 @@ variable "role_arn" {
   default     = ""
 }
 
+variable assets_bucket_name {
+  description = "Name of the S3 bucket used to store the deployment artifacts"
+  type        = string
+  default     = "image-pipeline-assets"
+}
+
 variable "s3_bucket_name" {
   description = "Name of the S3 bucket used to store the deployment artifacts"
   type        = string
