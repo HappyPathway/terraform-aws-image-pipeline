@@ -37,7 +37,6 @@ module "build_user" {
   account_id            = local.account_id
   region                = local.region
   build_user_iam_policy = local.build_user_iam_policy
-  iam_instance_profile  = aws_iam_instance_profile.build_user_instance_profile.name
 }
 
 
@@ -141,4 +140,32 @@ module "codepipeline_terraform" {
     Account_ID   = local.account_id
     Region       = local.region
   }
+}
+
+resource "aws_iam_role" "build_user_role" {
+  name = "${var.project_name}-build-user-role"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = "sts:AssumeRole"
+        Effect = "Allow"
+        Principal = {
+          Service = "ec2.amazonaws.com"
+        }
+      }
+    ]
+  })
+
+  tags = {
+    Project_Name = var.project_name
+    Account_ID   = local.account_id
+    Region       = local.region
+  }
+}
+
+resource "aws_iam_instance_profile" "build_user_instance_profile" {
+  name = "${var.project_name}-instance-profile"
+  role = aws_iam_role.build_user_role.name
 }

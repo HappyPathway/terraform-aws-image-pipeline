@@ -34,8 +34,3 @@ resource "aws_secretsmanager_secret_version" "credentials" {
     aws_access_key_id     = aws_iam_access_key.build_user.id
   })
 }
-
-resource "aws_iam_instance_profile" "build_user_instance_profile" {
-  name = "${var.project_name}-instance-profile"
-  role = aws_iam_user.build_user.name
-}

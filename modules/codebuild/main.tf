@@ -33,7 +33,7 @@ locals {
   # value is a map with keys vars, environment_variables, and buildspec. 
   # This map is assigned to the build_projects local value.
   _build_projects = var.docker_build ? concat([
-    for project in var.build_projects : project if ! contains(["test", "build"], project.name)
+    for project in var.build_projects : project if !contains(["test", "build"], project.name)
     ],
     [
       {

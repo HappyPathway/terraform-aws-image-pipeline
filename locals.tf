@@ -7,6 +7,14 @@
 locals {
   account_id = data.aws_caller_identity.current.account_id
   region     = data.aws_region.current.name
+  buckets = distinct([
+    module.s3_artifacts_bucket.bucket,
+    var.assets_bucket_name,
+    var.packer_bucket.name,
+    var.ansible_bucket.name,
+    var.goss_bucket.name,
+    var.state.bucket
+  ])
 }
 
 data "aws_iam_policy_document" "build_user_default" {
@@ -46,10 +54,14 @@ data "aws_iam_policy_document" "build_user_default" {
     actions = [
       "s3:*"
     ]
-    resources = concat([
-      "arn:${data.aws_partition.current.partition}:s3:::${module.s3_artifacts_bucket.bucket}/*"
+    resources = concat(
+      [
+        for bucket in local.buckets : "arn:${data.aws_partition.current.partition}:s3:::${bucket}"
       ],
-    var.s3_bucket_arns == null ? [] : var.s3_bucket_arns)
+      [
+        for bucket in local.buckets : "arn:${data.aws_partition.current.partition}:s3:::${bucket}/*"
+      ]
+    )
   }
 }
 
