@@ -165,6 +165,12 @@ resource "aws_iam_role" "build_user_role" {
   }
 }
 
+resource "aws_iam_role_policy" "build_user_policy" {
+  name = "${var.project_name}-build-user-policy"
+  role = aws_iam_role.build_user_role.id
+  policy = local.build_user_iam_policy
+}
+
 resource "aws_iam_instance_profile" "build_user_instance_profile" {
   name = "${var.project_name}-instance-profile"
   role = aws_iam_role.build_user_role.name
