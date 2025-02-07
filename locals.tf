@@ -40,6 +40,17 @@ data "aws_iam_policy_document" "build_user_default" {
       ],
     var.secret_arns == null ? [] : var.secret_arns)
   }
+
+  statement {
+    effect = "Allow"
+    actions = [
+      "s3:*"
+    ]
+    resources = concat([
+      "arn:${data.aws_partition.current.partition}:s3:::${module.s3_artifacts_bucket.bucket}/*"
+      ],
+    var.s3_bucket_arns == null ? [] : var.s3_bucket_arns)
+  }
 }
 
 locals {
