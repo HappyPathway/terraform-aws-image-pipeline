@@ -75,7 +75,7 @@ locals {
   nonsensitive_parameters = tomap(
     { for k, v in local.ssm_parameters :
       (issensitive(k) ? nonsensitive(k) : k) => (issensitive(v) ? nonsensitive(v) : v)
-      if !contains(var.nonmanaged_parameters, issensitive(k) ? nonsensitive(k) : k)
+      if ! contains(var.nonmanaged_parameters, issensitive(k) ? nonsensitive(k) : k)
     }
   )
 }

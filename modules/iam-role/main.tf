@@ -13,6 +13,13 @@ data "aws_s3_bucket" "assets" {
 }
 
 data "aws_iam_policy_document" "codepipeline_assume_role" {
+  # iam:GetInstanceProfile
+  statement {
+    effect = "Allow"
+    actions = [
+      "iam:GetInstanceProfile"
+    ]
+  }
   statement {
     effect = "Allow"
     actions = [
