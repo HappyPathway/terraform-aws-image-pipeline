@@ -37,6 +37,7 @@ module "build_user" {
   account_id            = local.account_id
   region                = local.region
   build_user_iam_policy = local.build_user_iam_policy
+  iam_instance_profile  = aws_iam_instance_profile.build_user_instance_profile.name
 }
 
 
