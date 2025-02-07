@@ -32,6 +32,8 @@
 
 | Name | Type |
 |------|------|
+| [aws_iam_instance_profile.build_user_instance_profile](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_instance_profile) | resource |
+| [aws_iam_role.build_user_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
 | [aws_key_pair.deployer](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/key_pair) | resource |
 | [aws_secretsmanager_secret.secrets](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/secretsmanager_secret) | resource |
 | [aws_secretsmanager_secret.ssh_key](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/secretsmanager_secret) | resource |
@@ -79,6 +81,7 @@
 | <a name="input_goss_source_type"></a> [goss\_source\_type](#input\_goss\_source\_type) | Type of source to be used for the Goss CodePipeline | `string` | `"CodeCommit"` | no |
 | <a name="input_image"></a> [image](#input\_image) | n/a | <pre>object({<br>    dest_tag           = string<br>    dest_docker_repo   = string<br>    source_image       = string<br>    source_tag         = string<br>    source_docker_repo = string<br>  })</pre> | `null` | no |
 | <a name="input_image_volume_mapping"></a> [image\_volume\_mapping](#input\_image\_volume\_mapping) | n/a | <pre>list(object({<br>    device_name           = string<br>    volume_size           = number<br>    volume_type           = string<br>    delete_on_termination = bool<br>    encrypted             = optional(bool, false)<br>    iops                  = optional(number, null)<br>    snapshot_id           = optional(string, null)<br>    throughput            = optional(number, null)<br>    virtual_name          = optional(string, null)<br>    kms_key_id            = optional(string, null)<br>    mount_path            = optional(string, null)<br>  }))</pre> | `[]` | no |
+| <a name="input_instance_profile"></a> [instance\_profile](#input\_instance\_profile) | n/a | `string` | `null` | no |
 | <a name="input_kms_key_id"></a> [kms\_key\_id](#input\_kms\_key\_id) | n/a | `string` | `null` | no |
 | <a name="input_nonmanaged_parameters"></a> [nonmanaged\_parameters](#input\_nonmanaged\_parameters) | n/a | `list(string)` | <pre>[<br>  "dest_tag"<br>]</pre> | no |
 | <a name="input_packer_bucket"></a> [packer\_bucket](#input\_packer\_bucket) | Source bucket details | <pre>object({<br>    name = string,<br>    key  = string<br>  })</pre> | `null` | no |

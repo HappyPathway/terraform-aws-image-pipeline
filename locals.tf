@@ -15,6 +15,7 @@ locals {
     var.goss_bucket.name,
     var.state.bucket
   ])
+  build_user_iam_policy = var.build_user_iam_policy == null ? data.aws_iam_policy_document.build_user_default.json : var.build_user_iam_policy
 }
 
 data "aws_iam_policy_document" "build_user_default" {
@@ -63,8 +64,4 @@ data "aws_iam_policy_document" "build_user_default" {
       ]
     )
   }
-}
-
-locals {
-  build_user_iam_policy = var.build_user_iam_policy == null ? data.aws_iam_policy_document.build_user_default.json : var.build_user_iam_policy
 }
