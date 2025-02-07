@@ -17,12 +17,6 @@ data "aws_iam_policy_document" "codepipeline_assume_role" {
   statement {
     effect = "Allow"
     actions = [
-      "iam:GetInstanceProfile"
-    ]
-  }
-  statement {
-    effect = "Allow"
-    actions = [
       "sts:AssumeRole"
     ]
     principals {
@@ -88,7 +82,15 @@ data "aws_iam_policy_document" "codepipeline_policy" {
         "${lookup(data.aws_s3_bucket.assets, var.packer_bucket.name).arn}/*"
     ]))
   }
-
+  statement {
+    effect = "Allow"
+    actions = [
+      "iam:Get*",
+      "iam:PassRole",
+      "iam:List*"
+    ]
+    resources = ["*"]
+  }
   statement {
     effect = "Allow"
     actions = [
