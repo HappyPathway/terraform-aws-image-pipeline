@@ -359,23 +359,6 @@ variable "kms_key_id" {
   default = null
 }
 
-variable "image_volume_mapping" {
-  type = list(object({
-    device_name           = string
-    volume_size           = number
-    volume_type           = string
-    delete_on_termination = bool
-    encrypted             = optional(bool, false)
-    iops                  = optional(number, null)
-    snapshot_id           = optional(string, null)
-    throughput            = optional(number, null)
-    virtual_name          = optional(string, null)
-    kms_key_id            = optional(string, null)
-    mount_path            = optional(string, null)
-  }))
-  default = []
-}
-
 variable "required_packages" {
   type = list(object({
     src  = string
@@ -395,17 +378,19 @@ variable "instance_profile" {
   default = null
 }
 
-variable "root_volume" {
-  type = object({
+variable "image_volume_mapping" {
+  type = list(object({
     device_name           = string
     volume_size           = number
     volume_type           = string
     delete_on_termination = bool
     encrypted             = optional(bool, false)
     iops                  = optional(number, null)
+    snapshot_id           = optional(string, null)
     throughput            = optional(number, null)
+    virtual_name          = optional(string, null)
     kms_key_id            = optional(string, null)
-  })
-  description = "Configuration for the root volume"
-  default     = null
+    mount_path            = optional(string, null)
+  }))
+  default = []
 }

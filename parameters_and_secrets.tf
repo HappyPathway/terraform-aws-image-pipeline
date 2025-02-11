@@ -15,7 +15,6 @@ locals {
     troubleshoot       = var.troubleshoot,                                                                            # Enable troubleshooting mode.
     # Mapping of volumes to attach to the instance.
     volume_map = jsonencode(var.image_volume_mapping),
-    root_volume = var.root_volume == null ? "" : jsonencode(var.root_volume),
 
     key_name = "${var.project_name}-deployer-key-${random_pet.keyname.id}" # KMS key ID for encryption.
     }, var.playbook == null ? {} : {
