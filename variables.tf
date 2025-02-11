@@ -394,3 +394,18 @@ variable "instance_profile" {
   type    = string
   default = null
 }
+
+variable "root_volume" {
+  type = object({
+    device_name           = string
+    volume_size           = number
+    volume_type           = string
+    delete_on_termination = bool
+    encrypted             = optional(bool, false)
+    iops                  = optional(number, null)
+    throughput            = optional(number, null)
+    kms_key_id            = optional(string, null)
+  })
+  description = "Configuration for the root volume"
+  default     = null
+}
