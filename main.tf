@@ -29,16 +29,10 @@ module "s3_artifacts_bucket" {
   }
 }
 
-# call build_user module
-module "build_user" {
-  count                 = local.build_user_iam_policy == null ? 0 : 1
-  source                = "./modules/build_user"
-  project_name          = var.project_name
-  account_id            = local.account_id
-  region                = local.region
-  build_user_iam_policy = local.build_user_iam_policy
+# Move away from conditional build_user module to use static IAM role
+locals {
+  build_user_role_arn = aws_iam_role.build_user_role.arn
 }
-
 
 module "codepipeline_kms" {
   source                = "./modules/kms"
@@ -107,7 +101,15 @@ module "codepipeline_iam_role" {
   }
 }
 
-
+module "build_user" {
+  source                = "./modules/build_user"
+  count                 = var.create_build_user ? 1 : 0
+  project_name          = var.project_name
+  region                = local.region
+  account_id            = local.account_id
+  build_user_iam_policy = local.build_user_iam_policy
+  secret_arns           = var.secret_arns
+}
 
 # Module for Infrastructure Validate, Plan, Apply and Destroy - CodePipeline
 module "codepipeline_terraform" {
@@ -152,7 +154,7 @@ resource "aws_iam_role" "build_user_role" {
         Action = "sts:AssumeRole"
         Effect = "Allow"
         Principal = {
-          Service = "ec2.amazonaws.com"
+          Service = ["ec2.amazonaws.com", "codebuild.amazonaws.com"]
         }
       }
     ]

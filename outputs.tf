@@ -31,7 +31,7 @@ output "iam_arn" {
 
 output "kms_arn" {
   value       = module.codepipeline_kms.arn
-  description = "The ARN of the KMS key used in the codepipeline"
+  description = "The KMS key ARN used in the codepipeline"
 }
 
 output "s3_arn" {
@@ -44,10 +44,6 @@ output "s3_bucket" {
   description = "The Name of the S3 Bucket"
 }
 
-output "user" {
-  value = one(module.build_user).user
-}
-
 output "sec_group" {
   value = aws_security_group.packer
 }
@@ -58,5 +54,10 @@ output "managed_parameters" {
 
 output "secrets" {
   value = aws_secretsmanager_secret.secrets
+}
+
+output "role_name" {
+  value       = aws_iam_role.build_user_role.name
+  description = "The name of the IAM role used for build and pipeline operations"
 }
 

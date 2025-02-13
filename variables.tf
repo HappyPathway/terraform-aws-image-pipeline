@@ -394,3 +394,9 @@ variable "image_volume_mapping" {
   }))
   default = []
 }
+
+variable "create_build_user" {
+  description = "Whether to create a build user. Set to false if you want to use an existing user."
+  type        = bool
+  default     = true
+}
