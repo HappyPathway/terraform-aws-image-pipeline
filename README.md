@@ -86,7 +86,7 @@
 | <a name="input_packer_config"></a> [packer\_config](#input\_packer\_config) | Name of Packer Config in Repo | `string` | `"build.pkr.hcl"` | no |
 | <a name="input_packer_version"></a> [packer\_version](#input\_packer\_version) | Terraform CLI Version | `string` | `"1.10.3"` | no |
 | <a name="input_parameter_arns"></a> [parameter\_arns](#input\_parameter\_arns) | n/a | `list(string)` | `null` | no |
-| <a name="input_pip_bucket"></a> [pip\_bucket](#input\_pip\_bucket) | Goss bucket details | <pre>object({<br>    name = string,<br>    key  = string,<br>  })</pre> | `null` | no |
+| <a name="input_pip_bucket"></a> [pip\_bucket](#input\_pip\_bucket) | Pip bucket details | <pre>object({<br>    name = string,<br>    key  = string,<br>  })</pre> | `null` | no |
 | <a name="input_playbook"></a> [playbook](#input\_playbook) | n/a | `string` | `null` | no |
 | <a name="input_project_name"></a> [project\_name](#input\_project\_name) | Unique name for this project | `string` | n/a | yes |
 | <a name="input_required_packages"></a> [required\_packages](#input\_required\_packages) | n/a | <pre>list(object({<br>    src  = string<br>    dest = string<br>  }))</pre> | `[]` | no |
