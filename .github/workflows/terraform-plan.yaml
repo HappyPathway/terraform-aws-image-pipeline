@@ -54,25 +54,11 @@ jobs:
 
       - name: Terraform Init
         id: init
-        
-        working-directory: ./examples
-        
         run: terraform init -upgrade
 
       - name: Terraform Validate
         id: validate
-        
-        working-directory: ./examples
-        
         run: terraform validate
-
-      - name: Terraform Plan
-        id: plan
-        
-        working-directory: ./examples
-        
-        run: terraform plan
-        continue-on-error: true
 
       - name: Update Pull Request
         uses: actions/github-script@v6
