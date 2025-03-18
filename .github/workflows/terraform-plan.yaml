@@ -32,7 +32,7 @@ jobs:
         with:
            node-version: 16
           
-      - uses: CSVD/gh-actions-setup-terraform@v2
+      - uses: hashicorp/setup-terraform@v3.1.2
         with:
           terraform_version: ${{ vars.terraform_version }}
 
@@ -75,7 +75,7 @@ jobs:
         continue-on-error: true
 
       - name: Update Pull Request
-        uses: CSVD/gh-actions-github-script@v6
+        uses: actions/github-script@v6
         if: github.event_name == 'pull_request'
         with:
           github-token: ${{ secrets.GH_TOKEN }}
