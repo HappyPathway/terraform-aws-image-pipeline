@@ -13,7 +13,7 @@ jobs:
   # This workflow contains a single job called "build"
   build:
     # The type of runner that the job will run on
-    runs-on: [ terraform-aws-image-pipeline ]
+    runs-on: [ ubuntu-latest ]
     env:
       AWS_SECRET_ACCESS_KEY: "${{ secrets.AWS_SECRET_ACCESS_KEY }}"
       AWS_ACCESS_KEY_ID: "${{ vars.AWS_ACCESS_KEY_ID }}"
@@ -28,11 +28,11 @@ jobs:
           ref: ${{ github.head_ref }}
           token: ${{ secrets.GH_TOKEN }}
 
-      - uses: CSVD/gh-actions-setup-node@v3
+      - uses: actions/setup-node@v4
         with:
            node-version: 16
           
-      - uses: CSVD/gh-actions-setup-terraform@v2
+      - uses: hashicorp/setup-terraform@v3.1.2
         with:
           terraform_version: ${{ vars.terraform_version }}
 
@@ -54,28 +54,14 @@ jobs:
 
       - name: Terraform Init
         id: init
-        
-        working-directory: ./examples
-        
         run: terraform init -upgrade
 
       - name: Terraform Validate
         id: validate
-        
-        working-directory: ./examples
-        
         run: terraform validate
 
-      - name: Terraform Plan
-        id: plan
-        
-        working-directory: ./examples
-        
-        run: terraform plan
-        continue-on-error: true
-
       - name: Update Pull Request
-        uses: CSVD/gh-actions-github-script@v6
+        uses: actions/github-script@v6
         if: github.event_name == 'pull_request'
         with:
           github-token: ${{ secrets.GH_TOKEN }}

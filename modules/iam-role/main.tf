@@ -37,15 +37,17 @@ resource "aws_iam_role" "codepipeline_role" {
 }
 
 locals {
-  codecommit_repos = concat(
-    var.packer_repo == null ? [] : [var.packer_repo.arn],
-    var.ansible_repo == null ? [] : [var.ansible_repo.arn],
-    var.goss_repo == null ? [] : [var.goss_repo.arn]
-  )
-  codecommit_repo_count = length(local.codecommit_repos)
-  
   # Construct bucket ARNs directly since we know the bucket name
-  assets_bucket_arn = "arn:${data.aws_partition.current.partition}:s3:::${var.goss_bucket.name}"
+  assets_bucket_arns = distinct([
+    "arn:${data.aws_partition.current.partition}:s3:::${var.goss_bucket.name}",
+    "arn:${data.aws_partition.current.partition}:s3:::${var.goss_bucket.name}/*",
+    "arn:${data.aws_partition.current.partition}:s3:::${var.ansible_bucket.name}",
+    "arn:${data.aws_partition.current.partition}:s3:::${var.ansible_bucket.name}/*",
+    "arn:${data.aws_partition.current.partition}:s3:::${var.packer_bucket.name}",
+    "arn:${data.aws_partition.current.partition}:s3:::${var.packer_bucket.name}/*",
+    "arn:${data.aws_partition.current.partition}:s3:::${var.pip_bucket.name}",
+    "arn:${data.aws_partition.current.partition}:s3:::${var.pip_bucket.name}/*"
+  ])
 }
 
 data "aws_iam_policy_document" "codepipeline_policy" {
@@ -67,15 +69,8 @@ data "aws_iam_policy_document" "codepipeline_policy" {
       "${var.s3_bucket_arn}/*",
       "arn:${data.aws_partition.current.partition}:s3:::${var.state.bucket}/*"
       ],
-      var.goss_bucket == null ? [] : [
-        "${local.assets_bucket_arn}/*"
-      ],
-      var.ansible_bucket == null ? [] : [
-        "${local.assets_bucket_arn}/*"
-      ],
-      var.packer_bucket == null ? [] : [
-        "${local.assets_bucket_arn}/*"
-    ]))
+      local.assets_bucket_arns
+    ))
   }
   statement {
     effect = "Allow"
@@ -157,28 +152,6 @@ data "aws_iam_policy_document" "codepipeline_policy" {
     resources = [
       "arn:${data.aws_partition.current.partition}:ec2:${data.aws_region.current.id}:${data.aws_caller_identity.current.account_id}:key-pair/${var.project_name}-deployer-key"
     ]
-  }
-
-  dynamic "statement" {
-    for_each = local.codecommit_repo_count > 0 ? ["*"] : []
-    content {
-      effect = "Allow"
-      actions = [
-        "codecommit:GitPull",
-        "codecommit:GitPush",
-        "codecommit:GetBranch",
-        "codecommit:CreateCommit",
-        "codecommit:ListRepositories",
-        "codecommit:BatchGetCommits",
-        "codecommit:BatchGetRepositories",
-        "codecommit:GetCommit",
-        "codecommit:GetRepository",
-        "codecommit:GetUploadArchiveStatus",
-        "codecommit:ListBranches",
-        "codecommit:UploadArchive"
-      ]
-      resources = local.codecommit_repos
-    }
   }
 
   statement {

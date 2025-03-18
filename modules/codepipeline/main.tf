@@ -23,22 +23,36 @@ resource "aws_codepipeline" "terraform_pipeline" {
     name = "Source"
 
     action {
+      name             = "Download-Pip-Config"
+      category         = "Source"
+      owner            = "AWS"
+      version          = "1"
+      provider         = "S3"
+      namespace        = "SourcePipConfig"
+      output_artifacts = ["SourcePipConfigOutput"]
+      run_order        = 1
+
+      configuration = {
+        S3Bucket    = var.pip_bucket.name
+        S3ObjectKey = var.pip_bucket.key
+        PollForSourceChanges = "false"
+      }
+    }
+
+    action {
       name             = "Download-Packer-Template"
       category         = "Source"
       owner            = "AWS"
       version          = "1"
-      provider         = var.packer_source_type
+      provider         = "S3"
       namespace        = "SourceVariables"
       output_artifacts = ["SourceOutput"]
       run_order        = 1
 
-      configuration = var.packer_source_type == "CodeCommit" ? {
-        RepositoryName       = var.packer_repo.repository_name
-        BranchName           = var.packer_repo.branch
-        PollForSourceChanges = "false"
-        } : {
+      configuration = {
         S3Bucket    = var.packer_bucket.name
         S3ObjectKey = var.packer_bucket.key
+        PollForSourceChanges = "false"
       }
     }
 
@@ -47,21 +61,16 @@ resource "aws_codepipeline" "terraform_pipeline" {
       category         = "Source"
       owner            = "AWS"
       version          = "1"
-      provider         = var.ansible_source_type
+      provider         = "S3"
       namespace        = "SourceAnsible"
       output_artifacts = ["SourceAnsibleOutput"]
       run_order        = 1
 
-      configuration = merge(var.ansible_source_type == "CodeCommit" ? {
-        RepositoryName = var.ansible_repo.repository_name
-        BranchName     = var.ansible_repo.branch
-        } : {
+      configuration = {
         S3Bucket    = var.ansible_bucket.name
         S3ObjectKey = var.ansible_bucket.key
-        },
-        {
-          PollForSourceChanges = "false"
-      })
+        PollForSourceChanges = "false"
+      }  
     }
 
     action {
@@ -69,39 +78,36 @@ resource "aws_codepipeline" "terraform_pipeline" {
       category         = "Source"
       owner            = "AWS"
       version          = "1"
-      provider         = var.goss_source_type
+      provider         = "S3"
       namespace        = "SourceGoss"
       output_artifacts = ["SourceGossOutput"]
       run_order        = 1
 
-      configuration = var.goss_source_type == "CodeCommit" ? {
-        RepositoryName       = var.goss_repo.repository_name
-        BranchName           = var.goss_repo.branch
-        PollForSourceChanges = "false"
-        } : {
+      configuration = {
         S3Bucket    = var.goss_bucket.name
         S3ObjectKey = var.goss_bucket.key
+        PollForSourceChanges = "false"
       }
     }
   }
 
   dynamic "stage" {
-    for_each = var.stages
+    for_each = local.stages
 
     content {
       name = title(stage.value["name"])
       action {
         category         = stage.value["category"]
-        name             = "Action-${stage.value["name"]}"
+        name             = "${var.project_name}-${stage.value["name"]}"
         owner            = stage.value["owner"]
         provider         = stage.value["provider"]
         input_artifacts  = lookup(stage.value, "input_artifacts", "") != "" ? stage.value["input_artifacts"] : null
         output_artifacts = lookup(stage.value, "output_artifacts", "") != "" ? stage.value["output_artifacts"] : null
         version          = "1"
-        run_order        = index(var.stages, stage.value) + 2
+        run_order        = index(local.stages, stage.value) + 2
 
         configuration = {
-          ProjectName   = stage.value["provider"] == "CodeBuild" ? "${var.project_name}-${stage.value["name"]}" : null
+          ProjectName   = "${var.project_name}-${stage.value["name"]}"
           PrimarySource = "SourceOutput"
         }
       }
