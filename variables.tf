@@ -114,7 +114,6 @@ variable "packer_config" {
 variable "packer_bucket" {
   type = object({
     name = string,
-    arn  = string,
     key  = string
   })
   description = "Source bucket details"
@@ -125,7 +124,6 @@ variable "ansible_bucket" {
   type = object({
     name = string,
     key  = string,
-    arn  = string
   })
   description = "Ansible bucket details"
   default     = null
