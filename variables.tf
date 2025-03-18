@@ -136,7 +136,7 @@ variable "pip_bucket" {
     name = string,
     key  = string,
   })
-  description = "Goss bucket details"
+  description = "Pip bucket details"
   default     = null
 }
 
