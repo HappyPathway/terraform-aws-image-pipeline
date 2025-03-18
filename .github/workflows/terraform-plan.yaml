@@ -28,7 +28,7 @@ jobs:
           ref: ${{ github.head_ref }}
           token: ${{ secrets.GH_TOKEN }}
 
-      - uses: CSVD/gh-actions-setup-node@v3
+      - uses: actions/setup-node@v4
         with:
            node-version: 16
           
