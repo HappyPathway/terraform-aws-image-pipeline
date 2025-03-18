@@ -19,4 +19,12 @@ output "arn" {
   description = "The arn of the CodePipeline"
 }
 
+output build_sources {
+  value       = local.build_sources
+  description = "The build sources for the CodePipeline"
+}
 
+output test_sources {
+  value       = local.test_sources
+  description = "The test sources for the CodePipeline"
+}

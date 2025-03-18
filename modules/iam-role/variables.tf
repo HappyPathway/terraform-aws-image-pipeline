@@ -45,17 +45,6 @@ variable "create_new_role" {
   default     = true
 }
 
-
-
-variable "ansible_repo" {
-  type = object({
-    arn    = string,
-    name   = optional(string, "image-pipeline-ansible-playbooks")
-    branch = optional(string, "main")
-  })
-  description = "Source of Ansible Repo"
-}
-
 variable "ansible_bucket" {
   type = object({
     name = string,
@@ -63,16 +52,6 @@ variable "ansible_bucket" {
   })
   description = "Ansible bucket details"
   default     = null
-}
-
-
-variable "goss_repo" {
-  type = object({
-    arn    = string,
-    name   = optional(string, "image-pipeline-ansible-playbooks")
-    branch = optional(string, "main")
-  })
-  description = "Source of Ansible Repo"
 }
 
 variable "goss_bucket" {
@@ -84,15 +63,6 @@ variable "goss_bucket" {
   default     = null
 }
 
-variable "packer_repo" {
-  type = object({
-    arn    = string,
-    name   = optional(string, "image-pipeline-ansible-playbooks")
-    branch = optional(string, "main")
-  })
-  description = "Source of Ansible Repo"
-}
-
 variable "packer_bucket" {
   type = object({
     name = string,
@@ -102,7 +72,14 @@ variable "packer_bucket" {
   default     = null
 }
 
-
+variable "pip_bucket" {
+  type = object({
+    name = string,
+    key  = string
+  })
+  description = "Ansible bucket details"
+  default     = null
+}
 
 variable "vpc_config" {
   default = null

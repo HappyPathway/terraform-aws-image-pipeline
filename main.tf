@@ -81,12 +81,10 @@ module "codepipeline_iam_role" {
   project_name               = var.project_name
   create_new_role            = var.create_new_role
   codepipeline_iam_role_name = var.create_new_role == true ? "${var.project_name}-codepipeline-role" : var.codepipeline_iam_role_name
-  packer_repo                = var.packer_repo
   packer_bucket              = var.packer_bucket
-  ansible_repo               = var.ansible_repo
   ansible_bucket             = var.ansible_bucket
-  goss_repo                  = var.goss_repo
   goss_bucket                = var.goss_bucket
+  pip_bucket                 = var.pip_bucket
   image                      = var.image
   kms_key_arn                = module.codepipeline_kms.arn
   shared_kms_key_arns        = var.shared_kms_key_arns
@@ -120,22 +118,13 @@ module "codepipeline_terraform" {
   source = "./modules/codepipeline"
 
   project_name = var.project_name
-
-  packer_source_type = var.packer_source_type
-  packer_repo        = var.packer_repo
+  
   packer_bucket      = var.packer_bucket
-
-  ansible_source_type = var.ansible_source_type
-  ansible_repo        = var.ansible_repo
   ansible_bucket      = var.ansible_bucket
-
-  goss_source_type = var.goss_source_type
-  goss_repo        = var.goss_repo
   goss_bucket      = var.goss_bucket
-
+  pip_bucket      = var.pip_bucket
   s3_bucket_name        = module.s3_artifacts_bucket.bucket
   codepipeline_role_arn = module.codepipeline_iam_role.role_arn
-  stages                = var.stage_input
   kms_key_arn           = module.codepipeline_kms.arn
   tags = {
     Project_Name = var.project_name

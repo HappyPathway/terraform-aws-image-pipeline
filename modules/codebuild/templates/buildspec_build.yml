@@ -9,6 +9,9 @@ phases:
         runtime-versions:
             python: 3.11
         commands:
+            - cp "$${CODEBUILD_SRC_DIR_SourcePipConfigOutput}/pip.conf" /etc/pip.conf
+            - cp "$${CODEBUILD_SRC_DIR_SourcePipConfigOutput}/pip-cert.pem" /etc/pip-cert.pem
+            - echo "Installing required packages"
             - which pip3 || curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
             - which pip3 || python3 get-pip.py --user
             - stat $(python -m site --user-base)/bin/ansible-playbook || python3 -m pip install --user ansible pywinrm
