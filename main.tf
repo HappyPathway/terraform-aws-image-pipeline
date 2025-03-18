@@ -118,11 +118,11 @@ module "codepipeline_terraform" {
   source = "./modules/codepipeline"
 
   project_name = var.project_name
-  
-  packer_bucket      = var.packer_bucket
-  ansible_bucket      = var.ansible_bucket
-  goss_bucket      = var.goss_bucket
-  pip_bucket      = var.pip_bucket
+
+  packer_bucket         = var.packer_bucket
+  ansible_bucket        = var.ansible_bucket
+  goss_bucket           = var.goss_bucket
+  pip_bucket            = var.pip_bucket
   s3_bucket_name        = module.s3_artifacts_bucket.bucket
   codepipeline_role_arn = module.codepipeline_iam_role.role_arn
   kms_key_arn           = module.codepipeline_kms.arn
@@ -157,8 +157,8 @@ resource "aws_iam_role" "build_user_role" {
 }
 
 resource "aws_iam_role_policy" "build_user_policy" {
-  name = "${var.project_name}-build-user-policy"
-  role = aws_iam_role.build_user_role.id
+  name   = "${var.project_name}-build-user-policy"
+  role   = aws_iam_role.build_user_role.id
   policy = local.build_user_iam_policy
 }
 

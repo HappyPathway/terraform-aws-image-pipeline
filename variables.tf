@@ -114,7 +114,7 @@ variable "packer_config" {
 variable "packer_bucket" {
   type = object({
     name = string,
-    arn = string,
+    arn  = string,
     key  = string
   })
   description = "Source bucket details"
