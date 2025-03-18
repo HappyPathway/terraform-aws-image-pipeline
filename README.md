@@ -82,7 +82,7 @@
 | <a name="input_instance_profile"></a> [instance\_profile](#input\_instance\_profile) | n/a | `string` | `null` | no |
 | <a name="input_kms_key_id"></a> [kms\_key\_id](#input\_kms\_key\_id) | n/a | `string` | `null` | no |
 | <a name="input_nonmanaged_parameters"></a> [nonmanaged\_parameters](#input\_nonmanaged\_parameters) | n/a | `list(string)` | <pre>[<br>  "dest_tag"<br>]</pre> | no |
-| <a name="input_packer_bucket"></a> [packer\_bucket](#input\_packer\_bucket) | Source bucket details | <pre>object({<br>    name = string,<br>    arn = string,<br>    key  = string<br>  })</pre> | `null` | no |
+| <a name="input_packer_bucket"></a> [packer\_bucket](#input\_packer\_bucket) | Source bucket details | <pre>object({<br>    name = string,<br>    arn  = string,<br>    key  = string<br>  })</pre> | `null` | no |
 | <a name="input_packer_config"></a> [packer\_config](#input\_packer\_config) | Name of Packer Config in Repo | `string` | `"build.pkr.hcl"` | no |
 | <a name="input_packer_version"></a> [packer\_version](#input\_packer\_version) | Terraform CLI Version | `string` | `"1.10.3"` | no |
 | <a name="input_parameter_arns"></a> [parameter\_arns](#input\_parameter\_arns) | n/a | `list(string)` | `null` | no |
