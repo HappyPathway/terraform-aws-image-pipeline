@@ -27,37 +27,6 @@ variable "codepipeline_iam_role_name" {
 # }
 
 
-variable "stage_input" {
-  description = "Tags to be attached to the CodePipeline"
-  type = list(object({
-    name             = string,
-    category         = string,
-    owner            = string,
-    provider         = string,
-    input_artifacts  = list(string),
-    output_artifacts = list(string)
-  }))
-  default = [
-    {
-      name             = "build",
-      category         = "Build",
-      owner            = "AWS",
-      provider         = "CodeBuild",
-      input_artifacts  = ["SourceOutput", "SourceAnsibleOutput"],
-      output_artifacts = ["BuildOutput"]
-    },
-    {
-      name             = "test",
-      category         = "Build",
-      owner            = "AWS",
-      provider         = "CodeBuild",
-      input_artifacts  = ["SourceOutput", "SourceGossOutput"],
-      output_artifacts = ["BuildTestOutput"]
-    },
-  ]
-}
-
-
 variable "build_projects" {
   description = "List of Names of the CodeBuild projects to be created"
   type = list(object({
@@ -142,12 +111,6 @@ variable "packer_config" {
   default     = "build.pkr.hcl"
 }
 
-variable "packer_source_type" {
-  description = "Type of source to be used for the CodePipeline"
-  type        = string
-  default     = "CodeCommit"
-}
-
 variable "packer_bucket" {
   type = object({
     name = string,
@@ -157,64 +120,30 @@ variable "packer_bucket" {
   default     = null
 }
 
-variable "packer_repo" {
-  type = object({
-    arn             = optional(string)
-    repository_name = optional(string, "linux-image-pipeline")
-    branch          = optional(string, "main")
-  })
-  description = "Source of the Terraform Repo"
-  default     = null
-}
-
-variable "ansible_source_type" {
-  description = "Type of source to be used for the Ansible CodePipeline"
-  type        = string
-  default     = "CodeCommit"
-}
-
-variable "ansible_repo" {
-  type = object({
-    arn             = optional(string)
-    repository_name = optional(string, "image-pipeline-ansible-playbooks")
-    branch          = optional(string, "main")
-  })
-  description = "Source of Ansible Repo"
-  default     = null
-}
-
 variable "ansible_bucket" {
   type = object({
     name = string,
-    key  = string
+    key  = string,
   })
   description = "Ansible bucket details"
   default     = null
 }
 
-
-variable "goss_source_type" {
-  description = "Type of source to be used for the Goss CodePipeline"
-  type        = string
-  default     = "CodeCommit"
+variable "pip_bucket" {
+  type = object({
+    name = string,
+    key  = string,
+  })
+  description = "Pip bucket details"
+  default     = null
 }
 
 variable "goss_bucket" {
   type = object({
     name = string,
-    key  = string
+    key  = string,
   })
   description = "Goss bucket details"
-  default     = null
-}
-
-variable "goss_repo" {
-  type = object({
-    arn             = optional(string)
-    repository_name = optional(string, "image-pipeline-goss-testing")
-    branch          = optional(string, "main")
-  })
-  description = "Source of Goss Repo"
   default     = null
 }
 

@@ -31,24 +31,6 @@ variable "tags" {
   type        = map(any)
 }
 
-variable "stages" {
-  description = "List of Map containing information about the stages of the CodePipeline"
-  type = list(object({
-    name             = string,
-    category         = string,
-    owner            = string,
-    provider         = string,
-    input_artifacts  = list(string),
-    output_artifacts = list(string)
-  }))
-}
-
-variable "packer_source_type" {
-  description = "Type of source to be used for the CodePipeline"
-  type        = string
-  default     = "CodeCommit"
-}
-
 variable "packer_bucket" {
   description = "Source bucket details"
   type = object({
@@ -56,22 +38,6 @@ variable "packer_bucket" {
     key  = string
   })
   default = null
-}
-
-variable "packer_repo" {
-  type = object({
-    repository_name = optional(string, "linux-image-pipeline")
-    branch          = optional(string, "main")
-  })
-  description = "Source of the Terraform Repo"
-  default     = null
-}
-
-
-variable "ansible_source_type" {
-  description = "Type of source to be used for the Ansible CodePipeline"
-  type        = string
-  default     = "CodeCommit"
 }
 
 variable "ansible_bucket" {
@@ -83,31 +49,6 @@ variable "ansible_bucket" {
   default = null
 }
 
-variable "ansible_repo" {
-  type = object({
-    repository_name = optional(string, "image-pipeline-ansible-playbooks")
-    branch          = optional(string, "main")
-  })
-  description = "Source of Ansible Repo"
-  default     = null
-}
-
-
-variable "goss_source_type" {
-  description = "Type of source to be used for the Goss CodePipeline"
-  type        = string
-  default     = "CodeCommit"
-}
-
-variable "goss_repo" {
-  type = object({
-    repository_name = optional(string, "image-pipeline-ansible-playbooks")
-    branch          = optional(string, "main")
-  })
-  description = "Source of Ansible Repo"
-  default     = null
-}
-
 variable "goss_bucket" {
   description = "Goss bucket details"
   type = object({
@@ -115,4 +56,13 @@ variable "goss_bucket" {
     key  = string
   })
   default = null
+}
+
+variable "pip_bucket" {
+  type = object({
+    name = string,
+    key  = string
+  })
+  description = "Ansible bucket details"
+  default     = null
 }

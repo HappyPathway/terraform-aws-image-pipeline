@@ -151,8 +151,8 @@ HappyPathway
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 5.86.0 |
-| <a name="provider_random"></a> [random](#provider\_random) | 3.6.3 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 5.91.0 |
+| <a name="provider_random"></a> [random](#provider\_random) | 3.7.1 |
 | <a name="provider_tls"></a> [tls](#provider\_tls) | 4.0.6 |
 
 ## Modules
@@ -170,6 +170,9 @@ HappyPathway
 
 | Name | Type |
 |------|------|
+| [aws_iam_instance_profile.build_user_instance_profile](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_instance_profile) | resource |
+| [aws_iam_role.build_user_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
+| [aws_iam_role_policy.build_user_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy) | resource |
 | [aws_key_pair.deployer](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/key_pair) | resource |
 | [aws_secretsmanager_secret.secrets](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/secretsmanager_secret) | resource |
 | [aws_secretsmanager_secret.ssh_key](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/secretsmanager_secret) | resource |
@@ -193,9 +196,7 @@ HappyPathway
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_ami"></a> [ami](#input\_ami) | n/a | <pre>object({<br>    instance_type = string<br>    source_ami    = string<br>  })</pre> | `null` | no |
-| <a name="input_ansible_bucket"></a> [ansible\_bucket](#input\_ansible\_bucket) | Ansible bucket details | <pre>object({<br>    name = string,<br>    key  = string<br>  })</pre> | `null` | no |
-| <a name="input_ansible_repo"></a> [ansible\_repo](#input\_ansible\_repo) | Source of Ansible Repo | <pre>object({<br>    arn             = optional(string)<br>    repository_name = optional(string, "image-pipeline-ansible-playbooks")<br>    branch          = optional(string, "main")<br>  })</pre> | `null` | no |
-| <a name="input_ansible_source_type"></a> [ansible\_source\_type](#input\_ansible\_source\_type) | Type of source to be used for the Ansible CodePipeline | `string` | `"CodeCommit"` | no |
+| <a name="input_ansible_bucket"></a> [ansible\_bucket](#input\_ansible\_bucket) | Ansible bucket details | <pre>object({<br>    name = string,<br>    key  = string,<br>    arn  = string<br>  })</pre> | `null` | no |
 | <a name="input_assets_bucket_name"></a> [assets\_bucket\_name](#input\_assets\_bucket\_name) | Name of the S3 bucket used to store the deployment artifacts | `string` | `"image-pipeline-assets"` | no |
 | <a name="input_build_environment_variables"></a> [build\_environment\_variables](#input\_build\_environment\_variables) | n/a | <pre>list(object({<br>    name  = string<br>    value = string<br>    type  = optional(string, "PLAINTEXT")<br>  }))</pre> | `null` | no |
 | <a name="input_build_project_source"></a> [build\_project\_source](#input\_build\_project\_source) | Source Code Repo for Playbook | `string` | `"CODEPIPELINE"` | no |
@@ -207,24 +208,23 @@ HappyPathway
 | <a name="input_builder_images"></a> [builder\_images](#input\_builder\_images) | n/a | `map(string)` | `{}` | no |
 | <a name="input_builder_type"></a> [builder\_type](#input\_builder\_type) | Type of codebuild run environment | `string` | `"LINUX_CONTAINER"` | no |
 | <a name="input_codepipeline_iam_role_name"></a> [codepipeline\_iam\_role\_name](#input\_codepipeline\_iam\_role\_name) | Name of the IAM role to be used by the Codepipeline | `string` | `"codepipeline-role"` | no |
+| <a name="input_create_build_user"></a> [create\_build\_user](#input\_create\_build\_user) | Whether to create a build user. Set to false if you want to use an existing user. | `bool` | `true` | no |
 | <a name="input_create_new_role"></a> [create\_new\_role](#input\_create\_new\_role) | Whether to create a new IAM Role. Values are true or false. Defaulted to true always. | `bool` | `true` | no |
 | <a name="input_docker_build"></a> [docker\_build](#input\_docker\_build) | n/a | `bool` | `false` | no |
 | <a name="input_extra_parameters"></a> [extra\_parameters](#input\_extra\_parameters) | n/a | `map(string)` | `{}` | no |
 | <a name="input_goss_binary"></a> [goss\_binary](#input\_goss\_binary) | GOSS Profile to be used for testing | `string` | `"goss-linux-amd64"` | no |
-| <a name="input_goss_bucket"></a> [goss\_bucket](#input\_goss\_bucket) | Goss bucket details | <pre>object({<br>    name = string,<br>    key  = string<br>  })</pre> | `null` | no |
+| <a name="input_goss_bucket"></a> [goss\_bucket](#input\_goss\_bucket) | Goss bucket details | <pre>object({<br>    name = string,<br>    key  = string,<br>  })</pre> | `null` | no |
 | <a name="input_goss_profile"></a> [goss\_profile](#input\_goss\_profile) | GOSS Profile to be used for testing | `string` | `"goss"` | no |
-| <a name="input_goss_repo"></a> [goss\_repo](#input\_goss\_repo) | Source of Goss Repo | <pre>object({<br>    arn             = optional(string)<br>    repository_name = optional(string, "image-pipeline-goss-testing")<br>    branch          = optional(string, "main")<br>  })</pre> | `null` | no |
-| <a name="input_goss_source_type"></a> [goss\_source\_type](#input\_goss\_source\_type) | Type of source to be used for the Goss CodePipeline | `string` | `"CodeCommit"` | no |
 | <a name="input_image"></a> [image](#input\_image) | n/a | <pre>object({<br>    dest_tag           = string<br>    dest_docker_repo   = string<br>    source_image       = string<br>    source_tag         = string<br>    source_docker_repo = string<br>  })</pre> | `null` | no |
 | <a name="input_image_volume_mapping"></a> [image\_volume\_mapping](#input\_image\_volume\_mapping) | n/a | <pre>list(object({<br>    device_name           = string<br>    volume_size           = number<br>    volume_type           = string<br>    delete_on_termination = bool<br>    encrypted             = optional(bool, false)<br>    iops                  = optional(number, null)<br>    snapshot_id           = optional(string, null)<br>    throughput            = optional(number, null)<br>    virtual_name          = optional(string, null)<br>    kms_key_id            = optional(string, null)<br>    mount_path            = optional(string, null)<br>  }))</pre> | `[]` | no |
+| <a name="input_instance_profile"></a> [instance\_profile](#input\_instance\_profile) | n/a | `string` | `null` | no |
 | <a name="input_kms_key_id"></a> [kms\_key\_id](#input\_kms\_key\_id) | n/a | `string` | `null` | no |
 | <a name="input_nonmanaged_parameters"></a> [nonmanaged\_parameters](#input\_nonmanaged\_parameters) | n/a | `list(string)` | <pre>[<br>  "dest_tag"<br>]</pre> | no |
-| <a name="input_packer_bucket"></a> [packer\_bucket](#input\_packer\_bucket) | Source bucket details | <pre>object({<br>    name = string,<br>    key  = string<br>  })</pre> | `null` | no |
+| <a name="input_packer_bucket"></a> [packer\_bucket](#input\_packer\_bucket) | Source bucket details | <pre>object({<br>    name = string,<br>    arn  = string,<br>    key  = string<br>  })</pre> | `null` | no |
 | <a name="input_packer_config"></a> [packer\_config](#input\_packer\_config) | Name of Packer Config in Repo | `string` | `"build.pkr.hcl"` | no |
-| <a name="input_packer_repo"></a> [packer\_repo](#input\_packer\_repo) | Source of the Terraform Repo | <pre>object({<br>    arn             = optional(string)<br>    repository_name = optional(string, "linux-image-pipeline")<br>    branch          = optional(string, "main")<br>  })</pre> | `null` | no |
-| <a name="input_packer_source_type"></a> [packer\_source\_type](#input\_packer\_source\_type) | Type of source to be used for the CodePipeline | `string` | `"CodeCommit"` | no |
 | <a name="input_packer_version"></a> [packer\_version](#input\_packer\_version) | Terraform CLI Version | `string` | `"1.10.3"` | no |
 | <a name="input_parameter_arns"></a> [parameter\_arns](#input\_parameter\_arns) | n/a | `list(string)` | `null` | no |
+| <a name="input_pip_bucket"></a> [pip\_bucket](#input\_pip\_bucket) | Pip bucket details | <pre>object({<br>    name = string,<br>    key  = string,<br>  })</pre> | `null` | no |
 | <a name="input_playbook"></a> [playbook](#input\_playbook) | n/a | `string` | `null` | no |
 | <a name="input_project_name"></a> [project\_name](#input\_project\_name) | Unique name for this project | `string` | n/a | yes |
 | <a name="input_required_packages"></a> [required\_packages](#input\_required\_packages) | n/a | <pre>list(object({<br>    src  = string<br>    dest = string<br>  }))</pre> | `[]` | no |
@@ -233,7 +233,6 @@ HappyPathway
 | <a name="input_shared_accounts"></a> [shared\_accounts](#input\_shared\_accounts) | n/a | `list(string)` | `null` | no |
 | <a name="input_shared_kms_key_arns"></a> [shared\_kms\_key\_arns](#input\_shared\_kms\_key\_arns) | n/a | `list(string)` | `[]` | no |
 | <a name="input_ssh_user"></a> [ssh\_user](#input\_ssh\_user) | SSH username | `string` | `null` | no |
-| <a name="input_stage_input"></a> [stage\_input](#input\_stage\_input) | Tags to be attached to the CodePipeline | <pre>list(object({<br>    name             = string,<br>    category         = string,<br>    owner            = string,<br>    provider         = string,<br>    input_artifacts  = list(string),<br>    output_artifacts = list(string)<br>  }))</pre> | <pre>[<br>  {<br>    "category": "Build",<br>    "input_artifacts": [<br>      "SourceOutput",<br>      "SourceAnsibleOutput"<br>    ],<br>    "name": "build",<br>    "output_artifacts": [<br>      "BuildOutput"<br>    ],<br>    "owner": "AWS",<br>    "provider": "CodeBuild"<br>  },<br>  {<br>    "category": "Build",<br>    "input_artifacts": [<br>      "SourceOutput",<br>      "SourceGossOutput"<br>    ],<br>    "name": "test",<br>    "output_artifacts": [<br>      "BuildTestOutput"<br>    ],<br>    "owner": "AWS",<br>    "provider": "CodeBuild"<br>  }<br>]</pre> | no |
 | <a name="input_state"></a> [state](#input\_state) | n/a | <pre>object({<br>    bucket         = string<br>    key            = string<br>    region         = string<br>    dynamodb_table = string<br>  })</pre> | n/a | yes |
 | <a name="input_terraform_version"></a> [terraform\_version](#input\_terraform\_version) | n/a | `string` | `"1.3.10"` | no |
 | <a name="input_test_project_source"></a> [test\_project\_source](#input\_test\_project\_source) | Source Code Repo for Goss Testing Suite | `string` | `"CODEPIPELINE"` | no |
@@ -249,11 +248,11 @@ HappyPathway
 | <a name="output_codepipeline_arn"></a> [codepipeline\_arn](#output\_codepipeline\_arn) | The ARN of the CodePipeline |
 | <a name="output_codepipeline_name"></a> [codepipeline\_name](#output\_codepipeline\_name) | The Name of the CodePipeline |
 | <a name="output_iam_arn"></a> [iam\_arn](#output\_iam\_arn) | The ARN of the IAM Role used by the CodePipeline |
-| <a name="output_kms_arn"></a> [kms\_arn](#output\_kms\_arn) | The ARN of the KMS key used in the codepipeline |
+| <a name="output_kms_arn"></a> [kms\_arn](#output\_kms\_arn) | The KMS key ARN used in the codepipeline |
 | <a name="output_managed_parameters"></a> [managed\_parameters](#output\_managed\_parameters) | n/a |
+| <a name="output_role_name"></a> [role\_name](#output\_role\_name) | The name of the IAM role used for build and pipeline operations |
 | <a name="output_s3_arn"></a> [s3\_arn](#output\_s3\_arn) | The ARN of the S3 Bucket |
 | <a name="output_s3_bucket"></a> [s3\_bucket](#output\_s3\_bucket) | The Name of the S3 Bucket |
 | <a name="output_sec_group"></a> [sec\_group](#output\_sec\_group) | n/a |
 | <a name="output_secrets"></a> [secrets](#output\_secrets) | n/a |
-| <a name="output_user"></a> [user](#output\_user) | n/a |
 <!-- END_TF_DOCS -->
