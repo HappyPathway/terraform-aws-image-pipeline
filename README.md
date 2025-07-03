@@ -1,5 +1,143 @@
-
 [![Terraform Validation](https://github.com/HappyPathway/terraform-aws-image-pipeline/actions/workflows/terraform.yaml/badge.svg)](https://github.com/HappyPathway/terraform-aws-image-pipeline/actions/workflows/terraform.yaml)
+
+# Terraform AWS Image Pipeline
+
+This Terraform module provides a complete solution for building and managing AMIs and container images using AWS CodePipeline, CodeBuild, and associated services. It sets up a fully automated pipeline that supports Packer for image building, Ansible for configuration management, and Goss for testing.
+
+## Features
+
+- Automated image building pipeline using AWS CodePipeline and CodeBuild
+- Support for both AMI and container image creation
+- Integrated configuration management using Ansible
+- Automated testing using Goss
+- Secure secret management using AWS Secrets Manager
+- KMS encryption for artifacts and secrets
+- VPC support for network isolation
+- S3 artifact storage with encryption
+- IAM role and policy management
+- Support for custom build environments
+
+## Usage
+
+```hcl
+module "image_pipeline" {
+  source            = "HappyPathway/image-pipeline/aws"
+  project_name      = "my-image-pipeline"
+  builder_image     = "aws/codebuild/standard:7.0"
+  create_new_role   = true
+  ssh_user         = "ec2-user"
+  
+  # S3 bucket configurations for source artifacts
+  packer_bucket = {
+    name = "my-artifacts-bucket"
+    key  = "packer-templates.zip"
+  }
+  
+  ansible_bucket = {
+    name = "my-artifacts-bucket"
+    key  = "ansible-playbooks.zip"
+  }
+  
+  goss_bucket = {
+    name = "my-artifacts-bucket"
+    key  = "goss-tests.zip"
+  }
+
+  # VPC Configuration
+  vpc_config = {
+    security_group_ids = ["sg-xxx"]
+    subnets           = ["subnet-xxx"]
+    vpc_id            = "vpc-xxx"
+    region            = "us-west-2"
+  }
+
+  # Container image configuration (optional)
+  image = {
+    dest_tag           = "latest"
+    dest_docker_repo   = "my-repo/my-image"
+    source_image       = "amazonlinux"
+    source_tag         = "2"
+    source_docker_repo = "public.ecr.aws/amazonlinux/amazonlinux"
+  }
+}
+```
+
+## Requirements
+
+| Name | Version |
+|------|---------|
+| terraform | >= 1.0.0 |
+| aws | >= 4.20.1 |
+
+## Modules
+
+| Name | Description |
+|------|-------------|
+| codebuild_terraform | Manages CodeBuild projects for building and testing images |
+| codepipeline_terraform | Manages the CI/CD pipeline for image creation |
+| s3_artifacts_bucket | Manages S3 buckets for storing build artifacts |
+| codepipeline_iam_role | Manages IAM roles and policies for the pipeline |
+| codepipeline_kms | Manages KMS keys for encryption |
+| build_user | Manages the build user credentials (optional) |
+
+## Core Components
+
+### CodeBuild Projects
+The module creates two main CodeBuild projects:
+- `build`: Handles image building using Packer
+- `test`: Executes Goss tests against the built image
+
+### S3 Storage
+Creates and manages buckets for:
+- Pipeline artifacts
+- Build logs
+- Source code archives
+- Test results
+
+### Security
+- KMS encryption for artifacts and secrets
+- IAM roles with least privilege access
+- VPC isolation support
+- Secrets management for sensitive data
+
+## Input Variables
+
+### Required Variables
+
+| Name | Description | Type |
+|------|-------------|------|
+| project_name | Unique name for the pipeline | string |
+| vpc_config | VPC configuration for build isolation | object |
+| state | Backend state configuration | object |
+
+### Optional Variables
+
+| Name | Description | Type | Default |
+|------|-------------|------|---------|
+| builder_image | CodeBuild container image | string | "aws/codebuild/standard:7.0" |
+| create_new_role | Create new IAM role | bool | true |
+| docker_build | Enable container image building | bool | false |
+| packer_version | Version of Packer to use | string | "1.10.3" |
+| terraform_version | Version of Terraform to use | string | "1.3.10" |
+| build_environment_variables | Additional environment variables | list(object) | null |
+
+## Outputs
+
+| Name | Description |
+|------|-------------|
+| codepipeline_arn | ARN of the created CodePipeline |
+| codebuild_project_names | Names of the created CodeBuild projects |
+| s3_bucket | Name of the artifact S3 bucket |
+| kms_arn | ARN of the KMS key used for encryption |
+| role_name | Name of the IAM role used for builds |
+
+## License
+
+Apache 2.0
+
+## Authors
+
+HappyPathway
 
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
